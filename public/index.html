@@ -144,8 +144,25 @@
 <!-- ============ SCAN ============ -->
 <section data-view="scan" class="wrap" hidden>
   <div class="topbar"><a class="back" href="#home">‹ Home</a><span class="tag" id="demoTag">Example plate</span></div>
+
+  <!-- Compact Scanned Media Header (Shows in Review Mode) -->
+  <div class="card scanned-media-bar" id="scannedMediaBar" hidden>
+    <img id="scannedThumbImg" class="scanned-thumb-img" alt="Plate thumbnail" src="img/plates/chole-round.jpg">
+    <div class="scanned-thumb-info">
+      <div class="scanned-title-row">
+        <b id="scannedTitle">Plate photo</b>
+        <span class="tag pill good" id="scannedBadge">Scanned</span>
+      </div>
+      <span class="small muted" id="scannedSubtitle">Dishes detected · Tap portions to adjust</span>
+    </div>
+    <button type="button" class="btn btn-small btn-ghost scanned-change-btn" id="retakeBtn" aria-label="Change photo">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Change
+    </button>
+  </div>
+
   <div class="scan-side">
-    <div class="card scan" aria-label="Scan a plate">
+    <div class="card scan" id="scanCaptureCard" aria-label="Scan a plate">
       <div class="photo-head ai-only"><h2>Your plate photo</h2><span class="small muted">From above, whole plate in frame</span></div>
       <div class="photo-head ai-off-only"><h2>Build your plate by hand</h2><span class="tag">Scanning coming soon</span></div>
       <p class="small muted ai-off-only" style="margin:0">Add each dish with <b>＋ Add a dish</b> and set its portion. The numbers come from the same Indian food table that scanning will use.</p>
@@ -277,6 +294,29 @@
       </div>
     </div>
 
+    <!-- Meal Slot Selector & Quick Date for Review Mode -->
+    <div class="review-meal-strip" id="reviewMealStrip">
+      <div class="review-slot-header">
+        <span class="review-ctx-title">Add to meal:</span>
+        <input type="date" id="quickDateInput" class="quick-date-picker" aria-label="Meal date">
+      </div>
+      <div class="slot-pills" role="group" aria-label="Meal slot" id="slotPills">
+        <button type="button" class="slot-pill" data-slot="breakfast">Breakfast</button>
+        <button type="button" class="slot-pill" data-slot="lunch">Lunch</button>
+        <button type="button" class="slot-pill" data-slot="snack">Snack</button>
+        <button type="button" class="slot-pill" data-slot="dinner">Dinner</button>
+      </div>
+    </div>
+
+    <div class="review-ctx-strip">
+      <span class="review-ctx-title">Preparation oil & ghee:</span>
+      <div class="seg seg-compact" role="group" aria-label="Cooking location" id="ctxReview">
+        <button data-ctx="home" aria-pressed="true">Home</button>
+        <button data-ctx="restaurant" aria-pressed="false">Restaurant</button>
+        <button data-ctx="street" aria-pressed="false">Street</button>
+      </div>
+    </div>
+
     <div class="list-head"><h2>On your plate</h2><span class="small muted">Ranges are 80% ranges</span></div>
     <div class="items" id="items"></div>
     <div class="row">
@@ -302,7 +342,10 @@
     <div class="total-in">
       <div class="total-row">
         <div><div class="lbl">Plate total · <span id="tConf"></span></div><div class="k" id="tKcal">0 <small>kcal</small></div></div>
-        <div class="lbl" id="tFatNote"></div>
+        <div class="total-actions-right">
+          <div class="lbl" id="tFatNote"></div>
+          <button class="btn btn-primary quick-save-btn" id="quickSaveBtn">Save Plate</button>
+        </div>
       </div>
       <div class="bar" aria-hidden="true"><i class="p" id="bP"></i><i class="c" id="bC"></i><i class="f" id="bF"></i></div>
       <div class="macros">

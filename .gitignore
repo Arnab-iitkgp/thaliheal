@@ -16,3 +16,4 @@ __pycache__/
 
 # Local HTTPS certificate made by npm run dev:https
 .cert/
+zeno.md

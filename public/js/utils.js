@@ -138,7 +138,16 @@ window.App = window.App || {};
     App.parseDate(s).toLocaleDateString("en-IN", o || { weekday: "short", day: "numeric", month: "short" });
   App.SLOTS = { breakfast: "Breakfast", lunch: "Lunch", snack: "Snack", dinner: "Dinner" };
   App.slotNow = () => {
-    const h = new Date().getHours();
+    let h = new Date().getHours();
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      // In UTC, unspecified, or Indian timezones, resolve against Indian Standard Time (Asia/Kolkata)
+      if (!tz || tz === "UTC" || tz === "Etc/UTC" || /calcutta|kolkata/i.test(tz)) {
+        const istStr = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Kolkata", hour: "numeric", hour12: false }).format(new Date());
+        const istH = parseInt(istStr, 10);
+        if (!isNaN(istH)) h = istH;
+      }
+    } catch (e) {}
     return h < 11 ? "breakfast" : h < 16 ? "lunch" : h < 19 ? "snack" : "dinner";
   };
 })();

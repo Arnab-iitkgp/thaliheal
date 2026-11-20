@@ -299,11 +299,51 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
   border-color: #046e4e !important;
 }
 
-/* Mobile Layout Adjustments for Bottom Bar */
+/* ============ Collapsed Scanned Media Header (Review Mode) ============ */
+.scanned-media-bar{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 12px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.scanned-thumb-img{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none;border:1px solid var(--line)}
+.scanned-thumb-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.scanned-title-row{display:flex;align-items:center;gap:8px}
+.scanned-title-row b{font-size:.95rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scanned-change-btn{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--ink);border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:6px 12px;min-height:34px;cursor:pointer;transition:all .15s ease}
+.scanned-change-btn:hover{border-color:#024c36;color:#024c36;background:rgba(2,76,54,.08)}
+
+/* Total bar right actions & quick save */
+.total-actions-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.quick-save-btn{background:#024c36 !important;color:#ffffff !important;border:1px solid #046e4e !important;padding:8px 16px !important;min-height:38px !important;font-size:.88rem !important;font-weight:700 !important;border-radius:10px !important;box-shadow:0 2px 8px rgba(2,76,54,.35);cursor:pointer;white-space:nowrap;transition:background .15s ease,transform .1s ease}
+.quick-save-btn:hover{background:#035e43 !important}
+.quick-save-btn:active{transform:scale(.97)}
+
+/* Review Meal Slot Selector */
+.review-meal-strip{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
+.review-slot-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.quick-date-picker{background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:inherit;font-size:.82rem;font-weight:600;border-radius:7px;padding:4px 8px;outline:none;cursor:pointer;transition:border-color .15s ease}
+.quick-date-picker:focus{border-color:#046e4e}
+.slot-pills{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.slot-pill{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 4px;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;text-align:center;transition:all .15s ease;white-space:nowrap}
+.slot-pill:hover{border-color:rgba(2,76,54,.4);color:var(--ink)}
+.slot-pill.active{background:#024c36 !important;color:#ffffff !important;border-color:#046e4e !important;box-shadow:0 2px 6px rgba(2,76,54,.25)}
+
+/* Review Mode Cooking Context Strip */
+.review-ctx-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0 12px;flex-wrap:wrap}
+.review-ctx-title{font-size:.84rem;font-weight:600;color:var(--muted)}
+.seg-compact{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.seg-compact button{border:0;background:transparent;padding:6px 14px;font-size:.82rem;font-weight:600;color:var(--muted);min-height:32px;cursor:pointer;transition:all .15s ease}
+.seg-compact button[aria-pressed="true"]{background:#024c36 !important;color:#ffffff !important}
+
+/* Mobile Layout Adjustments for Bottom Bar & Review Mode */
 @media (max-width:899px){
   body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
   body.has-total{padding-bottom:calc(230px + env(safe-area-inset-bottom))}
   .total{bottom:calc(56px + env(safe-area-inset-bottom)) !important;padding:10px 16px 12px !important;z-index:10 !important}
+
+  /* In review mode on mobile, collapse giant upload form and bring rings/dishes immediately to top */
+  [data-view="scan"].is-review-mode #scanCaptureCard{display:none}
+  [data-view="scan"].is-review-mode .log-card{display:none}
+  [data-view="scan"].is-review-mode footer{display:none}
+  [data-view="scan"].is-review-mode .scan-side{gap:0}
+  [data-view="scan"].is-review-mode .plate-col{order:1}
+  [data-view="scan"].is-review-mode .scanned-media-bar{order:0}
 }
 
 /* Hide on Desktop where top sitebar is visible */

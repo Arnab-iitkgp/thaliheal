@@ -2,7 +2,7 @@
 (function () {
   "use strict";
   const { $, esc, r0, r1 } = App;
-  const S = { items: [], ctx: "home", demo: true, blob: null, ctl: null, scanned: false, log: null, savedSig: null };
+  const S = { items: [], ctx: "home", demo: true, blob: null, ctl: null, scanned: false, log: null, savedSig: null, isReviewMode: false, photoLabel: null, photoUrl: null };
 
   const DISH_PHOTOS = {
     veg_biryani: "img/samples/s01.jpg",
@@ -110,15 +110,32 @@
     return labels[dish.type] || "Indian Dish";
   }
 
+  function updateReviewMode() {
+    const scanView = document.querySelector('[data-view="scan"]');
+    const bar = $("scannedMediaBar");
+    const isReview = !!(S.isReviewMode && S.items.length);
+    if (scanView) scanView.classList.toggle("is-review-mode", isReview);
+    if (bar) {
+      bar.hidden = !isReview;
+      if (isReview) {
+        if ($("scannedThumbImg")) $("scannedThumbImg").src = S.photoUrl || (S.blob ? URL.createObjectURL(S.blob) : "img/plates/chole-round.jpg");
+        if ($("scannedTitle")) $("scannedTitle").textContent = S.photoLabel || "Plate Photo";
+        if ($("scannedSubtitle")) $("scannedSubtitle").textContent = `${S.items.length} dish${S.items.length === 1 ? "" : "es"} detected · Ready to review`;
+        if ($("scannedBadge")) $("scannedBadge").textContent = S.demo ? "Sample" : "Scanned";
+      }
+    }
+  }
+
   // ---------- render ----------
   function render() {
     $("demoTag").hidden = !S.demo;
     logCard();
     const box = $("items");
-    if (!S.items.length) { box.innerHTML = `<div class="card empty">No dishes yet. ${App.aiEnabled ? "Scan a photo or add a dish." : "Add a dish to start."}</div>`; totals(); return; }
+    if (!S.items.length) { box.innerHTML = `<div class="card empty">No dishes yet. ${App.aiEnabled ? "Scan a photo or add a dish." : "Add a dish to start."}</div>`; totals(); updateReviewMode(); return; }
     box.innerHTML = S.items.map(cardHTML).join("");
     S.items.forEach(bindCard);
     totals();
+    updateReviewMode();
   }
 
   function sliderMax(it) { const d = App.byId[it.dishId]; const ug = d ? d.units[it.unitIdx].g : 100; return Math.max(ug * 4, Math.ceil(it.grams * 2 / 10) * 10, 100); }
@@ -374,7 +391,7 @@
 
   function setCtx(c) {
     S.ctx = c;
-    document.querySelectorAll("#ctx button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.ctx === c)));
+    document.querySelectorAll("[data-ctx]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.ctx === c)));
     S.items.forEach((it) => { it.ctx = c; App.resetOil(it); }); render();
   }
 
@@ -449,7 +466,8 @@
     try {
       const r = await App.askModel(S.blob, { signal: S.ctl.signal, modelTier: "default" });
       const m = App.itemsFromModel(r.out);
-      S.items = m.items; S.ctx = m.ctx; S.demo = false; S.scanned = true;
+      S.items = m.items; S.ctx = m.ctx; S.demo = false; S.scanned = true; S.isReviewMode = true;
+      if (!S.log) S.userSelectedSlot = null;
       document.querySelectorAll("#ctx button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.ctx === S.ctx)));
       render();
       const n = S.items.length;
@@ -472,7 +490,9 @@
     setStatus("");
     try {
       S.blob = await shrink(blob);   // phone photos of several MB come down well under the upload limit
-      $("previewImg").src = URL.createObjectURL(S.blob);
+      S.photoLabel = label || "Plate photo";
+      S.photoUrl = URL.createObjectURL(S.blob);
+      $("previewImg").src = S.photoUrl;
       $("photoMeta").textContent = `${label ? label + ": " : ""}${Math.round(S.blob.size / 1024)} KB, ready to scan`;
       $("preview").hidden = false;
       $("scanBtn").disabled = !App.claudeSample;
@@ -516,11 +536,40 @@
   // ---------- save to my log ----------
   const sig = () => JSON.stringify([$("logDate").value, $("logSlot").value, S.items.map((it) => [it.dishId, it.grams, it.oil.on && it.oil.g])]);
   function logStatus(html, err) { const el = $("logStatus"); el.innerHTML = html; el.classList.toggle("err", !!err); }
+
+  function updateQuickSaveText() {
+    let slot = S.log && S.log.slot;
+    if (!slot) {
+      if (S.userSelectedSlot) {
+        slot = S.userSelectedSlot;
+      } else {
+        slot = App.slotNow();
+        if ($("logSlot")) $("logSlot").value = slot;
+      }
+    } else {
+      if ($("logSlot")) $("logSlot").value = slot;
+    }
+    const slotName = App.SLOTS[slot] || "Meal";
+    if ($("quickSaveBtn") && !S.isSaving) {
+      $("quickSaveBtn").textContent = `Save to ${slotName}`;
+    }
+    document.querySelectorAll(".slot-pill").forEach((b) => {
+      const isAct = b.dataset.slot === slot;
+      b.classList.toggle("active", isAct);
+      b.setAttribute("aria-pressed", String(isAct));
+    });
+    if ($("quickDateInput") && $("logDate")) {
+      $("quickDateInput").value = $("logDate").value || App.today();
+      $("quickDateInput").max = App.today();
+    }
+  }
+
   function logCard() {
     if (!$("logDate").value) $("logDate").value = (S.log && S.log.date) || App.today();
     $("logDate").max = App.today();
     $("logBanner").hidden = !S.log;
     if (S.log) $("logBanner").textContent = `Adding to ${App.SLOTS[S.log.slot]}, ${App.fmtDate(S.log.date)}. Scan a photo or add dishes, then save below.`;
+    updateQuickSaveText();
   }
   async function saveToLog() {
     if (S.demo) return logStatus("This is the example plate. Scan your own plate or add dishes first.", true);
@@ -533,11 +582,23 @@
     const meal = App.mealFromItems(S.items, { date: $("logDate").value, slot: $("logSlot").value, source: S.scanned ? "scan" : "manual", ctx: S.ctx });
     $("logSave").disabled = true;
     try {
+      S.isSaving = true;
       await App.Account.saveMeal(meal);
       S.savedSig = sig(); S.log = null; logCard();
       const unk = meal.totals.unknown ? ` ${meal.totals.unknown} item not in the food table was saved with no nutrients.` : "";
       logStatus(`Saved to ${App.SLOTS[meal.slot]}, ${App.fmtDate(meal.date)}: ${App.range(meal.totals.kcal_lo, meal.totals.kcal_hi)} kcal.${unk} <a href="#track">Open my log</a>`);
-    } catch (e) { logStatus("Could not save. Try again.", true); }
+      if ($("quickSaveBtn")) {
+        $("quickSaveBtn").textContent = `✓ Saved to ${App.SLOTS[meal.slot] || "Log"}`;
+        setTimeout(() => {
+          S.isSaving = false;
+          updateQuickSaveText();
+        }, 2500);
+      }
+    } catch (e) {
+      S.isSaving = false;
+      logStatus("Could not save. Try again.", true);
+      updateQuickSaveText();
+    }
     finally { $("logSave").disabled = false; }
   }
 
@@ -563,7 +624,7 @@
   App.views.scan = {
     init() {
       demo();
-      document.querySelectorAll("#ctx button").forEach((b) => b.onclick = () => setCtx(b.dataset.ctx));
+      document.querySelectorAll("[data-ctx]").forEach((b) => b.onclick = () => setCtx(b.dataset.ctx));
       document.querySelectorAll("[data-view='scan'] [data-plate]").forEach((b) => {
         b.onclick = () => {
           if (!App.aiEnabled) { location.hash = "#soon"; return; }
@@ -578,20 +639,73 @@
       photoInputs();
       $("logSlot").innerHTML = Object.entries(App.SLOTS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
       $("logSlot").value = App.slotNow();
+      document.querySelectorAll(".slot-pill").forEach((b) => {
+        b.onclick = () => {
+          const slot = b.dataset.slot;
+          S.userSelectedSlot = slot;
+          if ($("logSlot")) $("logSlot").value = slot;
+          if (S.log) S.log.slot = slot;
+          updateQuickSaveText();
+          if ($("logBanner") && S.log) {
+            $("logBanner").textContent = `Adding to ${App.SLOTS[slot]}, ${App.fmtDate($("logDate").value)}. Scan a photo or add dishes, then save below.`;
+          }
+        };
+      });
+      if ($("logSlot")) {
+        $("logSlot").onchange = () => {
+          S.userSelectedSlot = $("logSlot").value;
+          if (S.log) S.log.slot = $("logSlot").value;
+          updateQuickSaveText();
+        };
+      }
+      if ($("quickDateInput")) {
+        $("quickDateInput").onchange = (e) => {
+          if ($("logDate")) $("logDate").value = e.target.value;
+          if (S.log) S.log.date = e.target.value;
+          updateQuickSaveText();
+          if ($("logBanner") && S.log) {
+            $("logBanner").textContent = `Adding to ${App.SLOTS[$("logSlot").value]}, ${App.fmtDate(e.target.value)}. Scan a photo or add dishes, then save below.`;
+          }
+        };
+      }
+      if ($("logDate")) {
+        $("logDate").onchange = (e) => {
+          if ($("quickDateInput")) $("quickDateInput").value = e.target.value;
+          if (S.log) S.log.date = e.target.value;
+        };
+      }
       $("logSave").onclick = saveToLog;
+      if ($("quickSaveBtn")) $("quickSaveBtn").onclick = saveToLog;
+      if ($("retakeBtn")) {
+        $("retakeBtn").onclick = () => {
+          S.isReviewMode = false;
+          updateReviewMode();
+          const cap = $("scanCaptureCard");
+          if (cap) cap.scrollIntoView({ behavior: "smooth" });
+        };
+      }
+      updateQuickSaveText();
       $("dataMeta").textContent = `Food table v${App.meta.version || "?"}: ${App.dishes.length} dishes. ${App.meta.licence_note || ""}`;
     },
-    show() { render(); },
+    show() {
+      if (!S.log && !S.userSelectedSlot && $("logSlot")) {
+        $("logSlot").value = App.slotNow();
+      }
+      render();
+    },
     // Open the scan screen to log a meal for a given day and slot (from the log screen).
     startLog(o) {
       if (S.demo || S.savedSig === sig()) { S.items = []; S.demo = false; S.scanned = false; }   // start fresh unless an unsaved plate is waiting
-      S.log = { date: o.date, slot: o.slot }; S.savedSig = null;
+      S.log = { date: o.date, slot: o.slot }; S.userSelectedSlot = o.slot; S.savedSig = null;
       $("logDate").value = o.date; $("logSlot").value = o.slot; logStatus("");
+      updateQuickSaveText();
     },
     // Load one of the home screen sample photos and scan it straight away.
     async usePhoto(url, label) {
       let blob;
       try { blob = await (await fetch(url)).blob(); } catch (err) { return setStatus("That sample photo could not be loaded.", true); }
+      S.photoLabel = label;
+      S.photoUrl = url;
       if (!(await usePhotoBlob(blob, `${label}, sample`))) return;
       if (!App.claudeSample && App.hosting === "web") {
         try {

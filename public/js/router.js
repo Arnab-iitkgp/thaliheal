@@ -12,7 +12,7 @@ window.App = window.App || {};
   // #plate is the scan screen for adding dishes by hand. With AI off, #scan opens #soon ("coming soon") instead,
   // and #test goes back to Settings.
   // Also quiet on the consent notice and the assistant, so nothing pops over legal text or a conversation.
-  const QUIET_VIEWS = ["scan", "soon", "test", "consent", "ask"];
+  const QUIET_VIEWS = ["scan", "soon", "test", "consent", "ask", "zeno"];
 
   App.testModeOn = () => App.store.get("thali.testMode", false) === true;
   App.plateHash = () => (App.aiEnabled ? "#scan" : "#plate");
@@ -57,6 +57,8 @@ window.App = window.App || {};
         ? "scan"
         : ["consent", "privacy", "test"].includes(view)
         ? "settings"
+        : view === "ask"
+        ? "zeno"
         : view;
     document.querySelectorAll("[data-nav]").forEach((a) => {
       if (a.dataset.nav === navView) a.setAttribute("aria-current", "page");

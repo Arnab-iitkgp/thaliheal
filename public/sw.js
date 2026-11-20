@@ -11,7 +11,7 @@
    - VERSION changes whenever a shell file changes, so a new deploy installs a new worker. The page then offers
      "Refresh" and the old shell cache is deleted. */
 "use strict";
-const VERSION = "2374318dfe15";
+const VERSION = "4ca978232203";
 const SHELL = [
   "/index.html",
   "/offline.html",
@@ -21,6 +21,7 @@ const SHELL = [
   "/css/components.css",
   "/css/variables.css",
   "/css/views.css",
+  "/css/zeno.css",
   "/js/account.js",
   "/js/ai-client.js",
   "/js/assistant.js",
@@ -41,6 +42,7 @@ const SHELL = [
   "/js/test-mode.js",
   "/js/tracker.js",
   "/js/utils.js",
+  "/js/zeno.js",
   "/data/dishes.json",
   "/data/sample_dishes.json",
   "/fonts/bricolage-grotesque.woff2",
@@ -88,7 +90,7 @@ const SHELL_CACHE = "thaliheal-shell-" + VERSION;
 const MEDIA_CACHE = "thaliheal-media-v1";
 const MEDIA_MAX = 80;
 // Single word links that open the app (same list as the rewrites in vercel.json).
-const APP_ROUTE = /^\/(index\.html|home|scan|plate|soon|track|profile|ask|consent|privacy|settings|test|dish-s\d{2})?$/;
+const APP_ROUTE = /^\/(index\.html|home|scan|plate|soon|track|profile|ask|zeno|consent|privacy|settings|test|dish-s\d{2})?$/;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: "reload" })))));

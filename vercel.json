@@ -12,7 +12,7 @@
   },
   "rewrites": [
     {
-      "source": "/:view(home|scan|plate|soon|track|profile|ask|consent|privacy|settings|test)",
+      "source": "/:view(home|scan|plate|soon|track|profile|ask|zeno|consent|privacy|settings|test)",
       "destination": "/index.html"
     },
     {

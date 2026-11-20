@@ -1,0 +1,170 @@
+.zeno {
+  max-width: 560px;
+  margin-inline: auto;
+}
+.zeno-header,.zeno-actions,.zeno-dish {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.zeno-header { flex-wrap: wrap; }
+.zeno-icon-library { position: absolute; pointer-events: none; }
+.zeno-nav-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  transform-origin: 50% 75%;
+  overflow: visible;
+}
+.sitebar .zeno-nav-icon { display: inline-block; width: 18px; height: 18px; vertical-align: middle; }
+.zeno-nav-eyes { transform-origin: 12px 13px; }
+.zeno-nav-fold { transform-origin: 16px 5px; }
+.zeno-nav-hand { opacity: 0; transform-origin: 19px 17px; }
+[data-nav="zeno"]:not([aria-current="page"]) {
+  --zeno-nav-cycle: 18s ease-in-out infinite;
+}
+[data-nav="zeno"]:not([aria-current="page"]) .zeno-nav-icon {
+  animation: zeno-nav-beats var(--zeno-nav-cycle);
+}
+[data-nav="zeno"]:not([aria-current="page"]) .zeno-nav-hand {
+  animation: zeno-nav-wave var(--zeno-nav-cycle);
+}
+[data-nav="zeno"]:not([aria-current="page"]) .zeno-nav-eyes {
+  animation: zeno-nav-look var(--zeno-nav-cycle);
+}
+[data-nav="zeno"]:not([aria-current="page"]) .zeno-nav-fold {
+  animation: zeno-nav-flick var(--zeno-nav-cycle);
+}
+.zeno-stage {
+  display: grid;
+  justify-items: center;
+  gap: .5rem;
+  border: 1px solid #365347;
+  border-radius: 24px;
+  background: #132820;
+  color: #faf2e8;
+  padding: 20px 16px 16px;
+  text-align: center;
+}
+.zeno-intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.7rem); line-height: 1; }
+.zeno-intro p { color: #c6d4c9; margin: .4rem 0 0; }
+.zeno-coming {
+  margin: 0 0 .2rem;
+  padding: .32rem .8rem;
+  border: 1px solid #605449;
+  border-radius: 999px;
+  color: #ffd1af;
+  font-size: .88rem;
+  font-weight: 700;
+}
+.zeno-coming-details {
+  max-width: 34ch;
+  margin: .15rem 0 .4rem;
+  color: #c6d4c9;
+  font-size: .93rem;
+  line-height: 1.45;
+}
+.zeno-character { display: block; width: clamp(138px, 46vw, 206px); overflow: visible; }
+.zeno-shadow { fill: #0c1a14; }
+.zeno-body { transform-origin: 115px 180px; transition: transform .26s cubic-bezier(.2,.8,.2,1); }
+.zeno-fold { transform-origin: 151px 28px; }
+.zeno-arm { transform-origin: 176px 127px; }
+.zeno-face { display: none; fill: #291325; }
+.zeno-face path { fill: none; stroke: #291325; stroke-width: 4.5; stroke-linecap: round; }
+.zeno-stage:is([data-state="rest"],[data-state="handoff"]) .zeno-face-rest,
+.zeno-stage[data-state="listen"] .zeno-face-listen,
+.zeno-stage[data-state="ask"] .zeno-face-ask,
+.zeno-stage[data-state="recall"] .zeno-face-recall,
+.zeno-stage[data-state="speak"] .zeno-face-speak { display: inline; }
+.zeno-stage[data-state="rest"] .zeno-body { animation: zeno-idle 4.8s ease-in-out infinite; }
+.zeno-stage[data-state="rest"] .zeno-arm { animation: zeno-wave .95s .16s ease-in-out both; }
+.zeno-stage[data-state="rest"] .zeno-fold { animation: zeno-fold .68s .27s ease-out both; }
+.zeno-rest-eyes { transform-origin: 117px 92px; animation: zeno-blink 5.2s .55s ease-in-out infinite; }
+.zeno-stage[data-state="listen"] .zeno-body { transform: translateX(4px) rotate(6deg); }
+.zeno-stage[data-state="ask"] .zeno-body { transform: rotate(-6deg); }
+.zeno-stage[data-state="recall"] .zeno-fold { animation: zeno-fold .68s ease-out both; }
+.zeno-stage[data-state="handoff"] .zeno-arm { animation: zeno-offer .65s ease-out both; }
+.zeno-stage[data-state="speak"][data-audio="playing"] .zeno-mouth { transform-origin: 116px 111px; animation: zeno-speak .28s ease-in-out infinite alternate; }
+.zeno-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 2px 10px;
+  border: 1px solid #365347;
+  border-radius: 20px;
+  color: #d9e9de;
+  font-size: .83rem;
+}
+.zeno-signal { width: 16px; display: flex; align-items: center; justify-content: center; gap: 2px; }
+.zeno-signal i { width: 3px; height: 5px; background: #87c9a9; border-radius: 4px; }
+.zeno-stage:is([data-state="listen"],[data-audio="playing"]) .zeno-signal i { animation: zeno-meter .7s ease-in-out infinite alternate; }
+.zeno-signal i:nth-child(2) { animation-delay: .2s !important; }
+.zeno-signal i:nth-child(3) { animation-delay: .35s !important; }
+.zeno-panel { display: grid; gap: 12px; }
+.zeno-preview-note { margin: 0; font-size: .85rem; color: var(--muted); }
+.zeno-conversation { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.zeno-conversation li {
+  max-width: 90%;
+  justify-self: start;
+  margin: 0;
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  animation: zeno-card .24s ease-out both;
+}
+.zeno-conversation .zeno-user { justify-self: end; background: var(--accent-soft); }
+.zeno-draft { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px; animation: zeno-card .3s ease-out both; }
+.zeno-draft h2 { margin: 0 0 8px; }
+.zeno-dish { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.zeno-draft button { margin-top: 12px; }
+.zeno-draft input { width: 68px; }
+.zeno-draft p { margin: 8px 0 0; }
+.zeno-actions { justify-content: flex-start; flex-wrap: wrap; }
+.zeno-actions label { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: .85rem; }
+@keyframes zeno-fold { 40% { transform: rotate(-14deg) translateY(-3px); } 73% { transform: rotate(4deg); } }
+@keyframes zeno-offer { 55% { transform: rotate(20deg) translateX(4px); } }
+@keyframes zeno-meter { to { transform: scaleY(2); } }
+@keyframes zeno-speak { to { transform: scaleY(.45); } }
+@keyframes zeno-card { from { opacity: 0; transform: translateY(6px); } }
+@keyframes zeno-idle {
+  0%, 100% { transform: none; }
+  25% { transform: translateY(-4px) rotate(-3deg); }
+  56% { transform: translateY(-1px) rotate(2deg); }
+  78% { transform: none; }
+}
+@keyframes zeno-wave {
+  24%, 70% { transform: rotate(-22deg); }
+  47% { transform: rotate(-5deg); }
+}
+@keyframes zeno-blink { 0%, 35%, 40%, 100% { transform: scaleY(1); } 37.5% { transform: scaleY(.13); } }
+/* Shared timeline: wave, curious look, fold flick, hop, with a rest between each. */
+@keyframes zeno-nav-beats {
+  0%, 7%, 17%, 31%, 42%, 78%, 87%, 100% { transform: none; }
+  10%, 14% { transform: rotate(-7deg); }
+  35%, 39% { transform: rotate(8deg); }
+  83% { transform: translateY(-3px) rotate(-8deg); }
+}
+@keyframes zeno-nav-wave {
+  0%, 7%, 17%, 100% { opacity: 0; transform: rotate(28deg); }
+  9%, 12%, 15% { opacity: 1; transform: rotate(-28deg); }
+  10.5%, 13.5% { opacity: 1; transform: rotate(9deg); }
+}
+@keyframes zeno-nav-look {
+  0%, 30%, 42%, 86%, 90%, 100% { transform: none; }
+  34%, 39% { transform: translateX(2px) scaleY(1.25); }
+  88% { transform: scaleY(.1); }
+}
+@keyframes zeno-nav-flick {
+  0%, 55%, 63%, 100% { transform: none; }
+  58% { transform: rotate(-20deg) translateY(-.8px); }
+  61% { transform: rotate(5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zeno *, .zeno *::before, .zeno *::after, .zeno-nav-icon, .zeno-nav-eyes, .zeno-nav-hand, .zeno-nav-fold {
+    animation: none !important;
+    transition: none !important;
+  }
+}

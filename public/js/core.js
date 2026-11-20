@@ -190,36 +190,8 @@ window.App = window.App || {};
     },
   };
 
-  // ---------- Fun Facts Controller ----------
-  App.Facts = (() => {
-    const quiet = new Set();
-    const ready = () => !!(window.FunFact && window.__funFactStarted);
-    const paused = () => {
-      const b = document.querySelector(".ff-pill button");
-      return !!b && b.textContent === "Resume facts";
-    };
-    function start() {
-      if (window.__funFactStarted || !window.FunFact) return;
-      window.__funFactStarted = true;
-      window.FunFact.init();
-      const card = document.querySelector(".ff-card");
-      if (card) {
-        new MutationObserver(() => {
-          if (quiet.size && card.classList.contains("ff-in")) window.FunFact.hide();
-        }).observe(card, { attributes: true, attributeFilter: ["class"] });
-      }
-    }
-    return {
-      start,
-      quiet(reason, on) {
-        on ? quiet.add(reason) : quiet.delete(reason);
-        if (on && ready()) window.FunFact.hide();
-      },
-      showNow() {
-        if (ready() && !quiet.size && !paused()) window.FunFact.next();
-      },
-    };
-  })();
+  // Fun Facts disabled
+  App.Facts = { start() {}, quiet() {}, showNow() {} };
 
   // ---------- Application Lifecycle Bootstrap ----------
   App.start = async function () {
@@ -245,8 +217,6 @@ window.App = window.App || {};
       }
     }
     App.route();
-    if (document.readyState === "complete") App.Facts.start();
-    else window.addEventListener("load", App.Facts.start, { once: true });
 
     // AI model probe: inside Claude artifact or through backend proxy /api/ai
     try {

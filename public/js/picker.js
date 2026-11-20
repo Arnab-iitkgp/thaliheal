@@ -15,8 +15,7 @@ window.App = window.App || {};
     App.listPicks("");
     App.$("sheet").hidden = false;
     App.$("sheetBg").hidden = false;
-    document.body.classList.add("sheet-open"); // the fun fact buttons step aside so they never cover a dish
-    if (App.Facts && App.Facts.quiet) App.Facts.quiet("picker", true);
+    document.body.classList.add("sheet-open");
     setTimeout(() => App.$("search").focus(), 50);
   };
 
@@ -25,7 +24,6 @@ window.App = window.App || {};
     App.$("sheetBg").hidden = true;
     document.body.classList.remove("sheet-open");
     pickCb = null;
-    if (App.Facts && App.Facts.quiet) App.Facts.quiet("picker", false);
   };
 
   App.listPicks = function (q) {

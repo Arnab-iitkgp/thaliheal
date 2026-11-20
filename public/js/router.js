@@ -49,7 +49,6 @@ window.App = window.App || {};
       s.hidden = s.dataset.view !== view;
     });
     document.body.classList.toggle("has-total", view === "scan");
-    if (App.Facts && App.Facts.quiet) App.Facts.quiet("view", QUIET_VIEWS.includes(view));
     App.current = view;
     const navView =
       view === "dish"

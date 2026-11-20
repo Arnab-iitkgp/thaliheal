@@ -10,8 +10,9 @@
 .hero .icon-btn{background:rgba(255,255,255,.08);color:var(--on-slate);border-color:rgba(255,255,255,.18)}
 .tagline{font-size:clamp(2.1rem,9vw,3rem);line-height:.98;letter-spacing:-.035em;font-weight:800;max-width:7.2em;margin-top:18px;color:var(--on-slate)}
 .hero-sub{margin:0;max-width:12.5em;color:var(--on-slate-muted);font-size:1rem}
-.btn-brass{justify-self:start;background:var(--brass);border-color:var(--brass);color:#1b1608;border-radius:999px;padding:12px 22px;font-weight:700;box-shadow:0 8px 22px rgba(185,138,46,.28)}
-.btn-brass:hover{background:var(--brass-hi)}
+.btn-brass{justify-self:start;background:var(--accent);border-color:var(--accent);color:#fff;border-radius:12px;padding:12px 24px;font-weight:600;box-shadow:0 2px 8px rgba(15,139,109,.25);transition:background .15s ease,transform .1s ease}
+.btn-brass:hover{background:#0d755c;border-color:#0d755c}
+.btn-brass:active{transform:scale(.98)}
 .hero-plate{position:absolute;z-index:-1;width:270px;height:270px;right:-118px;top:118px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 7px var(--brass),0 0 0 16px rgba(185,138,46,.16),0 24px 60px rgba(0,0,0,.55)}
 @media (min-width:480px){.hero-plate{right:-60px;width:300px;height:300px;top:96px}}
 @media (prefers-reduced-motion:no-preference){.hero-plate{animation:plate-set .9s cubic-bezier(.2,.7,.2,1) both}

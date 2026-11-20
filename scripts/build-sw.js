@@ -12,7 +12,7 @@ const ls = (dir, re) => fs.readdirSync(path.join(PUB, dir)).filter((f) => re.tes
 
 function shellFiles() {
   return [
-    "/index.html", "/offline.html", "/manifest.webmanifest", "/funfact-popup.js",
+    "/index.html", "/offline.html", "/manifest.webmanifest",
     ...ls("css", /\.css$/), ...ls("js", /\.js$/), ...ls("data", /\.json$/), ...ls("fonts", /\.woff2$/),
     "/img/favicon.svg", "/img/logo-mark.svg", "/img/icons/icon-192.png", "/img/icons/icon-512.png", "/img/icons/maskable-192.png", "/img/icons/apple-touch-icon-180.png",
     ...ls("img/plates", /-round\.jpg$/),

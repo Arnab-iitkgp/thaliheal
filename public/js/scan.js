@@ -193,7 +193,6 @@
       setTimeout(() => setStatus("Still working. A slow connection can add up to a minute. Tap Stop to cancel."), 45000),
       setTimeout(() => setStatus("Still waiting for the answer. The app gives up at 100 seconds."), 80000),
     ];
-    App.Facts.quiet("view", false); App.Facts.showNow();   // the one place a fact shows on purpose
     try {
       const r = await App.askModel(S.blob, { signal: S.ctl.signal, modelTier: "default" });
       const m = App.itemsFromModel(r.out);
@@ -211,7 +210,6 @@
     } finally {
       slow.forEach(clearTimeout);
       $("stopBtn").hidden = true; $("scanBtn").disabled = !App.claudeSample || !S.blob; S.ctl = null;
-      if (App.current === "scan") App.Facts.quiet("view", true);
     }
   }
   // ---------- photos ----------

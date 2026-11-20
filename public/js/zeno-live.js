@@ -25,6 +25,7 @@
       const playing = new Set();
       const toolResults = new Map();
       const cancelled = new Set();
+      const draftPreviewsThisTurn = new Set();
       let context, socket, stream, mic, input, timer;
       let ready = false, closed = false, muted = false, nextAudio = 0;
       let analyser, frame, speaking = false, thinkingTimer;
@@ -133,7 +134,11 @@
       async function toolReply(call) {
         if (closed || !call?.id || cancelled.has(call.id)) return null;
         if (!toolResults.has(call.id)) {
-          const result = await runTool(call.name, call.args || {}, aborter.signal);
+          const args = call.args || {};
+          const result = call.name === "apply_draft_preview" && draftPreviewsThisTurn.has(args.proposal_id)
+            ? { ok: false, pending: true, error: "Wait for the caller to confirm the visible preview in their next turn." }
+            : await runTool(call.name, args, aborter.signal);
+          if (call.name === "edit_plate" && result.pending && result.proposal_id && !result.reused) draftPreviewsThisTurn.add(result.proposal_id);
           if (closed || cancelled.has(call.id)) return null;
           toolResults.set(call.id, result);
         }
@@ -196,6 +201,7 @@
             await caption({ heard: heard.trim(), said: said.trim(), confirmationTarget: target });
             heard = said = "";
             target = null;
+            draftPreviewsThisTurn.clear();
             if (!playing.size) listen();
           }
         }

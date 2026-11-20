@@ -8,6 +8,11 @@ const voices = new Set(["Zubenelgenubi", "Umbriel", "Algieba", "Algenib", "Achir
 const tools = [{ functionDeclarations: sharedTools.filter(tool => tool.function.name !== "plan_turn").map(({ function: definition }) => ({
   name: definition.name, description: definition.description, parametersJsonSchema: definition.parameters,
 })) }];
+tools[0].functionDeclarations.push({
+  name: "apply_draft_preview",
+  description: "Apply an existing editable draft preview only after the caller explicitly confirms that visible preview by saying Add it or equivalent. Use the proposal_id returned by edit_plate. This cannot save a meal. Never call edit_plate again just to confirm a preview.",
+  parametersJsonSchema: { type: "object", properties: { proposal_id: { type: "string" } }, required: ["proposal_id"] },
+});
 let nextDemoProject = 0;
 
 function matchesSecret(actual, expected) {
@@ -72,7 +77,7 @@ module.exports = async function zenoLive(req, res) {
     },
     inputAudioTranscription: {},
     outputAudioTranscription: {},
-    systemInstruction: { parts: [{ text: instructions + speechGrounding + " Open every call in English, even if the previous conversation was in Hindi. Speak warmly and at an easy pace, like greeting someone you know. After the greeting, reply in English while the caller speaks English. Switch to natural Hindi when the caller speaks Hindi and mirror Hinglish when the caller mixes both languages. An isolated Hindi dish name in an English sentence does not change the language. Read profile facts with read_profile. For explicit profile changes call update_profile and say that the user needs to confirm in the app." + calendarContext(today) }] },
+    systemInstruction: { parts: [{ text: instructions + speechGrounding + " For voice, apply_draft_preview confirms an existing preview. When the caller says Add it, call apply_draft_preview with the pending proposal ID. Do not recreate the preview or repeat the invitation. If the app already applied it, check read_context. Confirm save remains tap-only. Open every call in English, even if the previous conversation was in Hindi. Speak warmly and at an easy pace, like greeting someone you know. After the greeting, reply in English while the caller speaks English. Switch to natural Hindi when the caller speaks Hindi and mirror Hinglish when the caller mixes both languages. An isolated Hindi dish name in an English sentence does not change the language. Read profile facts with read_profile. For explicit profile changes call update_profile and say that the user needs to confirm in the app." + calendarContext(today) }] },
     tools,
   };
   try {

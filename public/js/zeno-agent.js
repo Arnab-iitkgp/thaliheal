@@ -230,7 +230,7 @@
         return { draft: current ? {
           slot: current.slot, destination: current.preview ? "Sample Log" : "My Log",
           savedToLog: Boolean(current.id && !current.dirty), ...plate(current.items),
-        } : null, proposedDraft: proposal ? { slot: proposal.slot, ...plate(proposal.items) } : null, diet: profile?.diet || null };
+        } : null, proposedDraft: proposal ? { proposal_id: proposal.proposal_id, slot: proposal.slot, ...plate(proposal.items) } : null, diet: profile?.diet || null };
       },
       note_conversation: args => ui.noteTopic?.(args) ? { ok: true } : invalid("Use a short, food-related summary."),
       async read_profile({ fields = profileDefaults }) {

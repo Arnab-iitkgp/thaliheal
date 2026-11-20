@@ -321,11 +321,13 @@ async function checkHandoff() {
   const update = await voice.runTool("edit_plate", { source: "current", apply: true, changes: [{ op: "add", dish: "chapati", amount: 1, unit: "piece" }] }, new AbortController().signal);
   assert(update.ok);
   assert(update.pending);
-  assert.match(update.message, /Say add it/);
+  assert.match(update.message, /say Add it/i);
   assert.equal(card(), original);
   assert.equal($("zenoCallReview").dataset.inline, "true");
   assert.equal($("zenoCallReviewContent").childNodes[0].childNodes[0].textContent, "Proposed meal draft");
   await voice.caption({ heard: "Add it, please.", confirmationTarget: voice.confirmationTarget() });
+  const replay = await voice.runTool("apply_draft_preview", { proposal_id: update.proposal_id }, new AbortController().signal);
+  assert.equal(replay.applied, true);
   assert.equal(card(), original);
   const pending = await voice.runTool("remember", { kind: "preference", name: "Less curd", value: "Leave curd off", scope: "mess lunches" }, new AbortController().signal);
   assert.equal(pending.pending, true);
@@ -354,6 +356,7 @@ async function checkHandoff() {
   ] });
   assert.equal(replacement.ok, true);
   assert.equal(replacement.pending, true);
+  assert.equal((await tool("apply_draft_preview", { proposal_id: previousPreview.id })).ok, false);
   await voice.caption({ heard: "Add it", confirmationTarget: previousPreview });
   assert.equal((await tool("read_context")).proposedDraft.items[0].id, "matar_paneer");
   const actions = voice.confirmationTarget().card.childNodes.map(node => node.textContent);
@@ -363,7 +366,7 @@ async function checkHandoff() {
   assert.equal(invalidDrink.ok, false);
   assert.equal($("zenoConversation").childNodes.length, messagesBeforeClarification);
   assert.equal((await tool("request_save")).ok, false);
-  await type("Add it");
+  assert.equal((await tool("apply_draft_preview", { proposal_id: replacement.proposal_id })).applied, true);
   assert.equal((await tool("request_save")).pending, true);
   assert.equal((await tool("read_context")).draft.savedToLog, false);
   const save = voice.confirmationTarget();

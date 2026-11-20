@@ -42,6 +42,8 @@
   let reactionTimer;
   let voiceSession = null;
   let pendingMeal;
+  let mealProposalSequence = 0;
+  let lastAppliedMeal;
   let voiceMuted = false;
   let captionsOn = false;
   let callHadInput = false;
@@ -486,6 +488,19 @@
     }, activeData());
     return async (name, args, signal) => {
       if (signal.aborted || busy || workspace !== mode || App.current !== "zeno") return { ok: false, error: "The conversation is busy or closed." };
+      if (name === "apply_draft_preview") {
+        const proposal = pendingMeal;
+        if (lastAppliedMeal?.id === args?.proposal_id && lastAppliedMeal.draft === draft && lastAppliedMeal.snapshot === draftSnapshot()) {
+          return { ok: true, applied: true, message: "Already in the draft. Briefly acknowledge the update." };
+        }
+        if (proposal?.kind !== "draft" || proposal.id !== args?.proposal_id || !validMealProposal(proposal)) {
+          return { ok: false, error: "That draft preview is no longer pending. Check the current draft before replying." };
+        }
+        await confirmMealProposal(proposal);
+        return lastAppliedMeal?.id === proposal.id
+          ? { ok: true, applied: true, message: "The changes are in the draft. Briefly acknowledge the update." }
+          : { ok: false, error: "The preview was not applied. Check the current draft." };
+      }
       if (name !== "remember" && name !== "forget") {
         const before = draft;
         const result = await execute(name, args);
@@ -1034,6 +1049,7 @@
         catch { reply("I couldn’t save the meal. Open a new save preview to try again.", "ask"); }
       } else {
         draftFromTool(proposal.options, proposal.update);
+        lastAppliedMeal = { id: proposal.id, draft, snapshot: draftSnapshot() };
         if (voiceSession) {
           callDraftChanged = true;
           offerReview(draft.card, "Draft updated", "View draft");
@@ -1052,7 +1068,7 @@
   }
 
   function showMealProposal(kind, card, options, update, inCall) {
-    const proposal = { kind, card, options, update, mode: workspace, original: draft, snapshot: draftSnapshot() };
+    const proposal = { id: String(++mealProposalSequence), kind, card, options, update, mode: workspace, original: draft, snapshot: draftSnapshot() };
     pendingMeal = proposal;
     const label = kind === "save" ? "Confirm save" : "Add to draft";
     card.append(actionButton(label, () => confirmMealProposal(proposal)), actionButton("Dismiss", () => closeReviewCard(card)));
@@ -1060,7 +1076,13 @@
   }
 
   function proposeDraft(inCall, options, update, notes) {
-    const replace = update && (pendingMeal?.kind === "draft" && validMealProposal(pendingMeal) ? pendingMeal.update : Boolean(draft));
+    const previous = pendingMeal?.kind === "draft" && validMealProposal(pendingMeal) ? pendingMeal : null;
+    const replace = update && (previous ? previous.update : Boolean(draft));
+    const response = () => ({ ok: true, pending: true, applied: false, proposal_id: pendingMeal.id, message: inCall
+      ? "The preview is visible. Invite the caller to say Add it once. When they confirm, call apply_draft_preview with this proposal_id. Do not call edit_plate again for confirmation."
+      : "The preview is visible. The user can type Add it to apply it." });
+    if (previous && previous.update === replace && previous.options.slot === options.slot &&
+        JSON.stringify(previous.options.items) === JSON.stringify(options.items)) return { ...response(), reused: true };
     discardMealProposal();
     const card = toolCard("Proposed meal draft");
     cardLine(card, App.SLOTS[options.slot]);
@@ -1073,9 +1095,7 @@
     notes.forEach(note => cardLine(card, note));
     cardLine(card, "Say or type “Add it”, or choose Add to draft. You can also tell me what to change.");
     showMealProposal("draft", card, options, replace, inCall);
-    const nextStep = inCall ? 'Say “Say add it and I’ll put it in your draft.” No tap is needed to apply a draft.'
-      : 'Tell the user they can type “Add it” to apply the draft.';
-    return { ok: true, pending: true, applied: false, message: `The draft preview is visible. ${nextStep} Nothing has been applied.` };
+    return response();
   }
 
   function requestSave(inCall) {
@@ -1392,7 +1412,7 @@
     return {
       current: () => draft,
       editBase: () => pendingMeal?.kind === "draft" && validMealProposal(pendingMeal) ? pendingMeal.options : draft,
-      pendingDraft: () => pendingMeal?.kind === "draft" && validMealProposal(pendingMeal) ? pendingMeal.options : null,
+      pendingDraft: () => pendingMeal?.kind === "draft" && validMealProposal(pendingMeal) ? { ...pendingMeal.options, proposal_id: pendingMeal.id } : null,
       hasDraftProposal: () => pendingMeal?.kind === "draft" && validMealProposal(pendingMeal),
       proposeDraft: (...args) => proposeDraft(false, ...args),
       fromHistory,

@@ -153,20 +153,9 @@
       S.demo = false;
       if ($("demoTag")) $("demoTag").hidden = true;
     }
-    hidePostSaveActions();
     updateTotals();
     updateSaveButton();
     updateReviewMode();
-  }
-
-  function showPostSaveActions() {
-    const el = $("postSaveActions");
-    if (el) el.hidden = false;
-  }
-
-  function hidePostSaveActions() {
-    const el = $("postSaveActions");
-    if (el) el.hidden = true;
   }
 
   // =========================================================================
@@ -551,6 +540,7 @@
   function updateSaveButton() {
     const curSig = sig();
     const isSaved = S.savedSig !== null && S.savedSig === curSig;
+    $("postSaveActions").hidden = !isSaved || S.isSaving;
     const slot = getSelectedSlot();
     const slotName = App.SLOTS[slot] || "Meal";
 
@@ -767,13 +757,14 @@
 
     try {
       S.isSaving = true;
+      const savedSig = sig();
       const isUpdate = !!S.lastSavedMealId;
       const slot = getSelectedSlot();
       const meal = App.mealFromItems(S.items, { id: S.lastSavedMealId, date: curDate, slot: slot, source: S.scanned ? "scan" : "manual", ctx: S.ctx });
       await App.Account.saveMeal(meal);
 
       S.lastSavedMealId = meal.id;
-      S.savedSig = sig();
+      S.savedSig = savedSig;
       S.log = null;
       S.isSaving = false;
 
@@ -785,7 +776,8 @@
       logStatus(`${actionText} ${slotName}, ${App.fmtDate(meal.date)}: ${App.range(meal.totals.kcal_lo, meal.totals.kcal_hi)} kcal.${unk} <a href="#track">Open my log</a>`);
 
       updateSaveButton();
-      showPostSaveActions();
+      const actions = $("postSaveActions");
+      if (App.current === "scan" && !actions.hidden) actions.scrollIntoView({ block: "nearest" });
     } catch (e) {
       console.error("Save to log error:", e);
       S.isSaving = false;
@@ -1090,7 +1082,6 @@
           renderPlate();
           onPlateChanged();
           setStatus("");
-          hidePostSaveActions();
         };
       }
       if ($("psaAddMore")) $("psaAddMore").onclick = addDishFlow;

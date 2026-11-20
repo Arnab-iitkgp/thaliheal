@@ -308,10 +308,10 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 .scanned-title-row{display:flex;align-items:center;gap:8px}
 .scanned-title-row b{font-size:.95rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* post-save action strip */
-.post-save-actions{display:flex;align-items:center;gap:0;margin:6px 0 2px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.psa-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;background:transparent;border:none;color:var(--ink);font-size:.82rem;font-weight:500;cursor:pointer;transition:background .15s}
-.psa-btn:hover,.psa-btn:focus-visible{background:var(--surface-raised)}
-.psa-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
+.post-save-actions{display:flex;align-items:center;margin-top:8px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.psa-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:8px 10px;background:transparent;border:0;border-radius:9px;color:var(--ink);font-size:.82rem;font-weight:600;cursor:pointer}
+.psa-btn:hover,.psa-btn:focus-visible{background:var(--accent-soft)}
+.psa-divider{width:1px;height:28px;background:var(--line);flex-shrink:0}
 .scanned-change-btn{flex:none;display:inline-flex;align-items:center;gap:4px;font-size:.82rem;font-weight:600;color:var(--ink);border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:6px 10px;min-height:34px;cursor:pointer;transition:all .15s ease}
 .scanned-change-btn:hover{border-color:#024c36;color:#024c36;background:rgba(2,76,54,.08)}
 
@@ -404,12 +404,17 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 .privacy-sheet-actions .btn-primary{background:#024c36 !important;color:#ffffff !important;border:1px solid #046e4e !important;font-weight:700;padding:12px;font-size:.94rem}
 
 /* Quick Profile Onboarding Sheet */
-.quick-profile-sheet .sheet-in{max-height:90vh;overflow-y:auto;padding-bottom:16px}
-.qp-body{display:flex;flex-direction:column;gap:14px;padding:4px 0 10px}
+.quick-profile-backdrop{z-index:26}
+.quick-profile-sheet{z-index:27}
+.quick-profile-sheet .topbar,.qp-actions{flex-shrink:0}
+.qp-body{display:flex;flex-direction:column;gap:14px;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:4px 3px 10px}
+.qp-body > *{flex-shrink:0}
 .qp-lead{font-size:.9rem;color:var(--ink);line-height:1.45;margin:0}
 .qp-lead b{color:var(--accent)}
 .qp-form{display:grid;gap:12px}
-.qp-actions{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.qp-form :is(input,select){width:100%;min-height:44px;font-size:1rem}
+.qp-actions{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:8px}
+.qp-actions .status:empty{display:none}
 .seg-2x2{display:grid;grid-template-columns:1fr 1fr;width:100%}
 
 /* Quick profile activity selector — 2×2 grid, independent of .seg */

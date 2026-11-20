@@ -169,7 +169,7 @@ textarea.csv{width:100%;min-height:120px;font-family:ui-monospace,Menlo,monospac
 .sitebar{display:none}
 .plate-col,.scan-side{display:grid;gap:16px;align-content:start}
 [data-view="scan"] .scan-side{display:contents}
-[data-view="scan"] > .topbar{order:0}
+[data-view="scan"] > .scan-header{order:0}
 [data-view="scan"] .scan{order:1}
 [data-view="scan"] > .plate-col{order:2}
 [data-view="scan"] .log-card{order:3}
@@ -204,7 +204,8 @@ textarea.csv{width:100%;min-height:120px;font-family:ui-monospace,Menlo,monospac
   .track-cards .wide{grid-column:auto}
   .grid{grid-template-columns:repeat(5,1fr);gap:14px}
   [data-view="scan"].wrap{max-width:1168px;grid-template-columns:minmax(0,430px) minmax(0,1fr);align-items:start;column-gap:28px}
-  [data-view="scan"] > .topbar{grid-column:1 / -1;grid-row:1}
+  [data-view="scan"] > .scan-header{grid-column:1 / -1;grid-row:1}
+  .post-save-actions{scroll-margin-top:80px}
   [data-view="scan"] .scan{grid-column:1;grid-row:2 / span 2;align-self:start;position:sticky;top:78px}
   [data-view="scan"] > .plate-col{grid-column:2;grid-row:2}
   [data-view="scan"] .log-card{grid-column:2;grid-row:3}

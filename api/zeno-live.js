@@ -35,14 +35,16 @@ module.exports = async function zenoLive(req, res) {
   const previewOrigin = (process.env.ZENO_LIVE_DEMO_ORIGIN || "").trim();
   const preview = !hosted && loopback && !localHost && /^https:\/\/[a-z0-9.-]+(?::\d+)?$/.test(previewOrigin) &&
     previewOrigin === "https://" + host;
-  const privateAccess = hosted
-    ? process.env.ZENO_LIVE_ENABLED === "true" && cfg.testerToken && cfg.redisUrl && cfg.redisToken && cfg.salt.length >= 16
-    : loopback && localHost;
+  const originMatches = hosted && origin.startsWith("https://") && (
+    !cfg.allowedOrigins.length || cfg.allowedOrigins.includes(origin) || new URL(origin).host === host
+  );
+  const hostedAccess = hosted && originMatches && (!cfg.strict || matchesSecret(req.headers["x-thaliheal-tester"], cfg.testerToken));
+  const privateAccess = hosted ? hostedAccess : (loopback && localHost);
   const personalKey = (process.env.ZENO_LIVE_PERSONAL_KEY || "").trim();
-  const personal = Boolean((privateAccess || preview) && personalKey);
+  const personal = Boolean((privateAccess || preview || hosted) && personalKey);
   const demoKeys = [...new Set(cfg.geminiKeys)].filter(key => key !== personalKey);
-  const demo = Boolean((privateAccess || preview) && demoKeys.length);
-  if (req.method === "GET") return send(200, { configured: demo || personal, demo, personal, testerRequired: hosted, localhostOnly: !hosted && !privateAccess && !preview, voices: [...voices] });
+  const demo = Boolean((privateAccess || preview || hosted) && demoKeys.length);
+  if (req.method === "GET") return send(200, { configured: demo || personal, demo, personal, testerRequired: cfg.strict && Boolean(cfg.testerToken), localhostOnly: !hosted && !privateAccess && !preview, voices: [...voices] });
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST");
     return send(405, { error: "method_not_allowed" });
@@ -53,8 +55,7 @@ module.exports = async function zenoLive(req, res) {
   if (preview && origin !== previewOrigin) return send(403, { error: "voice_access_denied" });
   if (!hosted && !preview && (!privateAccess || !localOrigin || new URL(origin).host !== host)) return send(403, { error: "voice_localhost_only" });
   if (mode === "demo" ? !demo : !personal) return send(503, { error: "voice_not_configured" });
-  if (hosted && (!origin.startsWith("https://") || !cfg.allowedOrigins.includes(origin) ||
-      !matchesSecret(req.headers["x-thaliheal-tester"], cfg.testerToken))) return send(403, { error: "voice_access_denied" });
+  if (hosted && !hostedAccess) return send(403, { error: "voice_access_denied" });
   const voice = url.searchParams.get("voice");
   if (!voices.has(voice)) return send(400, { error: "bad_voice" });
 

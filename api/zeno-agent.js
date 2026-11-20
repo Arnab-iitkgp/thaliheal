@@ -21,16 +21,18 @@ module.exports = async function zenoAgent(req, res) {
   const previewOrigin = (process.env.ZENO_LIVE_DEMO_ORIGIN || "").trim();
   const preview = !hosted && local && !localHost && /^https:\/\/[a-z0-9.-]+(?::\d+)?$/.test(previewOrigin) &&
     previewOrigin === "https://" + host;
-  const configured = Boolean(cfg.aiEnabled && cfg.groqKey && (hosted
-    ? process.env.ZENO_AGENT_ENABLED === "true" && cfg.testerToken && cfg.redisUrl && cfg.redisToken && cfg.salt.length >= 16
-    : local && (localHost || preview)));
-  if (req.method === "GET") return send(200, { configured, testerRequired: hosted });
-  if (req.method !== "POST") return send(405, { error: "method_not_allowed" });
   const origin = req.headers.origin || "";
   const auth = Buffer.from(String(req.headers["x-thaliheal-tester"] || ""));
   const expected = Buffer.from(cfg.testerToken);
+  const originMatches = hosted && origin.startsWith("https://") && (
+    !cfg.allowedOrigins.length || cfg.allowedOrigins.includes(origin) || new URL(origin).host === host
+  );
+  const hostedAllowed = hosted && originMatches && (!cfg.strict || (expected.length > 0 && auth.length === expected.length && crypto.timingSafeEqual(auth, expected)));
+  const configured = Boolean(cfg.aiEnabled && cfg.groqKey && (hosted ? true : local && (localHost || preview)));
+  if (req.method === "GET") return send(200, { configured, testerRequired: cfg.strict && Boolean(cfg.testerToken) });
+  if (req.method !== "POST") return send(405, { error: "method_not_allowed" });
   const allowed = hosted
-    ? origin.startsWith("https://") && cfg.allowedOrigins.includes(origin) && expected.length > 0 && auth.length === expected.length && crypto.timingSafeEqual(auth, expected)
+    ? hostedAllowed
     : preview ? origin === previewOrigin
       : /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) && new URL(origin).host === host;
   if (!configured || !allowed) {

@@ -307,14 +307,21 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 .scanned-thumb-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .scanned-title-row{display:flex;align-items:center;gap:8px}
 .scanned-title-row b{font-size:.95rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.scanned-change-btn{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--ink);border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:6px 12px;min-height:34px;cursor:pointer;transition:all .15s ease}
+/* post-save action strip */
+.post-save-actions{display:flex;align-items:center;gap:0;margin:6px 0 2px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.psa-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;background:transparent;border:none;color:var(--ink);font-size:.82rem;font-weight:500;cursor:pointer;transition:background .15s}
+.psa-btn:hover,.psa-btn:focus-visible{background:var(--surface-raised)}
+.psa-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
+.scanned-change-btn{flex:none;display:inline-flex;align-items:center;gap:4px;font-size:.82rem;font-weight:600;color:var(--ink);border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:6px 10px;min-height:34px;cursor:pointer;transition:all .15s ease}
 .scanned-change-btn:hover{border-color:#024c36;color:#024c36;background:rgba(2,76,54,.08)}
 
 /* Total bar right actions & quick save */
 .total-actions-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.quick-save-btn{background:#024c36 !important;color:#ffffff !important;border:1px solid #046e4e !important;padding:7px 14px !important;min-height:36px !important;font-size:.84rem !important;font-weight:700 !important;border-radius:10px !important;box-shadow:0 2px 8px rgba(2,76,54,.35);cursor:pointer;white-space:nowrap;transition:background .15s ease,transform .1s ease}
+.quick-save-btn{background:#024c36 !important;color:#ffffff !important;border:1px solid #046e4e !important;padding:7px 14px !important;min-height:36px !important;font-size:.84rem !important;font-weight:700 !important;border-radius:10px !important;box-shadow:0 2px 8px rgba(2,76,54,.35);cursor:pointer;white-space:nowrap;transition:all .15s ease}
 .quick-save-btn:hover{background:#035e43 !important}
 .quick-save-btn:active{transform:scale(.97)}
+.quick-save-btn.saved-state{background:rgba(2,76,54,.15) !important;color:var(--accent) !important;border-color:rgba(4,110,78,.4) !important;box-shadow:none !important}
+.quick-save-btn.saved-state:hover{background:rgba(2,76,54,.25) !important}
 
 /* Review Meal Slot Selector */
 .review-meal-strip{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
@@ -395,6 +402,15 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 .privacy-check-label input[type="checkbox"]{width:18px;height:18px;margin-top:2px;accent-color:#024c36;cursor:pointer}
 .privacy-sheet-actions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
 .privacy-sheet-actions .btn-primary{background:#024c36 !important;color:#ffffff !important;border:1px solid #046e4e !important;font-weight:700;padding:12px;font-size:.94rem}
+
+/* Quick Profile Onboarding Sheet */
+.quick-profile-sheet .sheet-in{max-height:90vh;overflow-y:auto;padding-bottom:16px}
+.qp-body{display:flex;flex-direction:column;gap:14px;padding:4px 0 10px}
+.qp-lead{font-size:.9rem;color:var(--ink);line-height:1.45;margin:0}
+.qp-lead b{color:var(--accent)}
+.qp-form{display:grid;gap:12px}
+.qp-actions{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.seg-2x2{display:grid;grid-template-columns:1fr 1fr;width:100%}
 
 
 

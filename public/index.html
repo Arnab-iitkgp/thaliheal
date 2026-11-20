@@ -184,9 +184,9 @@
       <span class="small muted" id="scannedSubtitle">Dishes detected · Tap portions to adjust</span>
     </div>
     <button type="button" class="btn btn-small btn-ghost scanned-change-btn" id="retakeBtn" aria-label="Change photo">
-      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-      Change
-    </button>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <span>Change</span>
+      </button>
   </div>
 
   <div class="scan-side">
@@ -347,6 +347,20 @@
 
     <div class="list-head"><h2>On your plate</h2><span class="small muted">Ranges are 80% ranges</span></div>
     <div class="items" id="items"></div>
+
+    <!-- Post-save action strip — shown only after a meal is saved -->
+    <div class="post-save-actions" id="postSaveActions" hidden>
+      <button type="button" class="psa-btn" id="psaScanAgain">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Scan another
+      </button>
+      <span class="psa-divider"></span>
+      <button type="button" class="psa-btn" id="psaAddMore">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add more dishes
+      </button>
+    </div>
+
     <div class="row">
       <button class="btn" id="addBtn">＋ Add a dish</button>
       <button class="btn btn-ghost" id="clearBtn">Clear plate</button>
@@ -646,8 +660,76 @@
       </div>
       <p class="small muted" style="margin:4px 0 6px">Your data is never sold or used for ads. You can export or delete your log anytime in Settings.</p>
       <div class="privacy-sheet-actions">
-        <button class="btn btn-primary" id="privacyAgreeSaveBtn" type="button">Agree & Save Meal</button>
+        <button class="btn btn-primary" id="privacyAgreeSaveBtn" type="button">Agree & Continue</button>
         <a class="btn btn-ghost" href="#consent" id="privacyFullTermsBtn">Read full privacy notice</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUICK PROFILE SETUP SHEET ============ -->
+<div class="sheet-bg" id="quickProfileSheetBg" hidden></div>
+<div class="sheet quick-profile-sheet" id="quickProfileSheet" role="dialog" aria-modal="true" aria-labelledby="qpSheetTitle" hidden>
+  <div class="sheet-in">
+    <div class="topbar">
+      <h3 id="qpSheetTitle">Personalize Your Targets</h3>
+      <button class="icon-btn" id="qpSheetClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="qp-body">
+      <p class="qp-lead">ThaliHeal uses your details to calculate official <b>ICMR-NIN 2020</b> daily calorie, protein, and micronutrient allowances. Kept in your browser only.</p>
+      
+      <div class="qp-form">
+        <div class="two">
+          <label>Age (years)<input id="qpAge" type="number" inputmode="numeric" min="18" max="100" placeholder="e.g. 24"></label>
+          <div>
+            <div class="flabel">Sex (for ICMR equations)</div>
+            <div class="seg seg-compact" role="group" id="qpSexSeg">
+              <button type="button" data-sex="female" aria-pressed="true">Female</button>
+              <button type="button" data-sex="male" aria-pressed="false">Male</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="two">
+          <label>Height (cm)<input id="qpHeight" type="number" inputmode="decimal" min="120" max="220" placeholder="e.g. 168"></label>
+          <label>Weight (kg)<input id="qpWeight" type="number" inputmode="decimal" min="30" max="250" step="0.1" placeholder="e.g. 64"></label>
+        </div>
+
+        <div>
+          <div class="flabel">Daily Activity Level</div>
+          <div class="seg seg-compact seg-2x2" role="group" id="qpActivitySeg">
+            <button type="button" data-act="sedentary" aria-pressed="false">Sedentary</button>
+            <button type="button" data-act="light" aria-pressed="false">Light</button>
+            <button type="button" data-act="moderate" aria-pressed="true">Moderate</button>
+            <button type="button" data-act="active" aria-pressed="false">Active</button>
+          </div>
+        </div>
+
+        <div class="two">
+          <label>Goal
+            <select id="qpGoal">
+              <option value="maintain" selected>Maintain weight</option>
+              <option value="lose">Lose weight</option>
+              <option value="gain">Gain weight</option>
+            </select>
+          </label>
+          <label>Diet Type
+            <select id="qpDiet">
+              <option value="vegetarian" selected>Vegetarian</option>
+              <option value="nonveg">Non-vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="eggetarian">Eggetarian</option>
+              <option value="jain">Jain</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="status" id="qpStatus" role="status" aria-live="polite"></div>
+
+        <div class="qp-actions">
+          <button class="btn btn-primary" id="qpSaveBtn" type="button">Save Profile & Meal</button>
+          <button class="btn btn-ghost" id="qpSkipBtn" type="button">Skip profile for now</button>
+        </div>
       </div>
     </div>
   </div>

@@ -325,9 +325,12 @@ async function checkHandoff() {
   assert.equal(card(), original);
   assert.equal($("zenoCallReview").dataset.inline, "true");
   assert.equal($("zenoCallReviewContent").childNodes[0].childNodes[0].textContent, "Proposed meal draft");
+  const readVoiceDraft = () => voice.runTool("read_context", {}, new AbortController().signal);
+  assert.equal((await readVoiceDraft()).draft.items.find(item => item.id === "chapati").grams, 76);
   await voice.caption({ heard: "Add it, please.", confirmationTarget: voice.confirmationTarget() });
   const replay = await voice.runTool("apply_draft_preview", { proposal_id: update.proposal_id }, new AbortController().signal);
   assert.equal(replay.applied, true);
+  assert.equal((await readVoiceDraft()).draft.items.find(item => item.id === "chapati").grams, 114);
   assert.equal(card(), original);
   const pending = await voice.runTool("remember", { kind: "preference", name: "Less curd", value: "Leave curd off", scope: "mess lunches" }, new AbortController().signal);
   assert.equal(pending.pending, true);
@@ -375,7 +378,8 @@ async function checkHandoff() {
   await voice.caption({ heard: "Confirm save", confirmationTarget: save });
   assert.equal((await tool("read_context")).draft.savedToLog, false);
   assert.equal($("zenoCallReview").dataset.inline, "true");
-  await save.card.childNodes.find(node => node.textContent === "Confirm save").onclick();
+  const confirmSave = save.card.childNodes.find(node => node.textContent === "Confirm save").onclick;
+  await Promise.all([confirmSave(), confirmSave()]);
   await voice.caption({ heard: "Confirm save", confirmationTarget: save });
   assert.equal((await tool("read_context")).draft.savedToLog, true);
   const logged = await tool("find_meals", { from: App.today(), to: App.today(), slot: "lunch" });

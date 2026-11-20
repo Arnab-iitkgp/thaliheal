@@ -67,3 +67,4 @@ window.App = window.App || {};
     window.scrollTo(0, 0);
   };
 })();
+

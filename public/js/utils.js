@@ -142,3 +142,4 @@ window.App = window.App || {};
     return h < 11 ? "breakfast" : h < 16 ? "lunch" : h < 19 ? "snack" : "dinner";
   };
 })();
+

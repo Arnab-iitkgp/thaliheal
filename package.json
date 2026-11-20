@@ -12,6 +12,7 @@
     "build": "node scripts/build.js",
     "test:safety": "node scripts/test_safety.js",
     "test:api": "node scripts/test_api.js",
+    "test:live": "node scripts/test_live_ai.js",
     "test:site": "python3 scripts/test_site.py",
     "test:pwa": "python3 scripts/test_pwa.py"
   }

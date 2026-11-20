@@ -38,3 +38,4 @@ a{color:var(--accent)}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);border:0;padding:0}
 .danger{color:var(--bad)}
 footer{font-size:.82rem;color:var(--muted);padding:4px 2px 16px;display:grid;gap:6px}
+

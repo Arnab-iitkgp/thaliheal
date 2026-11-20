@@ -11,7 +11,7 @@
    - VERSION changes whenever a shell file changes, so a new deploy installs a new worker. The page then offers
      "Refresh" and the old shell cache is deleted. */
 "use strict";
-const VERSION = "39ac90bf223c";
+const VERSION = "44452698368d";
 const SHELL = [
   "/index.html",
   "/offline.html",

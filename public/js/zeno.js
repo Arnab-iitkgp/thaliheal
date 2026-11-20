@@ -22,8 +22,9 @@
   const portrait = $("zenoCallPortrait");
   const captionLine = $("zenoCallCaption");
   const captionsButton = $("zenoCallCaptions");
-  const reviewOpen = $("zenoCallReviewOpen");
-  const reviewClose = $("zenoCallReviewClose");
+  const callReview = $("zenoCallReview");
+  const reviewContent = $("zenoCallReviewContent");
+  const reviewExpand = $("zenoCallReviewExpand");
   const preview = $("zenoVoicePreviewAudio");
   const previewButton = $("zenoVoicePreview");
   const previews = { Zubenelgenubi: "/audio/zeno-zuben.mp3", Aoede: "/audio/zeno-aoede.mp3" };
@@ -48,7 +49,7 @@
   let captionsOn = false;
   let callHadInput = false;
   let callDraftChanged = false;
-  let reviewCard, reviewMarker, activeReview;
+  let reviewMarker, activeReview, reviewObserver;
   let voiceAvailability;
   let agentAvailability;
   let agentStatusRequest;
@@ -476,13 +477,22 @@
 
   function voiceTools() {
     const mode = workspace;
+    let offeredSaveGuide = false;
+    function acknowledgeDraft() {
+      const saveReady = pendingMeal?.kind === "save" && validMealProposal(pendingMeal);
+      const message = saveReady && !offeredSaveGuide
+        ? "The draft is ready and the save card is already visible. Briefly ask if they’d like to add anything else, and say they can tap Confirm save when ready to add the meal to their log."
+        : "The changes are in the draft. Briefly acknowledge them and wait, without repeating the save instructions.";
+      if (saveReady) offeredSaveGuide = true;
+      return { ok: true, applied: true, save_confirmation_visible: saveReady, message };
+    }
     const ui = agentUi();
     const execute = App.ZenoAgent.toolSession({
       ...ui,
       proposeDraft: (...args) => proposeDraft(true, ...args),
-      compare: (...args) => offerReview(ui.compare(...args), "Comparison ready", "Review"),
-      options: (...args) => offerReview(ui.options(...args), "Meal options ready", "Review"),
-      review: report => offerReview(ui.review(report), "Meal review ready", "View review"),
+      compare: (...args) => openCallReview(ui.compare(...args)),
+      options: (...args) => openCallReview(ui.options(...args)),
+      review: report => openCallReview(ui.review(report)),
       requestSave: () => requestSave(true),
       confirmProfile: (...args) => confirmProfile(true, ...args),
     }, activeData());
@@ -491,14 +501,14 @@
       if (name === "apply_draft_preview") {
         const proposal = pendingMeal;
         if (lastAppliedMeal?.id === args?.proposal_id && lastAppliedMeal.draft === draft && lastAppliedMeal.snapshot === draftSnapshot()) {
-          return { ok: true, applied: true, message: "Already in the draft. Briefly acknowledge the update." };
+          return acknowledgeDraft();
         }
         if (proposal?.kind !== "draft" || proposal.id !== args?.proposal_id || !validMealProposal(proposal)) {
           return { ok: false, error: "That draft preview is no longer pending. Check the current draft before replying." };
         }
         await confirmMealProposal(proposal);
         return lastAppliedMeal?.id === proposal.id
-          ? { ok: true, applied: true, message: "The changes are in the draft. Briefly acknowledge the update." }
+          ? acknowledgeDraft()
           : { ok: false, error: "The preview was not applied. Check the current draft." };
       }
       if (name !== "remember" && name !== "forget") {
@@ -508,7 +518,7 @@
         if (!signal.aborted && name === "edit_plate" && result.ok && result.applied && draft &&
             (draft !== before || JSON.stringify(result.before.items) !== JSON.stringify(result.after.items))) {
           callDraftChanged = true;
-          offerReview(draft.card, "Draft updated", "View draft");
+          openCallReview(draft.card);
           clearTimeout(reactionTimer);
           portrait.dataset.reacting = "";
           reactionTimer = setTimeout(() => { delete portrait.dataset.reacting; }, 700);
@@ -543,15 +553,8 @@
       closeReviewCard(card);
       renderUsuals();
     }, card)), actionButton("Dismiss", () => closeReviewCard(card)));
-    if (inCall) offerReview(card, "Memory change to review", "Review");
+    if (inCall) openCallReview(card);
     return { ok: true, pending: true, ...(due ? { due, date } : {}), message: "Tell the user to confirm the memory change in the app. It has not been saved." };
-  }
-
-  function offerReview(card, message, label) {
-    reviewCard = card;
-    $("zenoCallReceiptText").textContent = message;
-    reviewOpen.textContent = label;
-    $("zenoCallReceipt").hidden = false;
   }
 
   function restoreReview(focus) {
@@ -559,8 +562,9 @@
     if (activeReview.parentNode) reviewMarker.replaceWith(activeReview);
     else reviewMarker.remove();
     activeReview = reviewMarker = null;
-    $("zenoCallReview").hidden = true;
-    if (focus) (reviewCard?.parentNode ? reviewOpen : voiceEnd).focus();
+    reviewObserver?.disconnect();
+    callReview.hidden = true;
+    if (focus) voiceEnd.focus();
   }
 
   function closeReviewCard(card) {
@@ -568,34 +572,38 @@
     const isOpen = activeReview === card;
     if (isOpen) restoreReview(false);
     card.remove();
-    if (reviewCard === card) {
-      reviewCard = null;
-      $("zenoCallReceipt").hidden = true;
-    }
-    if (isOpen) (reviewCard && !$("zenoCallReceipt").hidden ? reviewOpen : voiceEnd).focus();
+    if (isOpen) voiceEnd.focus();
   }
 
-  function openCallReview(card, inline = false) {
-    if (activeReview === card) return;
-    if (!card?.parentNode) {
-      $("zenoCallReceipt").hidden = true;
-      return;
-    }
+  function openCallReview(card) {
+    if (activeReview === card || !card?.parentNode) return;
     restoreReview(false);
     activeReview = card;
     reviewMarker = document.createElement("li");
     reviewMarker.hidden = true;
     activeReview.replaceWith(reviewMarker);
-    $("zenoCallReviewContent").append(activeReview);
-    const review = $("zenoCallReview");
-    review.dataset.inline = String(inline);
-    review.hidden = false;
-    reviewClose.hidden = inline;
-    if (inline) $("zenoCallReceipt").hidden = true;
-    else reviewClose.focus();
+    reviewContent.append(activeReview);
+    callReview.hidden = false;
+    setReviewExpanded(false);
+    reviewContent.scrollTop = 0;
+    if (typeof ResizeObserver === "function") {
+      reviewObserver ||= new ResizeObserver(updateReviewOverflow);
+      reviewObserver.observe(card);
+      reviewObserver.observe(reviewContent);
+    }
   }
-  reviewOpen.onclick = () => openCallReview(reviewCard);
-  reviewClose.onclick = () => restoreReview(true);
+
+  function updateReviewOverflow() {
+    reviewExpand.hidden = !activeReview || (callReview.dataset.expanded !== "true" && reviewContent.scrollHeight <= reviewContent.clientHeight + 1);
+  }
+
+  function setReviewExpanded(expanded) {
+    callReview.dataset.expanded = String(expanded);
+    reviewExpand.setAttribute("aria-expanded", String(expanded));
+    reviewExpand.textContent = expanded ? "Show less" : "See more";
+    updateReviewOverflow();
+  }
+  reviewExpand.onclick = () => setReviewExpanded(callReview.dataset.expanded !== "true");
 
   function dismissCall() {
     voiceSession?.stop();
@@ -618,7 +626,6 @@
       delete portrait.dataset.reacting;
       voiceSession = null;
       restoreReview(false);
-      $("zenoCallReceipt").hidden = true;
       $("zenoCallControls").hidden = true;
       $("zenoCallReturn").hidden = false;
       captionLine.hidden = true;
@@ -658,8 +665,6 @@
     $("zenoCallSample").hidden = workspace !== "demo";
     $("zenoCallControls").hidden = false;
     $("zenoCallReturn").hidden = true;
-    $("zenoCallReceipt").hidden = true;
-    reviewCard = null;
     captionLine.textContent = "";
     captionLine.hidden = true;
     portrait.append($("zenoAvatar"));
@@ -696,7 +701,7 @@
       },
       runTool: voiceTools(),
     });
-    if (pendingMeal && validMealProposal(pendingMeal)) openCallReview(pendingMeal.card, true);
+    if (pendingMeal && validMealProposal(pendingMeal)) openCallReview(pendingMeal.card);
   }
 
   voiceStart.onclick = () => startCall("demo");
@@ -807,7 +812,7 @@
         const execute = App.ZenoAgent.toolSession(agentUi(), data);
         const result = await execute("review_habits", { from: meal.date, to: meal.date, view: "meals" });
         if (!result.cardShown) cardLine(saved, result.error || "Couldn’t open Sample Log.");
-        else if (voiceSession) offerReview(thread.lastElementChild, "Sample Log", "View meals");
+        else if (voiceSession) openCallReview(thread.lastElementChild);
         else thread.lastElementChild?.scrollIntoView({ block: "nearest" });
       }, saved)));
     } else {
@@ -817,7 +822,7 @@
       link.textContent = "Open My Log";
       saved.append(link);
     }
-    if (voiceSession) offerReview(saved, title, "View receipt");
+    if (voiceSession) openCallReview(saved);
     return true;
   }
 
@@ -1052,7 +1057,7 @@
         lastAppliedMeal = { id: proposal.id, draft, snapshot: draftSnapshot() };
         if (voiceSession) {
           callDraftChanged = true;
-          offerReview(draft.card, "Draft updated", "View draft");
+          if (draft.items.length) requestSave(true);
         } else reply("Added those changes to your draft.");
       }
     }, proposal.card);
@@ -1072,7 +1077,7 @@
     pendingMeal = proposal;
     const label = kind === "save" ? "Confirm save" : "Add to draft";
     card.append(actionButton(label, () => confirmMealProposal(proposal)), actionButton("Dismiss", () => closeReviewCard(card)));
-    if (inCall) openCallReview(card, true);
+    if (inCall) openCallReview(card);
   }
 
   function proposeDraft(inCall, options, update, notes) {
@@ -1101,7 +1106,7 @@
   function requestSave(inCall) {
     const original = draft;
     if (pendingMeal?.kind === "save" && validMealProposal(pendingMeal)) {
-      if (inCall) openCallReview(pendingMeal.card, true);
+      if (inCall) openCallReview(pendingMeal.card);
       return { ok: true, pending: true, message: "The save card is open. The user must tap Confirm save." };
     }
     discardMealProposal();
@@ -1169,13 +1174,13 @@
         const title = sample ? "Sample profile updated" : "Profile updated";
         const saved = toolCard(title);
         fields.forEach(key => cardLine(saved, labels[key] + " · " + display(key, next[key])));
-        if (voiceSession) offerReview(saved, title, "View receipt");
+        if (voiceSession) openCallReview(saved);
         closeReviewCard(card);
       } catch {
         cardLine(card, "Couldn’t save the profile. Try confirming again.");
       }
     }, card)), actionButton("Dismiss", () => closeReviewCard(card)));
-    if (inCall) offerReview(card, "Profile update needs confirmation", "Review");
+    if (inCall) openCallReview(card);
     return { ok: true, pending: true, fields, message: "Ask the user to tap Confirm profile update." };
   }
 

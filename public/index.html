@@ -586,14 +586,10 @@
         <div class="zeno-call-portrait" id="zenoCallPortrait" data-state="rest"></div>
         <p class="zeno-call-status" id="zenoVoiceStatus" role="status"></p>
         <p class="zeno-call-caption" id="zenoCallCaption" hidden></p>
-        <div class="zeno-call-receipt" id="zenoCallReceipt" hidden>
-          <span id="zenoCallReceiptText"></span>
-          <button type="button" id="zenoCallReviewOpen"></button>
-        </div>
       </div>
       <section class="zeno-call-review" id="zenoCallReview" aria-label="Review call activity" hidden>
-        <button class="btn btn-small" type="button" id="zenoCallReviewClose">Back to call</button>
         <ul class="zeno-conversation" id="zenoCallReviewContent"></ul>
+        <button class="btn btn-small" type="button" id="zenoCallReviewExpand" aria-controls="zenoCallReviewContent" aria-expanded="false" hidden>See more</button>
       </section>
       <footer class="zeno-call-controls" id="zenoCallControls">
         <button type="button" id="zenoVoiceMute" aria-pressed="false" disabled>

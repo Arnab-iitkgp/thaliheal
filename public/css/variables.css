@@ -1,0 +1,41 @@
+/* fonts and design tokens */
+@font-face{font-family:"Bricolage Grotesque";src:url(../fonts/bricolage-grotesque.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Figtree";src:url(../fonts/figtree-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Figtree";src:url(../fonts/figtree-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Figtree";src:url(../fonts/figtree-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Figtree";src:url(../fonts/figtree-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+
+:root{
+  --bg:#f3f5f0; --surface:#ffffff; --ink:#18201b; --muted:#5b665e; --line:#dde3da;
+  --accent:#1f5a44; --accent-ink:#ffffff; --accent-soft:#e1eee7;
+  --slate:#22282a; --slate-2:#2d3436; --on-slate:#eef0ec; --on-slate-muted:#b9c0bb; --brass:#b98a2e; --brass-hi:#d9ad55; --brass-soft:#f3e9d4;
+  --haldi:#d99800; --plum:#8a4f9e;
+  --good:#2e7d4f; --good-soft:#e2f2e8; --warn:#9a6400; --warn-soft:#fbf0d9; --bad:#b4410f; --bad-soft:#fbe6dc;
+  --user:#3b5bab; --user-soft:#e5ebf8; --test:#6b3fa0; --test-soft:#efe7f8;
+  --font-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:"Figtree", "Segoe UI", system-ui, sans-serif;
+  --radius:18px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1411; --surface:#171e19; --ink:#e7eee9; --muted:#9ba89f; --line:#2a352d;
+    --accent:#4dbb92; --accent-ink:#06150f; --accent-soft:#1c3329;
+    --slate:#1f2628; --slate-2:#2a3234; --brass-soft:#3a2f18;
+    --haldi:#efb72a; --plum:#c08ad3;
+    --good:#67d095; --good-soft:#18301f; --warn:#e9b44d; --warn-soft:#33280f; --bad:#f08257; --bad-soft:#3a1d12;
+    --user:#8ea8ef; --user-soft:#1d2540; --test:#c3a0ef; --test-soft:#2a2040;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"]{
+  --bg:#0f1411; --surface:#171e19; --ink:#e7eee9; --muted:#9ba89f; --line:#2a352d;
+  --accent:#4dbb92; --accent-ink:#06150f; --accent-soft:#1c3329;
+  --slate:#1f2628; --slate-2:#2a3234; --brass-soft:#3a2f18;
+  --haldi:#efb72a; --plum:#c08ad3;
+  --good:#67d095; --good-soft:#18301f; --warn:#e9b44d; --warn-soft:#33280f; --bad:#f08257; --bad-soft:#3a1d12;
+  --user:#8ea8ef; --user-soft:#1d2540; --test:#c3a0ef; --test-soft:#2a2040;
+  color-scheme: dark;
+}

@@ -1,0 +1,830 @@
+{
+ "meta": {
+  "source": "Indian Food & Nutrition Guide (user supplied PDF, final image corrections, 14 Nov 2026)",
+  "note": "Reference values copied as printed. The PDF calls them approximate estimates per stated serving; they are not weighed or lab measured.",
+  "missing": "Sugar is not given for any dish. Weight for Butter Chicken with Naan is approximate.",
+  "match_groups": "Test mode only: a dish counts as named correctly when every group is found in the model's items, by table dish id, a word in the model's label, or a dish type."
+ },
+ "dishes": [
+  {
+   "id": "s01",
+   "name": "Veg Biryani",
+   "diet": "Vegetarian",
+   "section": "Top 10 popular",
+   "serving": "1 plate (300 g)",
+   "weight_g": 300,
+   "weight_note": null,
+   "kcal": 450,
+   "protein": 9,
+   "carbs": 75,
+   "fat": 13,
+   "fibre": 4,
+   "photo": "img/samples/s01.jpg",
+   "test_photo": "img/test/s01.jpg",
+   "dish_type": "rice",
+   "match_groups": [
+    {
+     "ids": [
+      "veg_biryani",
+      "veg_pulao"
+     ],
+     "words": [
+      "biryani",
+      "pulao",
+      "pulav"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "name": "Masala Dosa",
+   "diet": "Vegetarian",
+   "section": "Top 10 popular",
+   "serving": "1 medium dosa (200 g)",
+   "weight_g": 200,
+   "weight_note": null,
+   "kcal": 350,
+   "protein": 7,
+   "carbs": 55,
+   "fat": 11,
+   "fibre": 4,
+   "photo": "img/samples/s02.jpg",
+   "test_photo": "img/test/s02.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "masala_dosa",
+      "plain_dosa"
+     ],
+     "words": [
+      "dosa"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "name": "Idli Vada Sambar",
+   "diet": "Vegetarian",
+   "section": "Top 10 popular",
+   "serving": "2 idlis + 1 vada + sambar (300 g)",
+   "weight_g": 300,
+   "weight_note": null,
+   "kcal": 350,
+   "protein": 12,
+   "carbs": 53,
+   "fat": 10,
+   "fibre": 6,
+   "photo": "img/samples/s03.jpg",
+   "test_photo": "img/test/s03.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "idli"
+     ],
+     "words": [
+      "idli"
+     ]
+    },
+    {
+     "ids": [
+      "medu_vada"
+     ],
+     "words": [
+      "vada"
+     ]
+    },
+    {
+     "ids": [
+      "sambar"
+     ],
+     "words": [
+      "sambar"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "name": "Chole Bhature",
+   "diet": "Vegetarian",
+   "section": "Top 10 popular",
+   "serving": "2 bhature + chole (350 g)",
+   "weight_g": 350,
+   "weight_note": null,
+   "kcal": 650,
+   "protein": 18,
+   "carbs": 85,
+   "fat": 27,
+   "fibre": 12,
+   "photo": "img/samples/s04.jpg",
+   "test_photo": "img/test/s04.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "chole"
+     ],
+     "words": [
+      "chole",
+      "chana",
+      "chickpea"
+     ]
+    },
+    {
+     "ids": [
+      "bhatura",
+      "puri"
+     ],
+     "words": [
+      "bhatur",
+      "puri"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "name": "Roti Sabji Dal",
+   "diet": "Vegetarian",
+   "section": "Top 10 popular",
+   "serving": "2 rotis + sabji + dal (400 g)",
+   "weight_g": 400,
+   "weight_note": null,
+   "kcal": 450,
+   "protein": 17,
+   "carbs": 68,
+   "fat": 12,
+   "fibre": 13,
+   "photo": "img/samples/s05.jpg",
+   "test_photo": "img/test/s05.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "chapati",
+      "tandoori_roti",
+      "plain_paratha"
+     ],
+     "words": [
+      "roti",
+      "chapati",
+      "phulka"
+     ]
+    },
+    {
+     "type": "dal"
+    },
+    {
+     "type": "sabzi"
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "name": "Vegetable Momos",
+   "diet": "Vegetarian",
+   "section": "Top 10 popular",
+   "serving": "6 steamed pieces (180 g)",
+   "weight_g": 180,
+   "weight_note": null,
+   "kcal": 250,
+   "protein": 7,
+   "carbs": 42,
+   "fat": 6,
+   "fibre": 3,
+   "photo": "img/samples/s06.jpg",
+   "test_photo": "img/test/s06.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "veg_momos"
+     ],
+     "words": [
+      "momo",
+      "dumpling"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s07",
+   "name": "Chicken Biryani",
+   "diet": "Non-vegetarian",
+   "section": "Top 10 popular",
+   "serving": "1 plate (350 g)",
+   "weight_g": 350,
+   "weight_note": null,
+   "kcal": 550,
+   "protein": 28,
+   "carbs": 70,
+   "fat": 18,
+   "fibre": 3,
+   "photo": "img/samples/s07.jpg",
+   "test_photo": "img/test/s07.jpg",
+   "dish_type": "rice",
+   "match_groups": [
+    {
+     "ids": [
+      "chicken_biryani"
+     ],
+     "words": [
+      "chicken biryani"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s08",
+   "name": "Butter Chicken with Naan",
+   "diet": "Non-vegetarian",
+   "section": "Top 10 popular",
+   "serving": "1 serving (approx. 350 g)",
+   "weight_g": 350,
+   "weight_note": "approx.",
+   "kcal": 650,
+   "protein": 35,
+   "carbs": 55,
+   "fat": 30,
+   "fibre": 3,
+   "photo": "img/samples/s08.jpg",
+   "test_photo": "img/test/s08.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "butter_chicken"
+     ],
+     "words": [
+      "butter chicken",
+      "makhani"
+     ]
+    },
+    {
+     "ids": [
+      "butter_naan"
+     ],
+     "words": [
+      "naan"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s09",
+   "name": "Chicken Momos",
+   "diet": "Non-vegetarian",
+   "section": "Top 10 popular",
+   "serving": "6 steamed pieces (180 g)",
+   "weight_g": 180,
+   "weight_note": null,
+   "kcal": 300,
+   "protein": 16,
+   "carbs": 40,
+   "fat": 8,
+   "fibre": 2,
+   "photo": "img/samples/s09.jpg",
+   "test_photo": "img/test/s09.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "words": [
+      "chicken momo",
+      "chicken dumpling"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s10",
+   "name": "Chicken Curry with Rice",
+   "diet": "Non-vegetarian",
+   "section": "Top 10 popular",
+   "serving": "1 serving (350 g)",
+   "weight_g": 350,
+   "weight_note": null,
+   "kcal": 500,
+   "protein": 30,
+   "carbs": 55,
+   "fat": 16,
+   "fibre": 3,
+   "photo": "img/samples/s10.jpg",
+   "test_photo": "img/test/s10.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "chicken_curry",
+      "butter_chicken"
+     ],
+     "words": [
+      "chicken curry",
+      "chicken masala"
+     ]
+    },
+    {
+     "ids": [
+      "plain_rice"
+     ],
+     "words": [
+      "rice"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s11",
+   "name": "Kosha Mangsho",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 bowl (250 g)",
+   "weight_g": 250,
+   "weight_note": null,
+   "kcal": 480,
+   "protein": 32,
+   "carbs": 12,
+   "fat": 34,
+   "fibre": 2,
+   "photo": "img/samples/s11.jpg",
+   "test_photo": "img/test/s11.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "mutton_curry"
+     ],
+     "words": [
+      "mangsho",
+      "mutton",
+      "kosha"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s12",
+   "name": "Shorshe Ilish",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 piece with mustard gravy (200 g)",
+   "weight_g": 200,
+   "weight_note": null,
+   "kcal": 420,
+   "protein": 28,
+   "carbs": 6,
+   "fat": 32,
+   "fibre": 1,
+   "photo": "img/samples/s12.jpg",
+   "test_photo": "img/test/s12.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "fish_curry"
+     ],
+     "words": [
+      "ilish",
+      "hilsa",
+      "shorshe",
+      "mustard fish"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s13",
+   "name": "Chingri Malai Curry",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 bowl (250 g)",
+   "weight_g": 250,
+   "weight_note": null,
+   "kcal": 450,
+   "protein": 28,
+   "carbs": 8,
+   "fat": 34,
+   "fibre": 1,
+   "photo": "img/samples/s13.jpg",
+   "test_photo": "img/test/s13.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "prawn_curry"
+     ],
+     "words": [
+      "chingri",
+      "prawn",
+      "shrimp"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s14",
+   "name": "Alur Dom (Bengali style)",
+   "diet": "Vegetarian",
+   "section": "West Bengal",
+   "serving": "1 bowl (200 g)",
+   "weight_g": 200,
+   "weight_note": null,
+   "kcal": 300,
+   "protein": 6,
+   "carbs": 44,
+   "fat": 12,
+   "fibre": 5,
+   "photo": "img/samples/s14.jpg",
+   "test_photo": "img/test/s14.jpg",
+   "dish_type": "sabzi",
+   "match_groups": [
+    {
+     "ids": [
+      "dum_aloo",
+      "aloo_tamatar",
+      "aloo_matar",
+      "jeera_aloo"
+     ],
+     "words": [
+      "alur dom",
+      "dum aloo",
+      "aloo dum",
+      "potato curry"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s15",
+   "name": "Mishti Doi",
+   "diet": "Vegetarian",
+   "section": "West Bengal",
+   "serving": "1 bowl (150 g)",
+   "weight_g": 150,
+   "weight_note": null,
+   "kcal": 220,
+   "protein": 8,
+   "carbs": 32,
+   "fat": 6,
+   "fibre": 0,
+   "photo": "img/samples/s15.jpg",
+   "test_photo": "img/test/s15.jpg",
+   "dish_type": "sweet",
+   "match_groups": [
+    {
+     "words": [
+      "mishti doi",
+      "sweet curd",
+      "sweet yoghurt",
+      "sweet yogurt"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s16",
+   "name": "Fish Kalia",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 piece with gravy (220 g)",
+   "weight_g": 220,
+   "weight_note": null,
+   "kcal": 390,
+   "protein": 27,
+   "carbs": 10,
+   "fat": 26,
+   "fibre": 1,
+   "photo": "img/samples/s16.jpg",
+   "test_photo": "img/test/s16.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "fish_curry"
+     ],
+     "words": [
+      "kalia",
+      "fish curry"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s17",
+   "name": "Dahi Machh",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 piece with yoghurt gravy (220 g)",
+   "weight_g": 220,
+   "weight_note": null,
+   "kcal": 360,
+   "protein": 28,
+   "carbs": 8,
+   "fat": 22,
+   "fibre": 1,
+   "photo": "img/samples/s17.jpg",
+   "test_photo": "img/test/s17.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "fish_curry"
+     ],
+     "words": [
+      "dahi mach",
+      "doi mach",
+      "yoghurt fish",
+      "yogurt fish",
+      "curd fish"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s18",
+   "name": "Chicken Kosha",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 bowl (250 g)",
+   "weight_g": 250,
+   "weight_note": null,
+   "kcal": 430,
+   "protein": 34,
+   "carbs": 10,
+   "fat": 28,
+   "fibre": 1,
+   "photo": "img/samples/s18.jpg",
+   "test_photo": "img/test/s18.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "chicken_curry"
+     ],
+     "words": [
+      "chicken kosha",
+      "kosha",
+      "chicken curry"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s19",
+   "name": "Mutton Kosha",
+   "diet": "Non-vegetarian",
+   "section": "West Bengal",
+   "serving": "1 bowl (250 g)",
+   "weight_g": 250,
+   "weight_note": null,
+   "kcal": 500,
+   "protein": 30,
+   "carbs": 12,
+   "fat": 38,
+   "fibre": 1,
+   "photo": "img/samples/s19.jpg",
+   "test_photo": "img/test/s19.jpg",
+   "dish_type": "curry",
+   "match_groups": [
+    {
+     "ids": [
+      "mutton_curry"
+     ],
+     "words": [
+      "mutton",
+      "kosha"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s20",
+   "name": "Vegetarian High-Protein Bowl",
+   "diet": "Vegetarian",
+   "section": "Healthy meals",
+   "serving": "1 bowl (350 g)",
+   "weight_g": 350,
+   "weight_note": null,
+   "kcal": 420,
+   "protein": 22,
+   "carbs": 48,
+   "fat": 12,
+   "fibre": 10,
+   "photo": "img/samples/s20.jpg",
+   "test_photo": "img/test/s20.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "paneer_bhurji",
+      "kadai_paneer"
+     ],
+     "words": [
+      "paneer",
+      "tofu"
+     ]
+    },
+    {
+     "ids": [
+      "chole"
+     ],
+     "words": [
+      "chickpea",
+      "chana",
+      "chole"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s21",
+   "name": "Egg Meal Bowl",
+   "diet": "Contains egg",
+   "section": "Healthy meals",
+   "serving": "2 eggs + brown rice + vegetables (350 g)",
+   "weight_g": 350,
+   "weight_note": null,
+   "kcal": 430,
+   "protein": 25,
+   "carbs": 50,
+   "fat": 14,
+   "fibre": 6,
+   "photo": "img/samples/s21.jpg",
+   "test_photo": "img/test/s21.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "boiled_egg"
+     ],
+     "words": [
+      "egg"
+     ]
+    },
+    {
+     "ids": [
+      "plain_rice"
+     ],
+     "words": [
+      "rice"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s22",
+   "name": "Grilled Chicken Bowl",
+   "diet": "Contains chicken",
+   "section": "Healthy meals",
+   "serving": "1 bowl (400 g)",
+   "weight_g": 400,
+   "weight_note": null,
+   "kcal": 480,
+   "protein": 36,
+   "carbs": 42,
+   "fat": 16,
+   "fibre": 8,
+   "photo": "img/samples/s22.jpg",
+   "test_photo": "img/test/s22.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "chicken_tikka",
+      "tandoori_chicken"
+     ],
+     "words": [
+      "grilled chicken",
+      "chicken"
+     ]
+    },
+    {
+     "ids": [
+      "plain_rice"
+     ],
+     "words": [
+      "rice"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s23",
+   "name": "Dal-Roti-Salad Plate",
+   "diet": "Vegetarian",
+   "section": "Healthy meals",
+   "serving": "1 bowl dal + 2 small rotis + salad (400 g)",
+   "weight_g": 400,
+   "weight_note": null,
+   "kcal": 400,
+   "protein": 18,
+   "carbs": 60,
+   "fat": 10,
+   "fibre": 12,
+   "photo": "img/samples/s23.jpg",
+   "test_photo": "img/test/s23.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "type": "dal"
+    },
+    {
+     "ids": [
+      "chapati"
+     ],
+     "words": [
+      "roti",
+      "chapati"
+     ]
+    },
+    {
+     "ids": [
+      "salad"
+     ],
+     "words": [
+      "salad"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s24",
+   "name": "Chicken Salad with Eggs",
+   "diet": "Contains chicken and egg",
+   "section": "Healthy meals",
+   "serving": "1 bowl (350 g)",
+   "weight_g": 350,
+   "weight_note": null,
+   "kcal": 380,
+   "protein": 34,
+   "carbs": 18,
+   "fat": 18,
+   "fibre": 6,
+   "photo": "img/samples/s24.jpg",
+   "test_photo": "img/test/s24.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "words": [
+      "chicken"
+     ]
+    },
+    {
+     "ids": [
+      "boiled_egg"
+     ],
+     "words": [
+      "egg"
+     ]
+    },
+    {
+     "ids": [
+      "salad"
+     ],
+     "words": [
+      "salad"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s25",
+   "name": "Fish and Brown Rice Bowl",
+   "diet": "Contains fish",
+   "section": "Healthy meals",
+   "serving": "1 bowl (400 g)",
+   "weight_g": 400,
+   "weight_note": null,
+   "kcal": 450,
+   "protein": 30,
+   "carbs": 45,
+   "fat": 14,
+   "fibre": 6,
+   "photo": "img/samples/s25.jpg",
+   "test_photo": "img/test/s25.jpg",
+   "dish_type": "other",
+   "match_groups": [
+    {
+     "ids": [
+      "fish_fry",
+      "fish_curry"
+     ],
+     "words": [
+      "fish"
+     ]
+    },
+    {
+     "ids": [
+      "plain_rice"
+     ],
+     "words": [
+      "rice"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,6627 @@
+{
+ "meta": {
+  "version": "0.3.0",
+  "built": "2026-11-14",
+  "basis": "Nutrients per 100 g of cooked dish, EXCLUDING added cooking fat. Added oil, ghee or butter is a separate item: added_fat gives grams of fat per 100 g of dish for home, restaurant and street cooking.",
+  "energy_formula": "kcal = 4 x protein + 4 x available carbs + 9 x fat + 2 x fibre (FAO / IFCT factors)",
+  "sources": [
+   "IFCT 2017, ICMR NIN (ingredient composition, via the @ifct2017/compositions digitisation)",
+   "Standard recipes and cooked yields (in house estimates)",
+   "Typical published values for non Indian fast food (estimates)"
+  ],
+  "types": [
+   "dal",
+   "sabzi",
+   "rice",
+   "roti",
+   "curry",
+   "fried snack",
+   "sweet",
+   "other"
+  ],
+  "micro": {
+   "keys": [
+    "iron",
+    "calcium",
+    "zinc",
+    "magnesium",
+    "folate",
+    "vitc",
+    "vita"
+   ],
+   "units": {
+    "iron": "mg",
+    "calcium": "mg",
+    "zinc": "mg",
+    "magnesium": "mg",
+    "folate": "ug",
+    "vitc": "mg",
+    "vita": "ug"
+   },
+   "basis": "Per 100 g of cooked dish from IFCT 2017 ingredients. Vitamins C, folate and A multiplied by 0.7 for cooking (calculated values run 32% to 45.5% high, Chiplonkar and Agte 2007), except raw dishes. Vitamin A = retinol + beta carotene / 8; IFCT gives no retinol for milk, so dairy vitamin A is undercounted. Added cooking fat adds no minerals or vitamins here. Fast food rows have no minerals or vitamins (micro is null).",
+   "not_covered": "Vitamin B12, vitamin D, iodine and added salt are not counted."
+  },
+  "flags_note": "flags: dairy, ghee_fat (ghee or butter as the home cooking fat), egg, meat, fish, jain_avoid (roots, tubers, onion, mushroom). Computed from recipe ingredients; fast food set by hand.",
+  "units_note": "Medium katori 150 g (DGI 2024 lists 155 ml); serving ladle 60 g; glass 250 ml; cup 150 ml. Piece weights are estimates.",
+  "licence_note": "Prototype only. IFCT data needs written permission from ICMR NIN before commercial use."
+ },
+ "fats": {
+  "oil": {
+   "name": "Cooking oil",
+   "per_g": {
+    "kcal": 9.0,
+    "protein": 0,
+    "carbs": 0,
+    "fat": 1.0,
+    "fibre": 0,
+    "sugar": 0,
+    "added_sugar": 0
+   },
+   "source": "IFCT 2017 (100% fat)"
+  },
+  "ghee": {
+   "name": "Ghee",
+   "per_g": {
+    "kcal": 9.0,
+    "protein": 0,
+    "carbs": 0,
+    "fat": 1.0,
+    "fibre": 0,
+    "sugar": 0,
+    "added_sugar": 0
+   },
+   "source": "IFCT 2017 (100% fat)"
+  },
+  "butter": {
+   "name": "Butter",
+   "per_g": {
+    "kcal": 7.2,
+    "protein": 0.01,
+    "carbs": 0.0,
+    "fat": 0.81,
+    "fibre": 0,
+    "sugar": 0,
+    "added_sugar": 0
+   },
+   "source": "Typical values (estimate)"
+  }
+ },
+ "dishes": [
+  {
+   "id": "plain_rice",
+   "name": "Steamed rice",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "chawal",
+    "plain rice",
+    "boiled rice",
+    "white rice"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 125
+    },
+    {
+     "name": "serving spoon",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 2.6,
+    "carbs": 26.1,
+    "fat": 0.2,
+    "fibre": 0.9,
+    "sugar": 0.2,
+    "kcal": 118.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.22,
+    "calcium": 2.5,
+    "zinc": 0.4,
+    "magnesium": 6.4,
+    "folate": 2.2,
+    "vitc": 0.0,
+    "vita": 0.0
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "type": "rice"
+  },
+  {
+   "id": "jeera_rice",
+   "name": "Jeera rice",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "cumin rice"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 125
+    },
+    {
+     "name": "serving spoon",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 2.7,
+    "carbs": 26.2,
+    "fat": 0.3,
+    "fibre": 1.1,
+    "sugar": 0.2,
+    "kcal": 120.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.35,
+    "calcium": 8.3,
+    "zinc": 0.43,
+    "magnesium": 9.4,
+    "folate": 2.3,
+    "vitc": 0.0,
+    "vita": 0.1
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 2.67,
+    "restaurant": 5.0,
+    "street": 5.5
+   },
+   "type": "rice"
+  },
+  {
+   "id": "veg_pulao",
+   "name": "Veg pulao",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "pulav",
+    "vegetable pulao"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 125
+    },
+    {
+     "name": "serving spoon",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 2.8,
+    "carbs": 21.7,
+    "fat": 0.2,
+    "fibre": 1.9,
+    "sugar": 1.0,
+    "kcal": 103.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.41,
+    "calcium": 10.7,
+    "zinc": 0.45,
+    "magnesium": 12.2,
+    "folate": 9.5,
+    "vitc": 2.7,
+    "vita": 38.1
+   },
+   "flags": {
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 3.0,
+    "restaurant": 5.5,
+    "street": 6.05
+   },
+   "type": "rice"
+  },
+  {
+   "id": "chicken_biryani",
+   "name": "Chicken biryani",
+   "category": "Rice",
+   "veg": false,
+   "aliases": [
+    "biryani",
+    "murgh biryani"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 350
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 7.5,
+    "carbs": 19.3,
+    "fat": 3.8,
+    "fibre": 1.1,
+    "sugar": 1.4,
+    "kcal": 143.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.57,
+    "calcium": 21.3,
+    "zinc": 0.85,
+    "magnesium": 15.0,
+    "folate": 6.9,
+    "vitc": 1.9,
+    "vita": 9.2
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.44,
+    "restaurant": 7.78,
+    "street": 8.56
+   },
+   "type": "rice"
+  },
+  {
+   "id": "mutton_biryani",
+   "name": "Mutton biryani",
+   "category": "Rice",
+   "veg": false,
+   "aliases": [
+    "gosht biryani"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 350
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 7.7,
+    "carbs": 19.3,
+    "fat": 3.7,
+    "fibre": 1.1,
+    "sugar": 1.4,
+    "kcal": 143.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.63,
+    "calcium": 17.5,
+    "zinc": 1.49,
+    "magnesium": 14.4,
+    "folate": 5.5,
+    "vitc": 1.9,
+    "vita": 8.6
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.89,
+    "restaurant": 8.44,
+    "street": 9.29
+   },
+   "type": "rice"
+  },
+  {
+   "id": "egg_biryani",
+   "name": "Egg biryani",
+   "category": "Rice",
+   "veg": false,
+   "aliases": [],
+   "units": [
+    {
+     "name": "plate",
+     "g": 350
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 5.4,
+    "carbs": 20.3,
+    "fat": 2.4,
+    "fibre": 1.2,
+    "sugar": 1.1,
+    "kcal": 126.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.68,
+    "calcium": 17.5,
+    "zinc": 0.64,
+    "magnesium": 11.3,
+    "folate": 14.0,
+    "vitc": 2.5,
+    "vita": 40.8
+   },
+   "flags": {
+    "egg": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.29,
+    "restaurant": 7.14,
+    "street": 7.86
+   },
+   "type": "rice"
+  },
+  {
+   "id": "veg_biryani",
+   "name": "Veg biryani",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "tehri"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 320
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 3.1,
+    "carbs": 22.9,
+    "fat": 0.5,
+    "fibre": 2.1,
+    "sugar": 1.6,
+    "kcal": 112.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.47,
+    "calcium": 20.7,
+    "zinc": 0.51,
+    "magnesium": 15.6,
+    "folate": 11.4,
+    "vitc": 4.4,
+    "vita": 37.8
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.29,
+    "restaurant": 7.14,
+    "street": 7.86
+   },
+   "type": "rice"
+  },
+  {
+   "id": "lemon_rice",
+   "name": "Lemon rice",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "chitranna"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 125
+    },
+    {
+     "name": "serving spoon",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 3.8,
+    "carbs": 26.1,
+    "fat": 2.1,
+    "fibre": 1.5,
+    "sugar": 0.6,
+    "kcal": 141.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.44,
+    "calcium": 10.4,
+    "zinc": 0.56,
+    "magnesium": 17.4,
+    "folate": 6.1,
+    "vitc": 1.7,
+    "vita": 4.4
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.23,
+    "restaurant": 4.84,
+    "street": 5.32
+   },
+   "type": "rice"
+  },
+  {
+   "id": "curd_rice",
+   "name": "Curd rice",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "thayir sadam",
+    "dahi chawal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 125
+    },
+    {
+     "name": "serving spoon",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 2.9,
+    "carbs": 14.9,
+    "fat": 2.0,
+    "fibre": 0.4,
+    "sugar": 2.6,
+    "kcal": 89.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.16,
+    "calcium": 64.1,
+    "zinc": 0.47,
+    "magnesium": 8.9,
+    "folate": 3.6,
+    "vitc": 0.3,
+    "vita": 8.4
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 1.05,
+    "restaurant": 1.58,
+    "street": 1.74
+   },
+   "type": "rice"
+  },
+  {
+   "id": "khichdi",
+   "name": "Khichdi",
+   "category": "Rice",
+   "veg": true,
+   "aliases": [
+    "khichri"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 180
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.2,
+    "carbs": 15.1,
+    "fat": 0.2,
+    "fibre": 1.2,
+    "sugar": 0.2,
+    "kcal": 77.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.44,
+    "calcium": 4.8,
+    "zinc": 0.38,
+    "magnesium": 16.4,
+    "folate": 6.6,
+    "vitc": 0.0,
+    "vita": 0.9
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 1.78,
+    "restaurant": 3.33,
+    "street": 3.67
+   },
+   "type": "rice"
+  },
+  {
+   "id": "veg_fried_rice",
+   "name": "Veg fried rice",
+   "category": "Indo Chinese",
+   "veg": true,
+   "aliases": [
+    "fried rice"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 300
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 3.1,
+    "carbs": 25.7,
+    "fat": 0.3,
+    "fibre": 2.1,
+    "sugar": 1.2,
+    "kcal": 121.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.42,
+    "calcium": 12.8,
+    "zinc": 0.47,
+    "magnesium": 13.9,
+    "folate": 10.5,
+    "vitc": 1.0,
+    "vita": 46.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.55,
+    "restaurant": 7.58,
+    "street": 8.33
+   },
+   "type": "rice"
+  },
+  {
+   "id": "sabudana_khichdi",
+   "name": "Sabudana khichdi",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "sago khichdi"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 200
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 3.2,
+    "carbs": 39.9,
+    "fat": 4.9,
+    "fibre": 1.9,
+    "sugar": 0.6,
+    "kcal": 220.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.17,
+    "calcium": 16.4,
+    "zinc": 0.48,
+    "magnesium": 28.9,
+    "folate": 10.9,
+    "vitc": 3.2,
+    "vita": 0.2
+   },
+   "flags": {
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.8,
+    "restaurant": 7.2,
+    "street": 7.92
+   },
+   "type": "other"
+  },
+  {
+   "id": "chapati",
+   "name": "Chapati / roti",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "roti",
+    "phulka",
+    "chapathi",
+    "fulka"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 38
+    }
+   ],
+   "per100g": {
+    "protein": 8.3,
+    "carbs": 50.7,
+    "fat": 1.2,
+    "fibre": 9.0,
+    "sugar": 1.4,
+    "kcal": 264.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.24,
+    "calcium": 24.4,
+    "zinc": 2.25,
+    "magnesium": 98.7,
+    "folate": 16.1,
+    "vitc": 0.0,
+    "vita": 0.2
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 0.0,
+    "restaurant": 5.26,
+    "street": 5.79
+   },
+   "type": "roti"
+  },
+  {
+   "id": "tandoori_roti",
+   "name": "Tandoori roti",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [],
+   "units": [
+    {
+     "name": "piece",
+     "g": 55
+    }
+   ],
+   "per100g": {
+    "protein": 8.6,
+    "carbs": 52.5,
+    "fat": 1.3,
+    "fibre": 9.3,
+    "sugar": 1.5,
+    "kcal": 274.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.35,
+    "calcium": 25.3,
+    "zinc": 2.33,
+    "magnesium": 102.3,
+    "folate": 16.7,
+    "vitc": 0.0,
+    "vita": 0.2
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 0.0,
+    "restaurant": 5.45,
+    "street": 6.0
+   },
+   "type": "roti"
+  },
+  {
+   "id": "butter_naan",
+   "name": "Butter naan",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "naan"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 90
+    }
+   ],
+   "per100g": {
+    "protein": 7.7,
+    "carbs": 53.0,
+    "fat": 0.9,
+    "fibre": 1.9,
+    "sugar": 1.8,
+    "kcal": 254.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.26,
+    "calcium": 28.5,
+    "zinc": 0.69,
+    "magnesium": 23.1,
+    "folate": 8.6,
+    "vitc": 0.0,
+    "vita": 2.6
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 5.88,
+    "restaurant": 9.41,
+    "street": 10.35
+   },
+   "type": "roti"
+  },
+  {
+   "id": "plain_paratha",
+   "name": "Plain paratha",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "parantha",
+    "lachha paratha"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 7.9,
+    "carbs": 48.1,
+    "fat": 1.1,
+    "fibre": 8.5,
+    "sugar": 1.4,
+    "kcal": 251.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.08,
+    "calcium": 23.2,
+    "zinc": 2.14,
+    "magnesium": 93.8,
+    "folate": 15.3,
+    "vitc": 0.0,
+    "vita": 0.2
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 13.33,
+    "restaurant": 20.0,
+    "street": 22.0
+   },
+   "type": "roti"
+  },
+  {
+   "id": "aloo_paratha",
+   "name": "Aloo paratha",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "potato paratha"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 120
+    }
+   ],
+   "per100g": {
+    "protein": 5.1,
+    "carbs": 33.3,
+    "fat": 0.7,
+    "fibre": 5.5,
+    "sugar": 1.1,
+    "kcal": 171.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.96,
+    "calcium": 17.7,
+    "zinc": 1.32,
+    "magnesium": 62.9,
+    "folate": 13.9,
+    "vitc": 6.9,
+    "vita": 0.1
+   },
+   "flags": {
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 8.33,
+    "restaurant": 12.5,
+    "street": 13.75
+   },
+   "type": "roti"
+  },
+  {
+   "id": "puri",
+   "name": "Puri",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "poori"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 28
+    }
+   ],
+   "per100g": {
+    "protein": 7.5,
+    "carbs": 45.8,
+    "fat": 1.1,
+    "fibre": 8.1,
+    "sugar": 1.3,
+    "kcal": 239.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 2.93,
+    "calcium": 22.1,
+    "zinc": 2.04,
+    "magnesium": 89.3,
+    "folate": 14.6,
+    "vitc": 0.0,
+    "vita": 0.2
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 17.86,
+    "restaurant": 21.43,
+    "street": 23.57
+   },
+   "note": "Fat is absorbed frying oil",
+   "type": "roti"
+  },
+  {
+   "id": "bhatura",
+   "name": "Bhatura",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "bhature"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 80
+    }
+   ],
+   "per100g": {
+    "protein": 6.9,
+    "carbs": 47.0,
+    "fat": 0.9,
+    "fibre": 1.7,
+    "sugar": 1.7,
+    "kcal": 226.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.12,
+    "calcium": 27.8,
+    "zinc": 0.62,
+    "magnesium": 20.7,
+    "folate": 7.7,
+    "vitc": 0.0,
+    "vita": 2.7
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 16.25,
+    "restaurant": 20.0,
+    "street": 22.0
+   },
+   "note": "Fat is absorbed frying oil",
+   "type": "roti"
+  },
+  {
+   "id": "bajra_roti",
+   "name": "Bajra roti",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "bajre ki roti",
+    "bhakri bajra"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 50
+    }
+   ],
+   "per100g": {
+    "protein": 8.8,
+    "carbs": 49.4,
+    "fat": 4.3,
+    "fibre": 9.2,
+    "sugar": 0.6,
+    "kcal": 290.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 5.14,
+    "calcium": 21.9,
+    "zinc": 2.21,
+    "magnesium": 99.2,
+    "folate": 20.2,
+    "vitc": 0.0,
+    "vita": 2.0
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 6.0,
+    "restaurant": 8.0,
+    "street": 8.8
+   },
+   "type": "roti"
+  },
+  {
+   "id": "jowar_roti",
+   "name": "Jowar roti / bhakri",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "jolada rotti",
+    "bhakri"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 50
+    }
+   ],
+   "per100g": {
+    "protein": 8.0,
+    "carbs": 54.1,
+    "fat": 1.4,
+    "fibre": 8.2,
+    "sugar": 1.0,
+    "kcal": 277.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.16,
+    "calcium": 22.1,
+    "zinc": 1.57,
+    "magnesium": 106.4,
+    "folate": 22.1,
+    "vitc": 0.0,
+    "vita": 0.6
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 0.0,
+    "restaurant": 4.0,
+    "street": 4.4
+   },
+   "type": "roti"
+  },
+  {
+   "id": "makki_roti",
+   "name": "Makki di roti",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "makki roti",
+    "maize roti"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 55
+    }
+   ],
+   "per100g": {
+    "protein": 7.2,
+    "carbs": 53.0,
+    "fat": 3.1,
+    "fibre": 10.0,
+    "sugar": 1.4,
+    "kcal": 288.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 2.04,
+    "calcium": 7.3,
+    "zinc": 1.86,
+    "magnesium": 118.6,
+    "folate": 14.8,
+    "vitc": 0.0,
+    "vita": 13.3
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 9.09,
+    "restaurant": 14.55,
+    "street": 16.0
+   },
+   "type": "roti"
+  },
+  {
+   "id": "thepla",
+   "name": "Methi thepla",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "thepla"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 45
+    }
+   ],
+   "per100g": {
+    "protein": 8.2,
+    "carbs": 43.8,
+    "fat": 1.6,
+    "fibre": 8.7,
+    "sugar": 1.9,
+    "kcal": 239.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 4.01,
+    "calcium": 94.8,
+    "zinc": 2.09,
+    "magnesium": 98.8,
+    "folate": 25.9,
+    "vitc": 9.1,
+    "vita": 182.3
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 8.89,
+    "restaurant": 13.33,
+    "street": 14.67
+   },
+   "type": "roti"
+  },
+  {
+   "id": "pav",
+   "name": "Pav (bread roll)",
+   "category": "Breads",
+   "veg": true,
+   "aliases": [
+    "pao",
+    "bun"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 40
+    }
+   ],
+   "per100g": {
+    "protein": 7.7,
+    "carbs": 44.5,
+    "fat": 3.2,
+    "fibre": 2.2,
+    "sugar": 4.5,
+    "kcal": 242.1,
+    "added_sugar": 3.6
+   },
+   "micro": {
+    "iron": 1.36,
+    "calcium": 36.4,
+    "zinc": 0.64,
+    "magnesium": 22.7,
+    "folate": 19.1,
+    "vitc": 0.0,
+    "vita": 0.0
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 9.09,
+    "restaurant": 18.18,
+    "street": 20.0
+   },
+   "note": "Butter for toasting kept separate",
+   "type": "roti"
+  },
+  {
+   "id": "dal_tadka",
+   "name": "Dal tadka (toor)",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "dal fry",
+    "arhar dal",
+    "toor dal",
+    "dal",
+    "yellow dal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.1,
+    "carbs": 10.9,
+    "fat": 0.3,
+    "fibre": 2.0,
+    "sugar": 0.9,
+    "kcal": 67.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.77,
+    "calcium": 15.4,
+    "zinc": 0.51,
+    "magnesium": 24.1,
+    "folate": 16.4,
+    "vitc": 2.1,
+    "vita": 9.2
+   },
+   "flags": {
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 2.27,
+    "restaurant": 4.55,
+    "street": 5.0
+   },
+   "type": "dal"
+  },
+  {
+   "id": "dal_makhani",
+   "name": "Dal makhani",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "maa ki dal",
+    "kaali dal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.7,
+    "carbs": 9.8,
+    "fat": 1.5,
+    "fibre": 4.4,
+    "sugar": 0.5,
+    "kcal": 80.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.29,
+    "calcium": 24.6,
+    "zinc": 0.65,
+    "magnesium": 41.2,
+    "folate": 25.9,
+    "vitc": 2.5,
+    "vita": 16.6
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 4.35,
+    "restaurant": 8.7,
+    "street": 9.57
+   },
+   "type": "dal"
+  },
+  {
+   "id": "chole",
+   "name": "Chole / chana masala",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "chana masala",
+    "chickpea curry",
+    "chhole"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.4,
+    "carbs": 10.3,
+    "fat": 1.2,
+    "fibre": 6.1,
+    "sugar": 1.2,
+    "kcal": 82.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.58,
+    "calcium": 37.1,
+    "zinc": 0.8,
+    "magnesium": 39.5,
+    "folate": 40.5,
+    "vitc": 4.0,
+    "vita": 17.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.48,
+    "restaurant": 6.52,
+    "street": 7.17
+   },
+   "type": "dal"
+  },
+  {
+   "id": "rajma",
+   "name": "Rajma",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "rajma masala",
+    "kidney bean curry"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.7,
+    "carbs": 12.3,
+    "fat": 0.5,
+    "fibre": 4.2,
+    "sugar": 1.3,
+    "kcal": 80.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.44,
+    "calcium": 31.9,
+    "zinc": 0.65,
+    "magnesium": 42.3,
+    "folate": 53.1,
+    "vitc": 4.0,
+    "vita": 13.8
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.04,
+    "restaurant": 5.22,
+    "street": 5.74
+   },
+   "type": "dal"
+  },
+  {
+   "id": "sambar",
+   "name": "Sambar",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "sambhar"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.3,
+    "carbs": 7.1,
+    "fat": 0.2,
+    "fibre": 1.9,
+    "sugar": 1.8,
+    "kcal": 43.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.61,
+    "calcium": 14.9,
+    "zinc": 0.29,
+    "magnesium": 17.5,
+    "folate": 13.7,
+    "vitc": 5.1,
+    "vita": 6.7
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 1.33,
+    "restaurant": 2.33,
+    "street": 2.57
+   },
+   "type": "dal"
+  },
+  {
+   "id": "rasam",
+   "name": "Rasam",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "saaru",
+    "chaaru"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "glass",
+     "g": 200
+    }
+   ],
+   "per100g": {
+    "protein": 0.6,
+    "carbs": 2.9,
+    "fat": 0.1,
+    "fibre": 0.6,
+    "sugar": 1.3,
+    "kcal": 16.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.31,
+    "calcium": 6.0,
+    "zinc": 0.08,
+    "magnesium": 6.2,
+    "folate": 3.8,
+    "vitc": 3.1,
+    "vita": 12.9
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 0.8,
+    "restaurant": 1.6,
+    "street": 1.76
+   },
+   "type": "dal"
+  },
+  {
+   "id": "moong_dal",
+   "name": "Moong dal",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "yellow moong dal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.3,
+    "carbs": 9.6,
+    "fat": 0.2,
+    "fibre": 1.7,
+    "sugar": 0.2,
+    "kcal": 61.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.71,
+    "calcium": 7.8,
+    "zinc": 0.45,
+    "magnesium": 28.2,
+    "folate": 11.7,
+    "vitc": 0.0,
+    "vita": 1.9
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 1.82,
+    "restaurant": 3.64,
+    "street": 4.0
+   },
+   "type": "dal"
+  },
+  {
+   "id": "masoor_dal",
+   "name": "Masoor dal",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "red lentil dal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.6,
+    "carbs": 10.4,
+    "fat": 0.2,
+    "fibre": 2.2,
+    "sugar": 0.8,
+    "kcal": 65.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.33,
+    "calcium": 10.2,
+    "zinc": 0.69,
+    "magnesium": 15.7,
+    "folate": 8.7,
+    "vitc": 1.6,
+    "vita": 5.5
+   },
+   "flags": {
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 1.82,
+    "restaurant": 3.64,
+    "street": 4.0
+   },
+   "type": "dal"
+  },
+  {
+   "id": "kadhi",
+   "name": "Kadhi pakora",
+   "category": "Dals",
+   "veg": true,
+   "aliases": [
+    "kadhi",
+    "punjabi kadhi"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.1,
+    "carbs": 8.2,
+    "fat": 2.2,
+    "fibre": 1.9,
+    "sugar": 2.6,
+    "kcal": 73.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.79,
+    "calcium": 64.0,
+    "zinc": 0.74,
+    "magnesium": 20.6,
+    "folate": 18.4,
+    "vitc": 0.4,
+    "vita": 11.8
+   },
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.2,
+    "restaurant": 5.6,
+    "street": 6.16
+   },
+   "note": "Fat covers tempering and fried pakoras",
+   "type": "dal"
+  },
+  {
+   "id": "aloo_gobi",
+   "name": "Aloo gobi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "gobi aloo"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.0,
+    "carbs": 9.2,
+    "fat": 0.4,
+    "fibre": 3.0,
+    "sugar": 1.1,
+    "kcal": 54.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.8,
+    "calcium": 19.5,
+    "zinc": 0.33,
+    "magnesium": 25.5,
+    "folate": 23.7,
+    "vitc": 25.7,
+    "vita": 7.6
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.71,
+    "restaurant": 9.52,
+    "street": 10.48
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "bhindi_masala",
+   "name": "Bhindi masala",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "bhindi fry",
+    "okra",
+    "ladies finger sabzi"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.4,
+    "carbs": 6.1,
+    "fat": 0.3,
+    "fibre": 4.7,
+    "sugar": 2.1,
+    "kcal": 46.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.93,
+    "calcium": 87.3,
+    "zinc": 0.52,
+    "magnesium": 68.2,
+    "folate": 48.5,
+    "vitc": 18.3,
+    "vita": 15.6
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 7.5,
+    "restaurant": 12.5,
+    "street": 13.75
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "palak_paneer",
+   "name": "Palak paneer",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "saag paneer"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 6.7,
+    "carbs": 5.9,
+    "fat": 5.3,
+    "fibre": 1.9,
+    "sugar": 4.0,
+    "kcal": 101.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 2.27,
+    "calcium": 187.6,
+    "zinc": 1.09,
+    "magnesium": 68.1,
+    "folate": 86.7,
+    "vitc": 15.9,
+    "vita": 162.0
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.0,
+    "restaurant": 7.33,
+    "street": 8.07
+   },
+   "type": "curry"
+  },
+  {
+   "id": "paneer_butter_masala",
+   "name": "Paneer butter masala",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "paneer makhani",
+    "shahi paneer"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 8.7,
+    "carbs": 8.0,
+    "fat": 9.6,
+    "fibre": 1.2,
+    "sugar": 5.9,
+    "kcal": 155.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.75,
+    "calcium": 197.6,
+    "zinc": 1.36,
+    "magnesium": 30.4,
+    "folate": 33.9,
+    "vitc": 9.3,
+    "vita": 47.5
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 4.62,
+    "restaurant": 9.62,
+    "street": 10.58
+   },
+   "type": "curry"
+  },
+  {
+   "id": "kadai_paneer",
+   "name": "Kadai paneer",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "karahi paneer"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 8.3,
+    "carbs": 7.9,
+    "fat": 6.1,
+    "fibre": 1.3,
+    "sugar": 6.3,
+    "kcal": 122.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.61,
+    "calcium": 200.0,
+    "zinc": 1.22,
+    "magnesium": 19.9,
+    "folate": 40.7,
+    "vitc": 22.8,
+    "vita": 24.9
+   },
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.8,
+    "restaurant": 8.8,
+    "street": 9.68
+   },
+   "type": "curry"
+  },
+  {
+   "id": "matar_paneer",
+   "name": "Matar paneer",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "mutter paneer"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 7.4,
+    "carbs": 8.2,
+    "fat": 4.4,
+    "fibre": 2.2,
+    "sugar": 4.7,
+    "kcal": 106.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.74,
+    "calcium": 148.0,
+    "zinc": 1.1,
+    "magnesium": 22.7,
+    "folate": 33.7,
+    "vitc": 11.9,
+    "vita": 25.0
+   },
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.29,
+    "restaurant": 7.14,
+    "street": 7.86
+   },
+   "type": "curry"
+  },
+  {
+   "id": "aloo_matar",
+   "name": "Aloo matar",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "aloo mutter"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.6,
+    "carbs": 10.5,
+    "fat": 0.3,
+    "fibre": 2.7,
+    "sugar": 1.3,
+    "kcal": 60.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.69,
+    "calcium": 14.6,
+    "zinc": 0.42,
+    "magnesium": 23.8,
+    "folate": 18.0,
+    "vitc": 17.3,
+    "vita": 19.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.57,
+    "restaurant": 5.71,
+    "street": 6.29
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "baingan_bharta",
+   "name": "Baingan bharta",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "brinjal bharta",
+    "vangyache bharit"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.2,
+    "carbs": 6.4,
+    "fat": 0.5,
+    "fibre": 5.4,
+    "sugar": 2.5,
+    "kcal": 49.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.57,
+    "calcium": 25.0,
+    "zinc": 0.33,
+    "magnesium": 30.2,
+    "folate": 33.8,
+    "vitc": 6.9,
+    "vita": 32.5
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.45,
+    "restaurant": 8.18,
+    "street": 9.0
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "mixed_veg",
+   "name": "Mixed veg sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "mix veg"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.4,
+    "carbs": 7.1,
+    "fat": 0.3,
+    "fibre": 3.6,
+    "sugar": 1.8,
+    "kcal": 48.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.81,
+    "calcium": 26.4,
+    "zinc": 0.41,
+    "magnesium": 25.0,
+    "folate": 25.7,
+    "vitc": 15.3,
+    "vita": 89.0
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.62,
+    "restaurant": 7.69,
+    "street": 8.46
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "jeera_aloo",
+   "name": "Jeera aloo / aloo sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "aloo sabzi",
+    "potato sabzi",
+    "aloo fry"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.8,
+    "carbs": 16.0,
+    "fat": 0.5,
+    "fibre": 2.3,
+    "sugar": 0.4,
+    "kcal": 80.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.92,
+    "calcium": 23.9,
+    "zinc": 0.36,
+    "magnesium": 32.3,
+    "folate": 11.7,
+    "vitc": 17.1,
+    "vita": 0.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.26,
+    "restaurant": 8.42,
+    "street": 9.26
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "cabbage_sabzi",
+   "name": "Cabbage sabzi / poriyal",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "patta gobhi",
+    "cabbage poriyal",
+    "thoran"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.5,
+    "carbs": 5.0,
+    "fat": 2.5,
+    "fibre": 5.1,
+    "sugar": 1.5,
+    "kcal": 62.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.65,
+    "calcium": 21.5,
+    "zinc": 0.36,
+    "magnesium": 25.9,
+    "folate": 30.2,
+    "vitc": 4.0,
+    "vita": 13.0
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.21,
+    "restaurant": 6.32,
+    "street": 6.95
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "lauki_sabzi",
+   "name": "Lauki sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "bottle gourd sabzi",
+    "doodhi"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 0.8,
+    "carbs": 3.0,
+    "fat": 0.2,
+    "fibre": 2.7,
+    "sugar": 1.1,
+    "kcal": 22.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.36,
+    "calcium": 19.9,
+    "zinc": 0.21,
+    "magnesium": 15.2,
+    "folate": 35.5,
+    "vitc": 6.2,
+    "vita": 14.5
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.61,
+    "restaurant": 4.35,
+    "street": 4.78
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "malai_kofta",
+   "name": "Malai kofta",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 5.1,
+    "carbs": 9.7,
+    "fat": 7.0,
+    "fibre": 1.5,
+    "sugar": 3.6,
+    "kcal": 125.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.77,
+    "calcium": 90.3,
+    "zinc": 0.9,
+    "magnesium": 33.8,
+    "folate": 20.5,
+    "vitc": 9.2,
+    "vita": 35.2
+   },
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 7.69,
+    "restaurant": 11.54,
+    "street": 12.69
+   },
+   "note": "Fat covers fried koftas and gravy",
+   "type": "curry"
+  },
+  {
+   "id": "dum_aloo",
+   "name": "Dum aloo",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.8,
+    "carbs": 11.8,
+    "fat": 0.8,
+    "fibre": 1.6,
+    "sugar": 1.8,
+    "kcal": 65.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.48,
+    "calcium": 30.7,
+    "zinc": 0.34,
+    "magnesium": 21.7,
+    "folate": 12.1,
+    "vitc": 14.4,
+    "vita": 17.4
+   },
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 6.09,
+    "restaurant": 9.57,
+    "street": 10.52
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "avial",
+   "name": "Avial",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "aviyal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.1,
+    "carbs": 5.8,
+    "fat": 7.3,
+    "fibre": 4.5,
+    "sugar": 2.6,
+    "kcal": 105.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.62,
+    "calcium": 39.4,
+    "zinc": 0.35,
+    "magnesium": 25.8,
+    "folate": 19.3,
+    "vitc": 10.1,
+    "vita": 64.6
+   },
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.2,
+    "restaurant": 4.8,
+    "street": 5.28
+   },
+   "note": "Coconut oil",
+   "type": "sabzi"
+  },
+  {
+   "id": "sarson_saag",
+   "name": "Sarson ka saag",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "saag"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.1,
+    "carbs": 5.4,
+    "fat": 0.8,
+    "fibre": 4.8,
+    "sugar": 0.2,
+    "kcal": 54.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.51,
+    "calcium": 206.7,
+    "zinc": 0.9,
+    "magnesium": 75.7,
+    "folate": 90.9,
+    "vitc": 43.5,
+    "vita": 253.7
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.8,
+    "restaurant": 8.0,
+    "street": 8.8
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "mushroom_masala",
+   "name": "Mushroom masala",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "mushroom curry"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.7,
+    "carbs": 4.0,
+    "fat": 0.5,
+    "fibre": 3.5,
+    "sugar": 1.4,
+    "kcal": 42.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.39,
+    "calcium": 21.9,
+    "zinc": 0.23,
+    "magnesium": 22.0,
+    "folate": 11.5,
+    "vitc": 5.0,
+    "vita": 17.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.35,
+    "restaurant": 7.83,
+    "street": 8.61
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "butter_chicken",
+   "name": "Butter chicken",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "murgh makhani"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 9.1,
+    "carbs": 2.5,
+    "fat": 9.1,
+    "fibre": 0.8,
+    "sugar": 1.2,
+    "kcal": 129.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.84,
+    "calcium": 28.9,
+    "zinc": 1.0,
+    "magnesium": 26.8,
+    "folate": 8.7,
+    "vitc": 7.7,
+    "vita": 47.8
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "meat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 5.0,
+    "restaurant": 10.0,
+    "street": 11.0
+   },
+   "type": "curry"
+  },
+  {
+   "id": "chicken_curry",
+   "name": "Chicken curry",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "chicken masala",
+    "murgh curry"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 10.4,
+    "carbs": 2.8,
+    "fat": 6.7,
+    "fibre": 0.8,
+    "sugar": 1.8,
+    "kcal": 114.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.79,
+    "calcium": 24.5,
+    "zinc": 1.02,
+    "magnesium": 19.0,
+    "folate": 9.7,
+    "vitc": 4.8,
+    "vita": 21.1
+   },
+   "flags": {
+    "dairy": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.0,
+    "restaurant": 7.33,
+    "street": 8.07
+   },
+   "type": "curry"
+  },
+  {
+   "id": "chicken_tikka",
+   "name": "Chicken tikka",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "tikka"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 30
+    },
+    {
+     "name": "plate (6 pcs)",
+     "g": 180
+    }
+   ],
+   "per100g": {
+    "protein": 28.0,
+    "carbs": 1.2,
+    "fat": 12.1,
+    "fibre": 0.0,
+    "sugar": 1.2,
+    "kcal": 225.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.06,
+    "calcium": 46.1,
+    "zinc": 1.12,
+    "magnesium": 28.2,
+    "folate": 10.4,
+    "vitc": 0.1,
+    "vita": 11.3
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "meat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 4.17,
+    "restaurant": 8.33,
+    "street": 9.17
+   },
+   "type": "other"
+  },
+  {
+   "id": "tandoori_chicken",
+   "name": "Tandoori chicken",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [],
+   "units": [
+    {
+     "name": "leg piece",
+     "g": 110
+    },
+    {
+     "name": "half",
+     "g": 250
+    }
+   ],
+   "per100g": {
+    "protein": 24.9,
+    "carbs": 0.9,
+    "fat": 16.4,
+    "fibre": 0.0,
+    "sugar": 0.9,
+    "kcal": 250.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.61,
+    "calcium": 48.1,
+    "zinc": 2.33,
+    "magnesium": 32.0,
+    "folate": 7.5,
+    "vitc": 0.1,
+    "vita": 13.5
+   },
+   "flags": {
+    "dairy": true,
+    "meat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.12,
+    "restaurant": 6.25,
+    "street": 6.88
+   },
+   "note": "Edible portion, bone excluded",
+   "type": "other"
+  },
+  {
+   "id": "mutton_curry",
+   "name": "Mutton curry",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "rogan josh",
+    "mutton masala",
+    "gosht curry"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 11.7,
+    "carbs": 3.0,
+    "fat": 6.9,
+    "fibre": 0.8,
+    "sugar": 2.0,
+    "kcal": 122.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.95,
+    "calcium": 22.5,
+    "zinc": 2.41,
+    "magnesium": 19.0,
+    "folate": 7.3,
+    "vitc": 4.5,
+    "vita": 19.2
+   },
+   "flags": {
+    "dairy": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.36,
+    "restaurant": 8.93,
+    "street": 9.82
+   },
+   "type": "curry"
+  },
+  {
+   "id": "keema",
+   "name": "Keema matar",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "mince curry",
+    "keema"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 13.8,
+    "carbs": 4.4,
+    "fat": 7.3,
+    "fibre": 1.9,
+    "sugar": 1.6,
+    "kcal": 142.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.29,
+    "calcium": 14.5,
+    "zinc": 2.78,
+    "magnesium": 25.6,
+    "folate": 12.9,
+    "vitc": 9.1,
+    "vita": 20.7
+   },
+   "flags": {
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.8,
+    "restaurant": 8.0,
+    "street": 8.8
+   },
+   "type": "curry"
+  },
+  {
+   "id": "fish_curry",
+   "name": "Fish curry",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "machli curry",
+    "meen curry",
+    "macher jhol"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 11.2,
+    "carbs": 2.0,
+    "fat": 4.3,
+    "fibre": 1.3,
+    "sugar": 1.3,
+    "kcal": 94.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.75,
+    "calcium": 25.7,
+    "zinc": 0.53,
+    "magnesium": 21.1,
+    "folate": 5.9,
+    "vitc": 4.0,
+    "vita": 15.6
+   },
+   "flags": {
+    "fish": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.57,
+    "restaurant": 6.43,
+    "street": 7.07
+   },
+   "type": "curry"
+  },
+  {
+   "id": "fish_fry",
+   "name": "Fish fry",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "tawa fish",
+    "rava fish fry"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 22.8,
+    "carbs": 8.7,
+    "fat": 2.7,
+    "fibre": 0.3,
+    "sugar": 0.1,
+    "kcal": 150.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.23,
+    "calcium": 44.6,
+    "zinc": 1.02,
+    "magnesium": 31.6,
+    "folate": 0.7,
+    "vitc": 0.0,
+    "vita": 3.0
+   },
+   "flags": {
+    "fish": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 11.11,
+    "restaurant": 16.67,
+    "street": 18.33
+   },
+   "type": "other"
+  },
+  {
+   "id": "prawn_curry",
+   "name": "Prawn curry",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "jhinga curry",
+    "prawn masala"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 8.0,
+    "carbs": 2.3,
+    "fat": 5.1,
+    "fibre": 1.8,
+    "sugar": 1.6,
+    "kcal": 91.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.73,
+    "calcium": 42.9,
+    "zinc": 0.61,
+    "magnesium": 23.4,
+    "folate": 6.7,
+    "vitc": 4.1,
+    "vita": 15.8
+   },
+   "flags": {
+    "fish": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.7,
+    "restaurant": 6.67,
+    "street": 7.33
+   },
+   "type": "curry"
+  },
+  {
+   "id": "egg_curry",
+   "name": "Egg curry",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "anda curry"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 6.4,
+    "carbs": 3.2,
+    "fat": 4.2,
+    "fibre": 1.1,
+    "sugar": 1.9,
+    "kcal": 78.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.98,
+    "calcium": 29.6,
+    "zinc": 0.66,
+    "magnesium": 13.5,
+    "folate": 23.8,
+    "vitc": 6.2,
+    "vita": 81.5
+   },
+   "flags": {
+    "egg": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.35,
+    "restaurant": 6.96,
+    "street": 7.65
+   },
+   "note": "One katori holds about one egg",
+   "type": "curry"
+  },
+  {
+   "id": "boiled_egg",
+   "name": "Boiled egg",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "anda",
+    "egg"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 50
+    }
+   ],
+   "per100g": {
+    "protein": 13.4,
+    "carbs": 0.0,
+    "fat": 10.5,
+    "fibre": 0.0,
+    "sugar": 0.0,
+    "kcal": 148.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.87,
+    "calcium": 55.1,
+    "zinc": 1.31,
+    "magnesium": 13.8,
+    "folate": 33.8,
+    "vitc": 0.0,
+    "vita": 127.2
+   },
+   "flags": {
+    "egg": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "omelette",
+   "name": "Omelette (2 eggs)",
+   "category": "Non veg",
+   "veg": false,
+   "aliases": [
+    "omlet",
+    "masala omelette"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 115
+    }
+   ],
+   "per100g": {
+    "protein": 11.9,
+    "carbs": 1.9,
+    "fat": 8.0,
+    "fibre": 0.6,
+    "sugar": 1.1,
+    "kcal": 128.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.68,
+    "calcium": 47.5,
+    "zinc": 1.14,
+    "magnesium": 14.8,
+    "folate": 34.7,
+    "vitc": 2.5,
+    "vita": 128.5
+   },
+   "flags": {
+    "egg": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.35,
+    "restaurant": 6.96,
+    "street": 7.65
+   },
+   "type": "other"
+  },
+  {
+   "id": "chilli_chicken",
+   "name": "Chilli chicken",
+   "category": "Indo Chinese",
+   "veg": false,
+   "aliases": [],
+   "units": [
+    {
+     "name": "plate",
+     "g": 230
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 15.8,
+    "carbs": 12.0,
+    "fat": 6.0,
+    "fibre": 1.1,
+    "sugar": 2.2,
+    "kcal": 167.3,
+    "added_sugar": 0.9
+   },
+   "micro": {
+    "iron": 0.91,
+    "calcium": 18.1,
+    "zinc": 0.68,
+    "magnesium": 22.9,
+    "folate": 16.2,
+    "vitc": 15.9,
+    "vita": 9.0
+   },
+   "flags": {
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 8.7,
+    "restaurant": 13.04,
+    "street": 14.35
+   },
+   "note": "Fat covers frying and tossing",
+   "type": "other"
+  },
+  {
+   "id": "idli",
+   "name": "Idli",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "idly"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 40
+    }
+   ],
+   "per100g": {
+    "protein": 5.8,
+    "carbs": 35.3,
+    "fat": 0.4,
+    "fibre": 2.9,
+    "sugar": 0.4,
+    "kcal": 174.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.85,
+    "calcium": 10.0,
+    "zinc": 0.78,
+    "magnesium": 31.6,
+    "folate": 10.3,
+    "vitc": 0.0,
+    "vita": 0.1
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "plain_dosa",
+   "name": "Plain dosa",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "dosai",
+    "sada dosa"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 85
+    }
+   ],
+   "per100g": {
+    "protein": 5.5,
+    "carbs": 33.2,
+    "fat": 0.4,
+    "fibre": 2.7,
+    "sugar": 0.3,
+    "kcal": 163.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.8,
+    "calcium": 9.4,
+    "zinc": 0.73,
+    "magnesium": 29.8,
+    "folate": 9.7,
+    "vitc": 0.0,
+    "vita": 0.1
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.88,
+    "restaurant": 9.41,
+    "street": 10.35
+   },
+   "type": "other"
+  },
+  {
+   "id": "masala_dosa",
+   "name": "Masala dosa",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "masale dose"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 200
+    }
+   ],
+   "per100g": {
+    "protein": 3.5,
+    "carbs": 23.2,
+    "fat": 0.3,
+    "fibre": 2.2,
+    "sugar": 0.7,
+    "kcal": 114.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.67,
+    "calcium": 10.1,
+    "zinc": 0.51,
+    "magnesium": 26.0,
+    "folate": 10.8,
+    "vitc": 6.8,
+    "vita": 0.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.0,
+    "restaurant": 7.5,
+    "street": 8.25
+   },
+   "type": "other"
+  },
+  {
+   "id": "medu_vada",
+   "name": "Medu vada",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "vada",
+    "uddina vada",
+    "vadai"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 45
+    }
+   ],
+   "per100g": {
+    "protein": 12.8,
+    "carbs": 28.3,
+    "fat": 0.9,
+    "fibre": 6.6,
+    "sugar": 0.5,
+    "kcal": 186.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 2.59,
+    "calcium": 30.9,
+    "zinc": 1.67,
+    "magnesium": 96.1,
+    "folate": 34.5,
+    "vitc": 0.0,
+    "vita": 0.5
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 13.33,
+    "restaurant": 17.78,
+    "street": 19.56
+   },
+   "note": "Fat is absorbed frying oil",
+   "type": "fried snack"
+  },
+  {
+   "id": "uttapam",
+   "name": "Uttapam",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "uthappam"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 130
+    }
+   ],
+   "per100g": {
+    "protein": 5.0,
+    "carbs": 30.6,
+    "fat": 0.4,
+    "fibre": 2.9,
+    "sugar": 1.3,
+    "kcal": 152.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.79,
+    "calcium": 12.5,
+    "zinc": 0.7,
+    "magnesium": 29.9,
+    "folate": 13.0,
+    "vitc": 2.9,
+    "vita": 9.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.62,
+    "restaurant": 7.69,
+    "street": 8.46
+   },
+   "type": "other"
+  },
+  {
+   "id": "upma",
+   "name": "Upma",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "uppittu",
+    "rava upma"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 180
+    },
+    {
+     "name": "plate",
+     "g": 220
+    }
+   ],
+   "per100g": {
+    "protein": 3.4,
+    "carbs": 18.7,
+    "fat": 0.2,
+    "fibre": 3.1,
+    "sugar": 1.1,
+    "kcal": 96.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.89,
+    "calcium": 12.1,
+    "zinc": 0.63,
+    "magnesium": 13.7,
+    "folate": 8.8,
+    "vitc": 1.9,
+    "vita": 24.3
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.0,
+    "restaurant": 6.0,
+    "street": 6.6
+   },
+   "type": "other"
+  },
+  {
+   "id": "poha",
+   "name": "Poha",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "pohe",
+    "aval",
+    "chivda poha"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 160
+    },
+    {
+     "name": "katori",
+     "g": 120
+    }
+   ],
+   "per100g": {
+    "protein": 4.3,
+    "carbs": 29.1,
+    "fat": 2.9,
+    "fibre": 2.4,
+    "sugar": 1.2,
+    "kcal": 164.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.77,
+    "calcium": 10.7,
+    "zinc": 0.76,
+    "magnesium": 43.4,
+    "folate": 10.4,
+    "vitc": 3.6,
+    "vita": 0.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.38,
+    "restaurant": 6.25,
+    "street": 6.88
+   },
+   "type": "other"
+  },
+  {
+   "id": "pongal",
+   "name": "Ven pongal",
+   "category": "South Indian",
+   "veg": true,
+   "aliases": [
+    "khara pongal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 180
+    }
+   ],
+   "per100g": {
+    "protein": 4.0,
+    "carbs": 19.6,
+    "fat": 1.2,
+    "fibre": 1.5,
+    "sugar": 0.3,
+    "kcal": 108.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.61,
+    "calcium": 6.1,
+    "zinc": 0.57,
+    "magnesium": 24.6,
+    "folate": 7.4,
+    "vitc": 0.0,
+    "vita": 1.0
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 4.55,
+    "restaurant": 8.18,
+    "street": 9.0
+   },
+   "type": "other"
+  },
+  {
+   "id": "coconut_chutney",
+   "name": "Coconut chutney",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "nariyal chutney"
+   ],
+   "units": [
+    {
+     "name": "tablespoon",
+     "g": 15
+    },
+    {
+     "name": "small katori",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.5,
+    "carbs": 8.7,
+    "fat": 23.6,
+    "fibre": 7.5,
+    "sugar": 3.6,
+    "kcal": 280.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.4,
+    "calcium": 9.6,
+    "zinc": 0.73,
+    "magnesium": 32.6,
+    "folate": 34.3,
+    "vitc": 0.4,
+    "vita": 2.5
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.22,
+    "restaurant": 3.33,
+    "street": 3.67
+   },
+   "type": "other"
+  },
+  {
+   "id": "samosa",
+   "name": "Samosa",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "aloo samosa"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 70
+    }
+   ],
+   "per100g": {
+    "protein": 5.2,
+    "carbs": 36.9,
+    "fat": 0.4,
+    "fibre": 2.5,
+    "sugar": 0.9,
+    "kcal": 177.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.11,
+    "calcium": 15.4,
+    "zinc": 0.57,
+    "magnesium": 29.3,
+    "folate": 13.8,
+    "vitc": 12.3,
+    "vita": 0.8
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 17.86,
+    "restaurant": 20.0,
+    "street": 22.0
+   },
+   "note": "Oil uptake about 18% (Sakhale et al.)",
+   "type": "fried snack"
+  },
+  {
+   "id": "onion_pakora",
+   "name": "Onion pakora",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "bhaji",
+    "bhajiya",
+    "pakoda",
+    "kanda bhaji"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 15
+    },
+    {
+     "name": "plate",
+     "g": 100
+    }
+   ],
+   "per100g": {
+    "protein": 10.9,
+    "carbs": 27.4,
+    "fat": 2.6,
+    "fibre": 8.5,
+    "sugar": 4.1,
+    "kcal": 193.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.07,
+    "calcium": 34.3,
+    "zinc": 1.9,
+    "magnesium": 65.5,
+    "folate": 71.2,
+    "vitc": 2.9,
+    "vita": 6.7
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 20.0,
+    "restaurant": 23.08,
+    "street": 25.38
+   },
+   "note": "Fat is absorbed frying oil",
+   "type": "fried snack"
+  },
+  {
+   "id": "pav_bhaji",
+   "name": "Pav bhaji (bhaji only)",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "bhaji"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.3,
+    "carbs": 8.2,
+    "fat": 0.3,
+    "fibre": 2.8,
+    "sugar": 1.5,
+    "kcal": 50.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.69,
+    "calcium": 16.9,
+    "zinc": 0.36,
+    "magnesium": 22.4,
+    "folate": 22.3,
+    "vitc": 26.3,
+    "vita": 25.7
+   },
+   "flags": {
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 5.45,
+    "restaurant": 11.36,
+    "street": 12.5
+   },
+   "note": "Add pav separately",
+   "type": "other"
+  },
+  {
+   "id": "vada_pav",
+   "name": "Vada pav",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "wada pav"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 130
+    }
+   ],
+   "per100g": {
+    "protein": 5.8,
+    "carbs": 27.3,
+    "fat": 1.8,
+    "fibre": 3.3,
+    "sugar": 1.8,
+    "kcal": 155.3,
+    "added_sugar": 1.2
+   },
+   "micro": {
+    "iron": 1.43,
+    "calcium": 22.0,
+    "zinc": 0.77,
+    "magnesium": 32.4,
+    "folate": 26.2,
+    "vitc": 7.5,
+    "vita": 1.7
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 7.69,
+    "restaurant": 9.23,
+    "street": 10.15
+   },
+   "type": "fried snack"
+  },
+  {
+   "id": "pani_puri",
+   "name": "Pani puri",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "golgappa",
+    "puchka",
+    "gup chup"
+   ],
+   "units": [
+    {
+     "name": "plate (6 pcs)",
+     "g": 150
+    },
+    {
+     "name": "piece",
+     "g": 25
+    }
+   ],
+   "per100g": {
+    "protein": 3.1,
+    "carbs": 20.7,
+    "fat": 0.5,
+    "fibre": 3.2,
+    "sugar": 6.6,
+    "kcal": 106.1,
+    "added_sugar": 4.5
+   },
+   "micro": {
+    "iron": 1.44,
+    "calcium": 25.6,
+    "zinc": 0.55,
+    "magnesium": 27.6,
+    "folate": 15.3,
+    "vitc": 2.2,
+    "vita": 1.0
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.67,
+    "restaurant": 5.33,
+    "street": 5.87
+   },
+   "type": "fried snack"
+  },
+  {
+   "id": "bhel_puri",
+   "name": "Bhel puri",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "bhel"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 110
+    }
+   ],
+   "per100g": {
+    "protein": 4.8,
+    "carbs": 35.5,
+    "fat": 1.1,
+    "fibre": 3.1,
+    "sugar": 6.6,
+    "kcal": 177.0,
+    "added_sugar": 3.9
+   },
+   "micro": {
+    "iron": 2.46,
+    "calcium": 23.2,
+    "zinc": 0.88,
+    "magnesium": 44.5,
+    "folate": 26.9,
+    "vitc": 9.0,
+    "vita": 17.3
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.55,
+    "restaurant": 6.36,
+    "street": 7.0
+   },
+   "type": "other"
+  },
+  {
+   "id": "dhokla",
+   "name": "Dhokla",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "khaman"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 30
+    },
+    {
+     "name": "plate (4 pcs)",
+     "g": 120
+    }
+   ],
+   "per100g": {
+    "protein": 8.3,
+    "carbs": 20.4,
+    "fat": 2.4,
+    "fibre": 5.5,
+    "sugar": 3.7,
+    "kcal": 146.9,
+    "added_sugar": 2.7
+   },
+   "micro": {
+    "iron": 2.22,
+    "calcium": 33.2,
+    "zinc": 1.41,
+    "magnesium": 44.5,
+    "folate": 47.0,
+    "vitc": 0.0,
+    "vita": 8.1
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.73,
+    "restaurant": 4.55,
+    "street": 5.0
+   },
+   "type": "other"
+  },
+  {
+   "id": "kachori",
+   "name": "Kachori",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "khasta kachori"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 11.2,
+    "carbs": 50.3,
+    "fat": 0.7,
+    "fibre": 3.7,
+    "sugar": 1.1,
+    "kcal": 259.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.87,
+    "calcium": 21.0,
+    "zinc": 1.06,
+    "magnesium": 54.1,
+    "folate": 21.8,
+    "vitc": 0.0,
+    "vita": 2.8
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 21.67,
+    "restaurant": 25.0,
+    "street": 27.5
+   },
+   "note": "Fat is absorbed frying oil",
+   "type": "fried snack"
+  },
+  {
+   "id": "aloo_tikki",
+   "name": "Aloo tikki",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "tikki"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.8,
+    "carbs": 18.5,
+    "fat": 0.3,
+    "fibre": 2.5,
+    "sugar": 0.5,
+    "kcal": 92.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.81,
+    "calcium": 13.5,
+    "zinc": 0.44,
+    "magnesium": 29.0,
+    "folate": 15.7,
+    "vitc": 18.7,
+    "vita": 1.4
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 8.0,
+    "restaurant": 13.33,
+    "street": 14.67
+   },
+   "type": "fried snack"
+  },
+  {
+   "id": "veg_momos",
+   "name": "Veg momos (steamed)",
+   "category": "Snacks",
+   "veg": true,
+   "aliases": [
+    "momo",
+    "dumplings"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 25
+    },
+    {
+     "name": "plate (6 pcs)",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 4.2,
+    "carbs": 26.9,
+    "fat": 0.4,
+    "fibre": 3.2,
+    "sugar": 2.1,
+    "kcal": 134.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.85,
+    "calcium": 20.1,
+    "zinc": 0.43,
+    "magnesium": 21.5,
+    "folate": 17.7,
+    "vitc": 1.5,
+    "vita": 61.5
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.2,
+    "restaurant": 4.8,
+    "street": 5.28
+   },
+   "type": "other"
+  },
+  {
+   "id": "hakka_noodles",
+   "name": "Veg hakka noodles",
+   "category": "Indo Chinese",
+   "veg": true,
+   "aliases": [
+    "chowmein",
+    "noodles"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 250
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 3.7,
+    "carbs": 22.8,
+    "fat": 0.3,
+    "fibre": 2.1,
+    "sugar": 1.5,
+    "kcal": 113.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.73,
+    "calcium": 15.2,
+    "zinc": 0.35,
+    "magnesium": 16.7,
+    "folate": 13.3,
+    "vitc": 7.8,
+    "vita": 42.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.8,
+    "restaurant": 8.8,
+    "street": 9.68
+   },
+   "type": "other"
+  },
+  {
+   "id": "curd",
+   "name": "Curd (dahi)",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "dahi",
+    "yogurt"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 3.1,
+    "carbs": 4.7,
+    "fat": 3.3,
+    "fibre": 0.0,
+    "sugar": 4.7,
+    "kcal": 60.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.1,
+    "calcium": 120.0,
+    "zinc": 0.6,
+    "magnesium": 12.0,
+    "folate": 7.0,
+    "vitc": 0.5,
+    "vita": 30.0
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "raita",
+   "name": "Raita",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "cucumber raita",
+    "boondi raita"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 2.5,
+    "carbs": 4.4,
+    "fat": 2.5,
+    "fibre": 0.5,
+    "sugar": 3.6,
+    "kcal": 51.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.19,
+    "calcium": 94.1,
+    "zinc": 0.49,
+    "magnesium": 14.1,
+    "folate": 9.5,
+    "vitc": 1.9,
+    "vita": 22.7
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "salad",
+   "name": "Green salad (kachumber)",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "salad",
+    "kachumber"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 100
+    }
+   ],
+   "per100g": {
+    "protein": 0.9,
+    "carbs": 4.4,
+    "fat": 0.3,
+    "fibre": 2.0,
+    "sugar": 2.0,
+    "kcal": 28.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.38,
+    "calcium": 15.4,
+    "zinc": 0.19,
+    "magnesium": 16.9,
+    "folate": 20.3,
+    "vitc": 15.7,
+    "vita": 42.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "papad",
+   "name": "Papad (roasted)",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "papadum",
+    "appalam"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 12
+    }
+   ],
+   "per100g": {
+    "protein": 23.1,
+    "carbs": 51.0,
+    "fat": 1.7,
+    "fibre": 11.9,
+    "sugar": 0.8,
+    "kcal": 335.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 4.67,
+    "calcium": 55.7,
+    "zinc": 3.0,
+    "magnesium": 173.0,
+    "folate": 62.1,
+    "vitc": 0.0,
+    "vita": 0.9
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "pickle",
+   "name": "Mango pickle",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "achar",
+    "aachar"
+   ],
+   "units": [
+    {
+     "name": "tablespoon",
+     "g": 15
+    }
+   ],
+   "per100g": {
+    "protein": 0.4,
+    "carbs": 6.4,
+    "fat": 25.0,
+    "fibre": 1.8,
+    "sugar": 1.5,
+    "kcal": 256.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.24,
+    "calcium": 16.2,
+    "zinc": 0.05,
+    "magnesium": 10.5,
+    "folate": 15.5,
+    "vitc": 54.1,
+    "vita": 5.4
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "note": "Oil in pickle is counted in the dish",
+   "type": "other"
+  },
+  {
+   "id": "mint_chutney",
+   "name": "Green chutney",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "pudina chutney",
+    "hari chutney"
+   ],
+   "units": [
+    {
+     "name": "tablespoon",
+     "g": 15
+    }
+   ],
+   "per100g": {
+    "protein": 3.4,
+    "carbs": 2.5,
+    "fat": 1.2,
+    "fibre": 3.5,
+    "sugar": 1.1,
+    "kcal": 41.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 4.64,
+    "calcium": 143.7,
+    "zinc": 0.61,
+    "magnesium": 63.6,
+    "folate": 53.9,
+    "vitc": 13.8,
+    "vita": 357.1
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "gulab_jamun",
+   "name": "Gulab jamun",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "gulabjamun"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 50
+    }
+   ],
+   "per100g": {
+    "protein": 5.5,
+    "carbs": 39.4,
+    "fat": 6.2,
+    "fibre": 0.2,
+    "sugar": 34.9,
+    "kcal": 236.2,
+    "added_sugar": 30.0
+   },
+   "micro": {
+    "iron": 0.8,
+    "calcium": 181.8,
+    "zinc": 0.75,
+    "magnesium": 19.4,
+    "folate": 20.5,
+    "vitc": 0.0,
+    "vita": 0.1
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 10.0,
+    "restaurant": 12.0,
+    "street": 13.2
+   },
+   "note": "Includes absorbed syrup",
+   "type": "sweet"
+  },
+  {
+   "id": "jalebi",
+   "name": "Jalebi",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "jilebi"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 25
+    },
+    {
+     "name": "plate",
+     "g": 100
+    }
+   ],
+   "per100g": {
+    "protein": 3.6,
+    "carbs": 71.6,
+    "fat": 0.4,
+    "fibre": 0.9,
+    "sugar": 47.4,
+    "kcal": 305.7,
+    "added_sugar": 46.7
+   },
+   "micro": {
+    "iron": 0.59,
+    "calcium": 10.8,
+    "zinc": 0.31,
+    "magnesium": 10.6,
+    "folate": 4.0,
+    "vitc": 0.0,
+    "vita": 0.8
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 16.67,
+    "restaurant": 18.67,
+    "street": 20.53
+   },
+   "type": "sweet"
+  },
+  {
+   "id": "kheer",
+   "name": "Kheer",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "payasam",
+    "rice kheer"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 5.6,
+    "carbs": 23.4,
+    "fat": 7.5,
+    "fibre": 0.4,
+    "sugar": 17.8,
+    "kcal": 184.1,
+    "added_sugar": 10.7
+   },
+   "micro": {
+    "iron": 0.34,
+    "calcium": 173.2,
+    "zinc": 0.62,
+    "magnesium": 18.9,
+    "folate": 8.0,
+    "vitc": 2.0,
+    "vita": 1.7
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "sweet"
+  },
+  {
+   "id": "rasgulla",
+   "name": "Rasgulla",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "rosogolla",
+    "rasagola"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 50
+    }
+   ],
+   "per100g": {
+    "protein": 6.8,
+    "carbs": 28.5,
+    "fat": 5.3,
+    "fibre": 0.0,
+    "sugar": 28.2,
+    "kcal": 188.9,
+    "added_sugar": 24.0
+   },
+   "micro": {
+    "iron": 0.32,
+    "calcium": 171.4,
+    "zinc": 0.99,
+    "magnesium": 9.6,
+    "folate": 23.5,
+    "vitc": 0.0,
+    "vita": 0.1
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "sweet"
+  },
+  {
+   "id": "gajar_halwa",
+   "name": "Gajar halwa",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "gajar ka halwa",
+    "carrot halwa"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 120
+    }
+   ],
+   "per100g": {
+    "protein": 5.3,
+    "carbs": 29.2,
+    "fat": 6.4,
+    "fibre": 3.8,
+    "sugar": 27.0,
+    "kcal": 203.1,
+    "added_sugar": 18.2
+   },
+   "micro": {
+    "iron": 0.89,
+    "calcium": 193.9,
+    "zinc": 0.74,
+    "magnesium": 28.1,
+    "folate": 25.8,
+    "vitc": 5.2,
+    "vita": 432.5
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 6.82,
+    "restaurant": 11.36,
+    "street": 12.5
+   },
+   "type": "sweet"
+  },
+  {
+   "id": "besan_ladoo",
+   "name": "Besan ladoo",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "laddu",
+    "ladoo"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 40
+    }
+   ],
+   "per100g": {
+    "protein": 9.6,
+    "carbs": 54.1,
+    "fat": 2.4,
+    "fibre": 6.7,
+    "sugar": 33.8,
+    "kcal": 289.4,
+    "added_sugar": 33.3
+   },
+   "micro": {
+    "iron": 2.7,
+    "calcium": 20.6,
+    "zinc": 1.62,
+    "magnesium": 52.4,
+    "folate": 56.6,
+    "vitc": 0.0,
+    "vita": 6.4
+   },
+   "flags": {
+    "ghee_fat": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "ghee",
+    "home": 22.22,
+    "restaurant": 24.44,
+    "street": 26.89
+   },
+   "type": "sweet"
+  },
+  {
+   "id": "masala_chai",
+   "name": "Masala chai (with sugar)",
+   "category": "Drinks",
+   "veg": true,
+   "aliases": [
+    "chai",
+    "tea",
+    "cutting chai"
+   ],
+   "units": [
+    {
+     "name": "cup",
+     "g": 150
+    },
+    {
+     "name": "glass",
+     "g": 200
+    }
+   ],
+   "per100g": {
+    "protein": 1.3,
+    "carbs": 7.3,
+    "fat": 1.8,
+    "fibre": 0.0,
+    "sugar": 7.3,
+    "kcal": 50.6,
+    "added_sugar": 5.3
+   },
+   "micro": {
+    "iron": 0.06,
+    "calcium": 47.2,
+    "zinc": 0.13,
+    "magnesium": 3.3,
+    "folate": 2.0,
+    "vitc": 0.6,
+    "vita": 0.5
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "filter_coffee",
+   "name": "Filter coffee (with sugar)",
+   "category": "Drinks",
+   "veg": true,
+   "aliases": [
+    "coffee",
+    "kaapi"
+   ],
+   "units": [
+    {
+     "name": "cup",
+     "g": 120
+    }
+   ],
+   "per100g": {
+    "protein": 2.4,
+    "carbs": 10.4,
+    "fat": 3.4,
+    "fibre": 0.0,
+    "sugar": 10.3,
+    "kcal": 81.5,
+    "added_sugar": 6.7
+   },
+   "micro": {
+    "iron": 0.11,
+    "calcium": 88.5,
+    "zinc": 0.25,
+    "magnesium": 6.2,
+    "folate": 3.7,
+    "vitc": 1.1,
+    "vita": 0.9
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "sweet_lassi",
+   "name": "Sweet lassi",
+   "category": "Drinks",
+   "veg": true,
+   "aliases": [
+    "lassi"
+   ],
+   "units": [
+    {
+     "name": "glass",
+     "g": 250
+    }
+   ],
+   "per100g": {
+    "protein": 2.5,
+    "carbs": 11.8,
+    "fat": 2.6,
+    "fibre": 0.0,
+    "sugar": 11.8,
+    "kcal": 80.7,
+    "added_sugar": 8.0
+   },
+   "micro": {
+    "iron": 0.08,
+    "calcium": 96.0,
+    "zinc": 0.48,
+    "magnesium": 9.6,
+    "folate": 5.6,
+    "vitc": 0.4,
+    "vita": 24.0
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "chaas",
+   "name": "Chaas (buttermilk)",
+   "category": "Drinks",
+   "veg": true,
+   "aliases": [
+    "buttermilk",
+    "mattha",
+    "majjige"
+   ],
+   "units": [
+    {
+     "name": "glass",
+     "g": 200
+    }
+   ],
+   "per100g": {
+    "protein": 0.9,
+    "carbs": 1.4,
+    "fat": 1.0,
+    "fibre": 0.0,
+    "sugar": 1.4,
+    "kcal": 18.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.03,
+    "calcium": 36.0,
+    "zinc": 0.18,
+    "magnesium": 3.6,
+    "folate": 2.1,
+    "vitc": 0.1,
+    "vita": 9.0
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "type": "other"
+  },
+  {
+   "id": "banana",
+   "name": "Banana",
+   "category": "Fruit",
+   "veg": true,
+   "aliases": [
+    "kela"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 100
+    }
+   ],
+   "per100g": {
+    "protein": 1.2,
+    "carbs": 23.6,
+    "fat": 0.3,
+    "fibre": 1.9,
+    "sugar": 13.7,
+    "kcal": 106.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.28,
+    "calcium": 5.1,
+    "zinc": 0.14,
+    "magnesium": 35.0,
+    "folate": 16.8,
+    "vitc": 4.8,
+    "vita": 7.1
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "note": "Edible portion",
+   "type": "other"
+  },
+  {
+   "id": "apple",
+   "name": "Apple",
+   "category": "Fruit",
+   "veg": true,
+   "aliases": [
+    "seb"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 0.3,
+    "carbs": 13.1,
+    "fat": 0.6,
+    "fibre": 2.6,
+    "sugar": 9.5,
+    "kcal": 64.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.26,
+    "calcium": 13.7,
+    "zinc": 0.09,
+    "magnesium": 8.1,
+    "folate": 3.0,
+    "vitc": 3.6,
+    "vita": 0.3
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "note": "Edible portion",
+   "type": "other"
+  },
+  {
+   "id": "pizza_veg",
+   "name": "Pizza (cheese / veg)",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "margherita",
+    "pizza slice"
+   ],
+   "units": [
+    {
+     "name": "slice",
+     "g": 100
+    },
+    {
+     "name": "medium pizza",
+     "g": 600
+    }
+   ],
+   "per100g": {
+    "kcal": 266,
+    "protein": 11,
+    "carbs": 33,
+    "fat": 10,
+    "fibre": 2.3,
+    "sugar": 3.6,
+    "added_sugar": 1.5
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "pizza_chicken",
+   "name": "Pizza (chicken)",
+   "category": "Fast food",
+   "veg": false,
+   "aliases": [
+    "chicken pizza"
+   ],
+   "units": [
+    {
+     "name": "slice",
+     "g": 105
+    },
+    {
+     "name": "medium pizza",
+     "g": 630
+    }
+   ],
+   "per100g": {
+    "kcal": 260,
+    "protein": 12.5,
+    "carbs": 30,
+    "fat": 10,
+    "fibre": 2,
+    "sugar": 3.5,
+    "added_sugar": 1.5
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "veg_burger",
+   "name": "Veg burger",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "aloo tikki burger",
+    "burger"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "kcal": 230,
+    "protein": 6,
+    "carbs": 32,
+    "fat": 9,
+    "fibre": 2.5,
+    "sugar": 5,
+    "added_sugar": 3
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "chicken_burger",
+   "name": "Chicken burger",
+   "category": "Fast food",
+   "veg": false,
+   "aliases": [],
+   "units": [
+    {
+     "name": "piece",
+     "g": 170
+    }
+   ],
+   "per100g": {
+    "kcal": 250,
+    "protein": 12,
+    "carbs": 26,
+    "fat": 11,
+    "fibre": 1.5,
+    "sugar": 5,
+    "added_sugar": 3
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "egg": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "french_fries",
+   "name": "French fries",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "fries",
+    "finger chips"
+   ],
+   "units": [
+    {
+     "name": "medium portion",
+     "g": 110
+    },
+    {
+     "name": "small portion",
+     "g": 75
+    },
+    {
+     "name": "large portion",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "kcal": 312,
+    "protein": 3.4,
+    "carbs": 41,
+    "fat": 15,
+    "fibre": 3.8,
+    "sugar": 0.3,
+    "added_sugar": 0
+   },
+   "micro": null,
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "fried snack"
+  },
+  {
+   "id": "fried_chicken",
+   "name": "Fried chicken",
+   "category": "Fast food",
+   "veg": false,
+   "aliases": [
+    "kfc chicken",
+    "chicken fry"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 110
+    }
+   ],
+   "per100g": {
+    "kcal": 260,
+    "protein": 20,
+    "carbs": 9,
+    "fat": 16,
+    "fibre": 0.5,
+    "sugar": 0,
+    "added_sugar": 0
+   },
+   "micro": null,
+   "flags": {
+    "egg": true,
+    "meat": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "note": "Edible portion",
+   "type": "fried snack"
+  },
+  {
+   "id": "veg_sandwich",
+   "name": "Grilled veg sandwich",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "sandwich",
+    "bombay sandwich"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "kcal": 230,
+    "protein": 7,
+    "carbs": 30,
+    "fat": 9,
+    "fibre": 2.5,
+    "sugar": 4,
+    "added_sugar": 2
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "pasta_white",
+   "name": "Pasta in white sauce",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "white sauce pasta",
+    "alfredo"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 250
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "kcal": 170,
+    "protein": 5,
+    "carbs": 20,
+    "fat": 8,
+    "fibre": 1,
+    "sugar": 3,
+    "added_sugar": 1
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "pasta_red",
+   "name": "Pasta in red sauce",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "arrabbiata",
+    "red sauce pasta"
+   ],
+   "units": [
+    {
+     "name": "plate",
+     "g": 250
+    },
+    {
+     "name": "katori",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "kcal": 140,
+    "protein": 4.5,
+    "carbs": 22,
+    "fat": 4,
+    "fibre": 1.8,
+    "sugar": 4,
+    "added_sugar": 2
+   },
+   "micro": null,
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "chicken_wrap",
+   "name": "Chicken shawarma / wrap",
+   "category": "Fast food",
+   "veg": false,
+   "aliases": [
+    "shawarma",
+    "chicken roll",
+    "kathi roll"
+   ],
+   "units": [
+    {
+     "name": "piece",
+     "g": 200
+    }
+   ],
+   "per100g": {
+    "kcal": 210,
+    "protein": 13,
+    "carbs": 20,
+    "fat": 9,
+    "fibre": 1.5,
+    "sugar": 2,
+    "added_sugar": 1
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "meat": true,
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "instant_noodles",
+   "name": "Instant noodles (Maggi type)",
+   "category": "Fast food",
+   "veg": true,
+   "aliases": [
+    "maggi",
+    "instant noodles"
+   ],
+   "units": [
+    {
+     "name": "packet cooked",
+     "g": 230
+    }
+   ],
+   "per100g": {
+    "kcal": 135,
+    "protein": 3,
+    "carbs": 18.5,
+    "fat": 5.4,
+    "fibre": 0.7,
+    "sugar": 0.8,
+    "added_sugar": 0.5
+   },
+   "micro": null,
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "cola",
+   "name": "Cola / soft drink",
+   "category": "Drinks",
+   "veg": true,
+   "aliases": [
+    "coke",
+    "pepsi",
+    "soft drink",
+    "thums up"
+   ],
+   "units": [
+    {
+     "name": "glass",
+     "g": 250
+    },
+    {
+     "name": "can",
+     "g": 330
+    }
+   ],
+   "per100g": {
+    "kcal": 42,
+    "protein": 0,
+    "carbs": 10.6,
+    "fat": 0,
+    "fibre": 0,
+    "sugar": 10.6,
+    "added_sugar": 10.6
+   },
+   "micro": null,
+   "flags": {},
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "other"
+  },
+  {
+   "id": "ice_cream",
+   "name": "Ice cream (vanilla)",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "ice cream"
+   ],
+   "units": [
+    {
+     "name": "scoop",
+     "g": 65
+    },
+    {
+     "name": "cup",
+     "g": 100
+    }
+   ],
+   "per100g": {
+    "kcal": 207,
+    "protein": 3.5,
+    "carbs": 24,
+    "fat": 11,
+    "fibre": 0.7,
+    "sugar": 21,
+    "added_sugar": 17
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "sweet"
+  },
+  {
+   "id": "chocolate_cake",
+   "name": "Chocolate cake",
+   "category": "Sweets",
+   "veg": true,
+   "aliases": [
+    "cake",
+    "pastry"
+   ],
+   "units": [
+    {
+     "name": "slice",
+     "g": 80
+    }
+   ],
+   "per100g": {
+    "kcal": 370,
+    "protein": 5,
+    "carbs": 50,
+    "fat": 17,
+    "fibre": 2,
+    "sugar": 35,
+    "added_sugar": 30
+   },
+   "micro": null,
+   "flags": {
+    "dairy": true,
+    "egg": true
+   },
+   "source": "Typical published values (estimate, fat included)",
+   "quality": "estimate",
+   "type": "sweet"
+  },
+  {
+   "id": "tinda_masala",
+   "name": "Tinda masala",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "tinde",
+    "tinda",
+    "tinde ki sabzi",
+    "round gourd"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.5,
+    "carbs": 3.8,
+    "fat": 0.3,
+    "fibre": 2.8,
+    "sugar": 1.5,
+    "kcal": 29.3,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.55,
+    "calcium": 25.9,
+    "zinc": 0.28,
+    "magnesium": 25.3,
+    "folate": 37.9,
+    "vitc": 14.8,
+    "vita": 14.5
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.48,
+    "restaurant": 6.09,
+    "street": 6.7
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "turai_sabzi",
+   "name": "Turai sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "torai",
+    "tori",
+    "ridge gourd",
+    "dodka",
+    "beerakaya"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.3,
+    "carbs": 3.3,
+    "fat": 0.2,
+    "fibre": 2.5,
+    "sugar": 1.5,
+    "kcal": 25.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.54,
+    "calcium": 18.5,
+    "zinc": 0.29,
+    "magnesium": 21.3,
+    "folate": 26.2,
+    "vitc": 7.1,
+    "vita": 43.4
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.61,
+    "restaurant": 4.35,
+    "street": 4.78
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "karela_sabzi",
+   "name": "Karela sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "karela fry",
+    "bitter gourd",
+    "pavakkai",
+    "kakarakaya"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.4,
+    "carbs": 7.1,
+    "fat": 0.4,
+    "fibre": 5.6,
+    "sugar": 2.3,
+    "kcal": 52.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.6,
+    "calcium": 34.6,
+    "zinc": 0.52,
+    "magnesium": 46.9,
+    "folate": 60.3,
+    "vitc": 42.5,
+    "vita": 13.4
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 7.5,
+    "restaurant": 11.25,
+    "street": 12.38
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "parwal_sabzi",
+   "name": "Parwal aloo",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "parwal",
+    "potol",
+    "pointed gourd",
+    "parval"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.8,
+    "carbs": 7.5,
+    "fat": 0.3,
+    "fibre": 3.0,
+    "sugar": 0.9,
+    "kcal": 46.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.62,
+    "calcium": 32.0,
+    "zinc": 0.3,
+    "magnesium": 29.5,
+    "folate": 17.0,
+    "vitc": 16.4,
+    "vita": 1.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.55,
+    "restaurant": 6.82,
+    "street": 7.5
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "arbi_masala",
+   "name": "Arbi masala",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "arvi",
+    "colocasia",
+    "kochu",
+    "sepankizhangu"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.6,
+    "carbs": 19.8,
+    "fat": 0.2,
+    "fibre": 3.6,
+    "sugar": 1.6,
+    "kcal": 102.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.74,
+    "calcium": 34.0,
+    "zinc": 0.47,
+    "magnesium": 40.8,
+    "folate": 16.8,
+    "vitc": 1.8,
+    "vita": 0.6
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.26,
+    "restaurant": 8.42,
+    "street": 9.26
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "kaddu_sabzi",
+   "name": "Kaddu sabzi (khatta meetha)",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "kaddu",
+    "pumpkin",
+    "kumro",
+    "sitaphal sabzi"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.0,
+    "carbs": 7.3,
+    "fat": 0.2,
+    "fibre": 2.8,
+    "sugar": 6.2,
+    "kcal": 40.3,
+    "added_sugar": 3.0
+   },
+   "micro": {
+    "iron": 0.55,
+    "calcium": 28.8,
+    "zinc": 0.14,
+    "magnesium": 15.3,
+    "folate": 18.7,
+    "vitc": 6.1,
+    "vita": 14.2
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.61,
+    "restaurant": 4.35,
+    "street": 4.78
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "aloo_methi",
+   "name": "Aloo methi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "methi aloo"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.9,
+    "carbs": 13.4,
+    "fat": 0.6,
+    "fibre": 3.6,
+    "sugar": 0.7,
+    "kcal": 77.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 3.0,
+    "calcium": 129.7,
+    "zinc": 0.47,
+    "magnesium": 48.4,
+    "folate": 32.5,
+    "vitc": 31.6,
+    "vita": 359.5
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.56,
+    "restaurant": 8.89,
+    "street": 9.78
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "aloo_palak",
+   "name": "Aloo palak",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "palak aloo"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.7,
+    "carbs": 9.1,
+    "fat": 0.7,
+    "fibre": 3.0,
+    "sugar": 0.9,
+    "kcal": 59.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 2.85,
+    "calcium": 77.5,
+    "zinc": 0.55,
+    "magnesium": 87.7,
+    "folate": 92.9,
+    "vitc": 25.9,
+    "vita": 198.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.48,
+    "restaurant": 6.09,
+    "street": 6.7
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "gobi_sabzi",
+   "name": "Gobi sabzi (dry)",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "phool gobi",
+    "cauliflower sabzi",
+    "gobi matar"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.1,
+    "carbs": 3.4,
+    "fat": 0.5,
+    "fibre": 4.8,
+    "sugar": 0.6,
+    "kcal": 40.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.23,
+    "calcium": 31.2,
+    "zinc": 0.45,
+    "magnesium": 29.9,
+    "folate": 40.0,
+    "vitc": 39.9,
+    "vita": 1.1
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.55,
+    "restaurant": 7.27,
+    "street": 8.0
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "beans_sabzi",
+   "name": "Beans sabzi / poriyal",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "french beans",
+    "beans poriyal",
+    "beans thoran",
+    "farasbi"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.5,
+    "carbs": 3.8,
+    "fat": 2.3,
+    "fibre": 5.3,
+    "sugar": 1.8,
+    "kcal": 56.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.14,
+    "calcium": 55.6,
+    "zinc": 0.44,
+    "magnesium": 39.2,
+    "folate": 46.8,
+    "vitc": 1.6,
+    "vita": 105.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.0,
+    "restaurant": 6.0,
+    "street": 6.6
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "gajar_matar",
+   "name": "Gajar matar",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "carrot peas"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.9,
+    "carbs": 9.2,
+    "fat": 0.4,
+    "fibre": 5.7,
+    "sugar": 2.6,
+    "kcal": 67.4,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.13,
+    "calcium": 36.8,
+    "zinc": 0.67,
+    "magnesium": 29.6,
+    "folate": 28.9,
+    "vitc": 15.2,
+    "vita": 328.3
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.64,
+    "restaurant": 5.45,
+    "street": 6.0
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "aloo_shimla_mirch",
+   "name": "Aloo shimla mirch",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "capsicum aloo",
+    "shimla mirch"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.6,
+    "carbs": 10.0,
+    "fat": 0.3,
+    "fibre": 2.3,
+    "sugar": 1.2,
+    "kcal": 53.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.61,
+    "calcium": 15.2,
+    "zinc": 0.27,
+    "magnesium": 21.2,
+    "folate": 27.6,
+    "vitc": 56.2,
+    "vita": 15.7
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.55,
+    "restaurant": 7.27,
+    "street": 8.0
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "aloo_baingan",
+   "name": "Aloo baingan",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "baingan aloo",
+    "brinjal potato",
+    "vangi batata"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.7,
+    "carbs": 8.9,
+    "fat": 0.4,
+    "fibre": 3.5,
+    "sugar": 1.0,
+    "kcal": 52.6,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.52,
+    "calcium": 16.0,
+    "zinc": 0.27,
+    "magnesium": 25.4,
+    "folate": 21.6,
+    "vitc": 10.9,
+    "vita": 21.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.17,
+    "restaurant": 6.67,
+    "street": 7.33
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "bharwa_baingan",
+   "name": "Bharwa baingan",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "stuffed brinjal",
+    "bharli vangi",
+    "gutti vankaya",
+    "ennai kathirikai"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.2,
+    "carbs": 6.8,
+    "fat": 7.1,
+    "fibre": 5.9,
+    "sugar": 2.6,
+    "kcal": 119.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.83,
+    "calcium": 24.5,
+    "zinc": 0.59,
+    "magnesium": 43.8,
+    "folate": 32.8,
+    "vitc": 2.1,
+    "vita": 12.4
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 6.67,
+    "restaurant": 9.52,
+    "street": 10.48
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "gavar_sabzi",
+   "name": "Gavar sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "cluster beans",
+    "guar",
+    "gawar"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.9,
+    "carbs": 6.2,
+    "fat": 0.4,
+    "fibre": 5.3,
+    "sugar": 0.7,
+    "kcal": 54.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 4.15,
+    "calcium": 129.6,
+    "zinc": 0.68,
+    "magnesium": 87.9,
+    "folate": 32.5,
+    "vitc": 13.7,
+    "vita": 22.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.21,
+    "restaurant": 6.32,
+    "street": 6.95
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "kathal_sabzi",
+   "name": "Kathal sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "jackfruit curry",
+    "echor",
+    "raw jackfruit"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.3,
+    "carbs": 5.2,
+    "fat": 0.4,
+    "fibre": 8.0,
+    "sugar": 3.1,
+    "kcal": 50.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.41,
+    "calcium": 48.8,
+    "zinc": 0.24,
+    "magnesium": 30.4,
+    "folate": 29.3,
+    "vitc": 15.5,
+    "vita": 12.2
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.62,
+    "restaurant": 6.92,
+    "street": 7.62
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "sem_sabzi",
+   "name": "Sem ki sabzi",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "sem",
+    "papdi",
+    "avarekai",
+    "flat beans"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.1,
+    "carbs": 5.9,
+    "fat": 0.6,
+    "fibre": 5.5,
+    "sugar": 0.9,
+    "kcal": 52.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.9,
+    "calcium": 66.3,
+    "zinc": 0.65,
+    "magnesium": 51.7,
+    "folate": 80.7,
+    "vitc": 7.5,
+    "vita": 44.1
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.64,
+    "restaurant": 5.45,
+    "street": 6.0
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "lauki_chana_dal",
+   "name": "Lauki chana dal",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "doodhi chana dal",
+    "lauki dal"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.0,
+    "carbs": 7.0,
+    "fat": 0.8,
+    "fibre": 3.6,
+    "sugar": 0.6,
+    "kcal": 54.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.94,
+    "calcium": 18.4,
+    "zinc": 0.55,
+    "magnesium": 23.6,
+    "folate": 38.9,
+    "vitc": 4.6,
+    "vita": 13.8
+   },
+   "flags": {},
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.31,
+    "restaurant": 3.85,
+    "street": 4.23
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "aloo_tamatar",
+   "name": "Aloo tamatar (rasedar)",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "aloo rassa",
+    "batata rassa",
+    "aloo curry",
+    "aloo ki sabzi gravy"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.1,
+    "carbs": 8.3,
+    "fat": 0.3,
+    "fibre": 1.4,
+    "sugar": 0.6,
+    "kcal": 43.0,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.38,
+    "calcium": 8.2,
+    "zinc": 0.18,
+    "magnesium": 16.6,
+    "folate": 10.0,
+    "vitc": 14.5,
+    "vita": 26.4
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 2.67,
+    "restaurant": 4.0,
+    "street": 4.4
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "matar_mushroom",
+   "name": "Matar mushroom",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "mushroom matar"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 4.2,
+    "carbs": 6.0,
+    "fat": 0.4,
+    "fibre": 3.9,
+    "sugar": 1.4,
+    "kcal": 51.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.68,
+    "calcium": 21.6,
+    "zinc": 0.45,
+    "magnesium": 25.0,
+    "folate": 18.5,
+    "vitc": 11.6,
+    "vita": 18.7
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.0,
+    "restaurant": 6.0,
+    "street": 6.6
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "paneer_bhurji",
+   "name": "Paneer bhurji",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "bhurji"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 12.8,
+    "carbs": 10.4,
+    "fat": 9.8,
+    "fibre": 0.9,
+    "sugar": 8.9,
+    "kcal": 182.8,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.76,
+    "calcium": 317.1,
+    "zinc": 1.88,
+    "magnesium": 23.9,
+    "folate": 51.6,
+    "vitc": 11.6,
+    "vita": 16.5
+   },
+   "flags": {
+    "dairy": true,
+    "ghee_fat": true,
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "butter",
+    "home": 4.35,
+    "restaurant": 6.52,
+    "street": 7.17
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "soya_chunks_curry",
+   "name": "Soya chunks curry",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "soya curry",
+    "meal maker",
+    "nutrela"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 10.0,
+    "carbs": 8.7,
+    "fat": 0.3,
+    "fibre": 3.4,
+    "sugar": 1.9,
+    "kcal": 84.2,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 1.89,
+    "calcium": 50.5,
+    "zinc": 0.58,
+    "magnesium": 62.2,
+    "folate": 46.0,
+    "vitc": 7.9,
+    "vita": 17.0
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation (some ingredients estimated)",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 3.57,
+    "restaurant": 5.71,
+    "street": 6.29
+   },
+   "type": "sabzi"
+  },
+  {
+   "id": "green_leafy_sabzi",
+   "name": "Green leafy sabzi (generic)",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "chaulai",
+    "saag bhaji",
+    "palak sabzi",
+    "keerai",
+    "greens"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 3.7,
+    "carbs": 3.7,
+    "fat": 0.8,
+    "fibre": 4.7,
+    "sugar": 0.9,
+    "kcal": 46.5,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 5.0,
+    "calcium": 290.7,
+    "zinc": 0.91,
+    "magnesium": 190.8,
+    "folate": 88.6,
+    "vitc": 54.9,
+    "vita": 675.3
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.0,
+    "restaurant": 6.0,
+    "street": 6.6
+   },
+   "note": "Generic: amaranth and spinach",
+   "type": "sabzi"
+  },
+  {
+   "id": "masaledar_sabzi",
+   "name": "Masaledar sabzi (generic gravy)",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "masala sabzi",
+    "gravy sabzi",
+    "rassedar sabzi",
+    "tari wali sabzi"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 2.4,
+    "carbs": 8.7,
+    "fat": 0.4,
+    "fibre": 3.4,
+    "sugar": 2.3,
+    "kcal": 54.7,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.76,
+    "calcium": 21.7,
+    "zinc": 0.41,
+    "magnesium": 24.6,
+    "folate": 23.6,
+    "vitc": 20.2,
+    "vita": 75.0
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 5.0,
+    "restaurant": 7.86,
+    "street": 8.64
+   },
+   "note": "Generic: mixed vegetables in onion tomato gravy",
+   "type": "sabzi"
+  },
+  {
+   "id": "sukhi_sabzi",
+   "name": "Sukhi sabzi (generic dry)",
+   "category": "Vegetables",
+   "veg": true,
+   "aliases": [
+    "dry sabzi",
+    "bhaji",
+    "poriyal",
+    "palya",
+    "thoran"
+   ],
+   "units": [
+    {
+     "name": "katori",
+     "g": 150
+    },
+    {
+     "name": "ladle",
+     "g": 60
+    }
+   ],
+   "per100g": {
+    "protein": 1.8,
+    "carbs": 7.8,
+    "fat": 0.4,
+    "fibre": 3.5,
+    "sugar": 1.2,
+    "kcal": 48.9,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.83,
+    "calcium": 29.6,
+    "zinc": 0.33,
+    "magnesium": 26.8,
+    "folate": 26.4,
+    "vitc": 16.1,
+    "vita": 115.6
+   },
+   "flags": {
+    "jain_avoid": true
+   },
+   "source": "IFCT 2017 ingredients, standard recipe calculation",
+   "quality": "calc",
+   "added_fat": {
+    "type": "oil",
+    "home": 4.55,
+    "restaurant": 7.27,
+    "street": 8.0
+   },
+   "note": "Generic: mixed dry vegetables",
+   "type": "sabzi"
+  }
+ ]
+}

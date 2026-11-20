@@ -1,0 +1,18 @@
+# Secrets: never commit these
+.env
+.env.*
+!.env.example
+
+# Vercel and Node
+.vercel/
+node_modules/
+
+# Local test output and OS clutter
+scripts/*.png
+*.log
+.DS_Store
+Thumbs.db
+__pycache__/
+
+# Local HTTPS certificate made by npm run dev:https
+.cert/

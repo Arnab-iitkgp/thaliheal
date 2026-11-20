@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="js/https.js"></script>
+<script src="js/flags.js"></script>
+<title>ThaliHeal: We Heal Your Plates!</title>
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/icons/apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#22282a">
+<meta name="apple-mobile-web-app-title" content="ThaliHeal">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="ThaliHeal: photograph an Indian meal, check every dish and portion, and see how your day adds up.">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!-- ============ SITE HEADER (shown on wider screens; phones use the home screen and back links) ============ -->
+<header class="sitebar">
+  <div class="sitebar-in">
+    <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">ThaliHeal</span></a>
+    <nav aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#scan" data-nav="scan">Scan</a>
+      <a href="#track" data-nav="track">My log</a>
+      <a href="#ask" data-nav="ask" class="ai-only">Ask</a>
+      <a href="#profile" data-nav="profile">Profile</a>
+      <a href="#settings" data-nav="settings">Settings</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<!-- ============ HOME ============ -->
+<div class="netbar" id="offlineBar" role="status" hidden>You're offline. Your log, profile and targets still work; scanning and the assistant come back when you're online.</div>
+<div class="netbar update" id="updateBar" role="status" hidden>A new version of ThaliHeal is ready. <button id="updateBtn">Refresh</button></div>
+<section data-view="home" class="wrap" hidden>
+  <header class="hero">
+    <div class="hero-top">
+      <span class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">ThaliHeal</span></span>
+      <span class="row" style="gap:8px"><button class="icon-btn install-btn" id="installBtn" hidden>Install app</button><a class="icon-btn" href="#settings">Settings</a></span>
+    </div>
+    <h1 class="tagline">We Heal Your Plates!</h1>
+    <p class="hero-sub">Photograph your thali. See every dish and portion, fix anything, and know how it fits your day.</p>
+    <a class="btn btn-brass" href="#scan">Scan my plate</a>
+    <img class="hero-plate" src="img/plates/chole-round.jpg" alt="" width="600" height="600">
+  </header>
+  <a class="tag test ai-only" href="#test" id="homeTestChip" hidden>Test mode is on · open</a>
+  <div class="ai-only" style="display:grid;gap:8px">
+    <div class="home-section"><h2>Try a sample plate</h2><span class="small muted">Tap one to scan it</span></div>
+    <div class="plates" id="plateStrip">
+      <button class="plate-btn" data-plate="chole" data-label="Chole thali"><img src="img/plates/chole-round.jpg" alt="" width="104" height="104">Chole thali<small>appe, aloo, rice, roti</small></button>
+      <button class="plate-btn" data-plate="egg" data-label="Egg curry thali"><img src="img/plates/egg-round.jpg" alt="" width="104" height="104">Egg curry thali<small>raita, rice, roti</small></button>
+      <button class="plate-btn" data-plate="chaat" data-label="Dahi puri"><img src="img/plates/chaat-round.jpg" alt="" width="104" height="104">Dahi puri<small>street chaat</small></button>
+      <button class="plate-btn" data-plate="chinese" data-label="Indo Chinese spread"><img src="img/plates/chinese-round.jpg" alt="" width="104" height="104">Indo Chinese<small>noodles, rice, gravy</small></button>
+    </div>
+  </div>
+  <div class="track-cards">
+    <a class="card" href="#track"><b>My log</b><span id="homeLogLine">Daily, weekly and monthly trends</span></a>
+    <a class="card" href="#profile"><b>Profile</b><span id="homeProfileLine">Your ICMR NIN 2020 targets</span></a>
+    <a class="card wide ask-card ai-only" href="#ask"><b>Ask about my log</b><span>An AI assistant that answers only from your own profile and log. It never diagnoses.</span><img src="img/plates/chaat-round.jpg" alt="" width="64" height="64"></a>
+  </div>
+  <div class="list-head" id="samplesHead"><h2>Sample dishes</h2><span class="tag ref">Reference values</span></div>
+  <p class="section-note" id="sampleNote"></p>
+  <div class="grid" id="sampleGrid"></div>
+  <footer class="disclaimer">
+    <span class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">ThaliHeal</span></span>
+    <div><b>Not medical advice.</b> ThaliHeal is a food logging tool for healthy adults 18 and over. It does not diagnose, treat or replace a doctor or dietitian. Numbers are estimates.</div>
+    <div>See a doctor for symptoms, during pregnancy, or if you have a health condition or take medicines. In an emergency call 112. To talk to someone about how you feel, call Tele MANAS on 14416 (free, 24x7).</div>
+    <div><a href="#privacy">Privacy and your data</a> · <a href="#consent">Notice</a></div>
+  </footer>
+</section>
+
+<!-- ============ SAMPLE DISH PAGE ============ -->
+<section data-view="dish" class="wrap" hidden>
+  <a class="back" href="#home">‹ Back</a>
+  <div id="dishPage"></div>
+</section>
+
+<!-- ============ PHOTO SCANNING COMING SOON (scan off mode) ============ -->
+<section data-view="soon" class="wrap" hidden>
+  <a class="back" href="#home">‹ Home</a>
+  <div class="card soon">
+    <img class="soon-plate" src="img/plates/egg-round.jpg" alt="" width="168" height="168">
+    <div class="soon-text">
+      <span class="tag">Coming soon</span>
+      <h1>Photo scanning is coming soon</h1>
+      <p>Soon you'll photograph your thali, and ThaliHeal will name each dish and estimate its portion as a range you can fix.</p>
+      <p class="soon-lead">Until then, everything else works:</p>
+      <ul class="soon-list">
+        <li><b>Add your plate by hand.</b> Pick dishes from the Indian food table (<span id="soonDishes">140</span> dishes) and set each portion in katoris, rotis or grams.</li>
+        <li><b>Keep your log.</b> Save meals and see your day, week and month against your ICMR NIN 2020 targets, with Indian foods that fill the gaps.</li>
+        <li><b>Browse the <span id="soonSampleCount">25</span> sample dishes</b> with their reference values.</li>
+      </ul>
+      <div class="row">
+        <a class="btn btn-primary" href="#plate" id="soonManual">Add dishes by hand</a>
+        <a class="btn" href="#home" id="soonSamples">Browse sample dishes</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCAN ============ -->
+<section data-view="scan" class="wrap" hidden>
+  <div class="topbar"><a class="back" href="#home">‹ Home</a><span class="tag" id="demoTag">Example plate</span></div>
+  <div class="scan-side">
+    <div class="card scan" aria-label="Scan a plate">
+      <div class="photo-head ai-only"><h2>Your plate photo</h2><span class="small muted">From above, whole plate in frame</span></div>
+      <div class="photo-head ai-off-only"><h2>Build your plate by hand</h2><span class="tag">Scanning coming soon</span></div>
+      <p class="small muted ai-off-only" style="margin:0">Add each dish with <b>＋ Add a dish</b> and set its portion. The numbers come from the same Indian food table that scanning will use.</p>
+      <div class="photo-ways ai-only">
+        <button class="btn btn-primary cam-btn" id="camBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.6l1.2-1.8c.3-.4.7-.7 1.2-.7h3c.5 0 .9.3 1.2.7L15.9 6h1.6A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12.4" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Open camera</button>
+        <label class="drop">
+          <input type="file" id="photo" accept="image/jpeg,image/png,image/webp" aria-label="Upload a plate photo">
+          <strong>Upload a photo</strong>
+          <span class="drop-touch">From your gallery or files</span>
+          <span class="drop-desk">Choose a file, drop it here, or paste with Ctrl+V</span>
+        </label>
+      </div>
+      <input type="file" id="photoCam" class="sr-only" accept="image/*" capture="environment" tabindex="-1" aria-hidden="true">
+      <div class="preview" id="preview" hidden>
+        <img id="previewImg" alt="Your plate photo">
+        <div><div style="font-weight:600">Photo ready</div><div class="status" id="photoMeta"></div></div>
+      </div>
+      <div class="notice" id="noScan" hidden>Photo scanning works when this page is opened in Claude while signed in. You can still build a plate by hand with “Add a dish”.</div>
+      <div class="row ai-only">
+        <button class="btn btn-primary" id="scanBtn" disabled>Scan plate</button>
+        <button class="btn" id="stopBtn" hidden>Stop</button>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <div>
+        <p class="seg-label" id="ctxLabel">Where was it cooked? Sets the oil and ghee estimate.</p>
+        <div class="seg" role="group" aria-labelledby="ctxLabel" id="ctx">
+          <button data-ctx="home" aria-pressed="true">Home</button>
+          <button data-ctx="restaurant" aria-pressed="false">Restaurant</button>
+          <button data-ctx="street" aria-pressed="false">Street</button>
+        </div>
+      </div>
+    </div>
+    <div class="card log-card" aria-label="Save to my log">
+      <div class="list-head"><h3>Save to my log</h3><a class="small" href="#track">My log</a></div>
+      <div class="notice" id="logBanner" hidden></div>
+      <div class="two">
+        <label>Meal<select id="logSlot"></select></label>
+        <label>Date<input type="date" id="logDate"></label>
+      </div>
+      <button class="btn btn-primary" id="logSave">Save this plate</button>
+      <div class="status" id="logStatus" role="status" aria-live="polite"></div>
+    </div>
+    <footer>
+      <div><b>How the numbers work.</b> The AI only names dishes and estimates portions with a range. Nutrients come from the app's food table: per 100 g values calculated from IFCT 2017 ingredients with standard Indian recipes, plus typical values for fast food. Oil, ghee and butter are separate because a camera cannot see them.</div>
+      <div><b>Confidence.</b> High, Medium or Low combines how sure the AI is about the dish with how good the table data is. The kcal range covers the portion range and the oil uncertainty. Estimates for a prototype, not medical advice.</div>
+      <div id="dataMeta"></div>
+    </footer>
+  </div>
+  <div class="plate-col">
+    <div class="list-head"><h2>On your plate</h2><span class="small muted">Ranges are 80% ranges</span></div>
+    <div class="items" id="items"></div>
+    <div class="row">
+      <button class="btn" id="addBtn">＋ Add a dish</button>
+      <button class="btn btn-ghost" id="clearBtn">Clear plate</button>
+    </div>
+  </div>
+  <div class="total" aria-label="Plate total">
+    <div class="total-in">
+      <div class="total-row">
+        <div><div class="lbl">Plate total · <span id="tConf"></span></div><div class="k" id="tKcal">0 <small>kcal</small></div></div>
+        <div class="lbl" id="tFatNote"></div>
+      </div>
+      <div class="bar" aria-hidden="true"><i class="p" id="bP"></i><i class="c" id="bC"></i><i class="f" id="bF"></i></div>
+      <div class="macros">
+        <div><b id="tP">0</b><span class="dot" style="background:var(--accent)"></span>Protein</div>
+        <div><b id="tC">0</b><span class="dot" style="background:var(--haldi)"></span>Carbs</div>
+        <div><b id="tF">0</b><span class="dot" style="background:var(--plum)"></span>Fat</div>
+        <div><b id="tFib">0</b>Fibre</div>
+        <div><b id="tS">0</b>Sugar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROFILE ============ -->
+<section data-view="profile" class="wrap" hidden>
+  <a class="back" href="#home">‹ Home</a>
+  <div class="page-head"><div><h1>Your profile</h1><p class="sub" id="profileWhere"></p></div><img class="page-plate" src="img/plates/chinese-round.jpg" alt="" width="74" height="74"></div>
+  <div id="profilePage"></div>
+  <p class="small muted">Targets are for healthy adults and come from ICMR NIN 2020 (RDA and EAR). They are general guidance, not medical advice. If you have diabetes, kidney, liver or heart disease, or take medicines, ask your doctor or a dietitian before changing your diet.</p>
+</section>
+
+<!-- ============ MEAL LOG AND TRENDS ============ -->
+<section data-view="track" class="wrap" hidden>
+  <div class="topbar"><a class="back" href="#home">‹ Home</a><a class="icon-btn" href="#profile">Profile</a></div>
+  <div class="page-head"><div><h1>My log</h1><p class="sub" id="trackWhere"></p></div><img class="page-plate" src="img/plates/egg-round.jpg" alt="" width="74" height="74"></div>
+  <div class="notice" id="trackErr" hidden></div>
+  <div id="trackPage" style="display:grid;gap:16px"></div>
+</section>
+
+<!-- ============ ASSISTANT ============ -->
+<section data-view="ask" class="wrap" hidden>
+  <div class="topbar"><a class="back" href="#home">‹ Home</a><a class="icon-btn" href="#privacy">Privacy</a></div>
+  <div class="page-head"><div><h1>Ask about my log</h1>
+    <p class="sub">Answers only from your profile, your log and the app's food table. It never diagnoses and is not medical advice. Chat is not saved.</p></div><img class="page-plate" src="img/plates/chaat-round.jpg" alt="" width="74" height="74"></div>
+  <div id="askPage" style="display:grid;gap:12px"></div>
+</section>
+
+<!-- ============ CONSENT (notice) ============ -->
+<section data-view="consent" class="wrap" hidden>
+  <a class="back" href="#home">‹ Home</a>
+  <div><h1>Your data and your choices</h1><p class="sub">Please read this before using your profile, log or the assistant.</p></div>
+  <div id="consentPage" style="display:grid;gap:12px"></div>
+</section>
+
+<!-- ============ PRIVACY CONTROLS ============ -->
+<section data-view="privacy" class="wrap" hidden>
+  <a class="back" href="#settings">‹ Settings</a>
+  <h1>Privacy and your data</h1>
+  <div id="privacyPage" style="display:grid;gap:12px"></div>
+</section>
+
+<!-- ============ SETTINGS ============ -->
+<section data-view="settings" class="wrap" hidden>
+  <a class="back" href="#home">‹ Home</a>
+  <h1>Settings</h1>
+  <div class="card ai-off-only" id="testOffCard">
+    <b>Test mode</b>
+    <div class="small muted">Test mode measures how accurate photo scanning is on photos with known weights and calories, so it needs scanning. It appears here once photo scanning is switched on.</div>
+  </div>
+  <div class="card switch-row ai-only">
+    <div><b>Test mode</b><div class="small muted">Measure how accurate the AI is on photos with known weights and calories. Kept apart from normal use.</div></div>
+    <button class="switch" id="testSwitch" role="switch" aria-checked="false" aria-label="Test mode"></button>
+  </div>
+  <a class="btn ai-only" href="#test" id="openTest" hidden>Open test mode</a>
+  <div class="card form ai-only" id="testerCard" hidden>
+    <label>Tester key<input id="testerKey" type="password" autocomplete="off" placeholder="Matches TESTER_TOKEN on the server"></label>
+    <span class="small muted">Only for the app owner on the deployed site. It lifts the AI limits for test runs and allows the strongest model. Kept in this browser only.</span>
+  </div>
+  <div class="card" style="display:grid;gap:10px">
+    <b>Account and data</b>
+    <div class="small muted" id="accountWhere"></div>
+    <a class="btn btn-small" href="#privacy" style="justify-self:start">Privacy, download and delete my data</a>
+  </div>
+  <div class="card" id="installCard" style="display:grid;gap:6px">
+    <b>Add ThaliHeal to your home screen (optional)</b>
+    <span class="small muted" id="installHelp">ThaliHeal is a website, so nothing needs installing. For one tap access: Chrome on a phone, tap ⋮ then <b>Add to Home screen</b>; iPhone Safari, tap Share then <b>Add to Home Screen</b>; Chrome or Edge on a computer, use the install icon in the address bar. Your log then also opens offline.</span>
+  </div>
+  <div class="card switch-row">
+    <div><b>Hide calorie numbers</b><div class="small muted">My log, Profile and Home show calories as words and bands instead of figures.</div></div>
+    <button class="switch accent" id="hideSwitch" role="switch" aria-checked="false" aria-label="Hide calorie numbers"></button>
+  </div>
+  <div class="card small muted" id="settingsInfo"></div>
+</section>
+
+<!-- ============ TEST MODE ============ -->
+<section data-view="test" class="wrap wide" hidden>
+  <div class="topbar"><a class="back" href="#settings">‹ Settings</a><span class="tag test">Test mode</span></div>
+  <h1>Accuracy test</h1>
+  <div class="notice" id="tStoreNote" hidden></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" data-tab="set" aria-selected="true">Test set</button>
+    <button role="tab" data-tab="run" aria-selected="false">Run</button>
+    <button role="tab" data-tab="results" aria-selected="false">Results</button>
+  </div>
+  <div data-tabpanel="set" id="tSet"></div>
+  <div data-tabpanel="run" id="tRun" hidden></div>
+  <div data-tabpanel="results" id="tResults" hidden></div>
+</section>
+
+</main>
+
+<!-- ============ LIVE CAMERA (scan) ============ -->
+<div class="cam" id="camSheet" role="dialog" aria-modal="true" aria-label="Camera" hidden>
+  <video id="camVideo" playsinline muted autoplay></video>
+  <div class="cam-guide" aria-hidden="true"></div>
+  <div class="cam-top"><button class="cam-round" id="camClose" type="button" aria-label="Close camera">✕</button><p class="cam-msg" id="camMsg" role="status" aria-live="polite"></p></div>
+  <div class="cam-bar">
+    <span class="cam-spacer"></span>
+    <button class="cam-shutter" id="camShot" type="button" aria-label="Take photo" disabled></button>
+    <button class="cam-round" id="camSwitch" type="button" aria-label="Switch camera" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9a8 8 0 0 1 14.3-3.3M20 15a8 8 0 0 1-14.3 3.3M18.6 2.5v3.4h-3.4M5.4 21.5v-3.4h3.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</div>
+
+<!-- ============ DISH PICKER (shared) ============ -->
+<div class="sheet-bg" id="sheetBg" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+  <div class="sheet-in">
+    <div class="topbar"><h3 id="sheetTitle">Choose a dish</h3><button class="icon-btn" id="sheetClose" aria-label="Close">✕</button></div>
+    <input type="search" id="search" placeholder="Search: dal, roti, tinda, biryani…" autocomplete="off" aria-label="Search dishes">
+    <div class="picks" id="picks"></div>
+  </div>
+</div>
+
+<script src="funfact-popup.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/nutrition.js"></script>
+<script src="js/picker.js"></script>
+<script src="js/router.js"></script>
+<script src="js/ai-client.js"></script>
+<script src="js/core.js"></script>
+<script src="js/targets.js"></script>
+<script src="js/sources.js"></script>
+<script src="js/account.js"></script>
+<script src="js/safety.js"></script>
+<script src="js/home.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/scan.js"></script>
+<script src="js/tracker.js"></script>
+<script src="js/privacy.js"></script>
+<script src="js/assistant.js"></script>
+<script src="js/test-mode.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>

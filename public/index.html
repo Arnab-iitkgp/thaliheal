@@ -270,6 +270,54 @@
 
 </main>
 
+<!-- ============ BOTTOM NAV BAR (Mobile & Tablet) ============ -->
+<nav class="bottom-bar" aria-label="Bottom Navigation">
+  <div class="bottom-bar-in">
+    <a href="#home" class="bnav-item" data-nav="home">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 20v-9.5z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+      <span class="bnav-label">Home</span>
+    </a>
+
+    <a href="#track" class="bnav-item" data-nav="track">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+        <path d="M9 12h6M9 16h4"/>
+      </svg>
+      <span class="bnav-label">My Log</span>
+    </a>
+
+    <a href="#scan" class="bnav-item bnav-hero" data-nav="scan" aria-label="Scan food">
+      <div class="bnav-hero-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.6l1.2-1.8c.3-.4.7-.7 1.2-.7h3c.5 0 .9.3 1.2.7L15.9 6h1.6A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z"/>
+          <circle cx="12" cy="12.4" r="3.2"/>
+        </svg>
+      </div>
+      <span class="bnav-label">Scan</span>
+    </a>
+
+    <a href="#ask" class="bnav-item ai-only" data-nav="ask">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        <path d="M8 10h.01M12 10h.01M16 10h.01"/>
+      </svg>
+      <span class="bnav-label">Ask AI</span>
+    </a>
+
+    <a href="#profile" class="bnav-item" data-nav="profile">
+      <svg class="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span class="bnav-label">Profile</span>
+    </a>
+  </div>
+</nav>
+
 <!-- ============ LIVE CAMERA (scan) ============ -->
 <div class="cam" id="camSheet" role="dialog" aria-modal="true" aria-label="Camera" hidden>
   <video id="camVideo" playsinline muted autoplay></video>

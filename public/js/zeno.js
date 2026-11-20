@@ -1044,7 +1044,8 @@
 
   function confirmMealMessage(message, proposal) {
     if (!proposal || proposal !== pendingMeal) return null;
-    const command = message.trim().toLowerCase().replace(/[.!।]+$/, "").trim();
+    const command = message.trim().toLowerCase().replace(/[,.!।]+$/, "").trim()
+      .replace(/^please[ ,]+|[ ,]+please$/g, "");
     if (proposal.kind === "save") return null;
     const accepted = ["add it", "add them", "apply it", "apply changes", "add to draft", "add kar do", "जोड़ दो", "ऐड कर दो"];
     return accepted.includes(command) ? confirmMealProposal(proposal) : null;
@@ -1072,7 +1073,9 @@
     notes.forEach(note => cardLine(card, note));
     cardLine(card, "Say or type “Add it”, or choose Add to draft. You can also tell me what to change.");
     showMealProposal("draft", card, options, replace, inCall);
-    return { ok: true, pending: true, applied: false, message: "Show the proposed amounts. Wait for Add it. Nothing has been applied." };
+    const nextStep = inCall ? 'Say “Say add it and I’ll put it in your draft.” No tap is needed to apply a draft.'
+      : 'Tell the user they can type “Add it” to apply the draft.';
+    return { ok: true, pending: true, applied: false, message: `The draft preview is visible. ${nextStep} Nothing has been applied.` };
   }
 
   function requestSave(inCall) {

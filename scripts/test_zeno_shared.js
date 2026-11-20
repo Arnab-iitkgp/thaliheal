@@ -321,10 +321,11 @@ async function checkHandoff() {
   const update = await voice.runTool("edit_plate", { source: "current", apply: true, changes: [{ op: "add", dish: "chapati", amount: 1, unit: "piece" }] }, new AbortController().signal);
   assert(update.ok);
   assert(update.pending);
+  assert.match(update.message, /Say add it/);
   assert.equal(card(), original);
   assert.equal($("zenoCallReview").dataset.inline, "true");
   assert.equal($("zenoCallReviewContent").childNodes[0].childNodes[0].textContent, "Proposed meal draft");
-  await voice.caption({ heard: "Add it", confirmationTarget: voice.confirmationTarget() });
+  await voice.caption({ heard: "Add it, please.", confirmationTarget: voice.confirmationTarget() });
   assert.equal(card(), original);
   const pending = await voice.runTool("remember", { kind: "preference", name: "Less curd", value: "Leave curd off", scope: "mess lunches" }, new AbortController().signal);
   assert.equal(pending.pending, true);

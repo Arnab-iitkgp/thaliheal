@@ -44,7 +44,7 @@ module.exports = async function zenoLive(req, res) {
   const personal = Boolean((privateAccess || preview || hosted) && personalKey);
   const demoKeys = [...new Set(cfg.geminiKeys)].filter(key => key !== personalKey);
   const demo = Boolean((privateAccess || preview || hosted) && demoKeys.length);
-  if (req.method === "GET") return send(200, { configured: demo || personal, demo, personal, testerRequired: cfg.strict && Boolean(cfg.testerToken), localhostOnly: !hosted && !privateAccess && !preview, voices: [...voices] });
+  if (req.method === "GET") return send(200, { configured: demo || personal, demo, personal, testerRequired: false, localhostOnly: !hosted && !privateAccess && !preview, voices: [...voices] });
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST");
     return send(405, { error: "method_not_allowed" });

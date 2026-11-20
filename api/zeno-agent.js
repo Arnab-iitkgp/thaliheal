@@ -29,7 +29,7 @@ module.exports = async function zenoAgent(req, res) {
   );
   const hostedAllowed = hosted && originMatches && (!cfg.strict || (expected.length > 0 && auth.length === expected.length && crypto.timingSafeEqual(auth, expected)));
   const configured = Boolean(cfg.aiEnabled && cfg.groqKey && (hosted ? true : local && (localHost || preview)));
-  if (req.method === "GET") return send(200, { configured, testerRequired: cfg.strict && Boolean(cfg.testerToken) });
+  if (req.method === "GET") return send(200, { configured, testerRequired: false });
   if (req.method !== "POST") return send(405, { error: "method_not_allowed" });
   const allowed = hosted
     ? hostedAllowed

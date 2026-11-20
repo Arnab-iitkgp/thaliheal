@@ -1,4 +1,4 @@
-﻿/* Zeno's on-device text chat and editable meal drafts. */
+/* Zeno's on-device text chat and editable meal drafts. */
 (function () {
   "use strict";
 
@@ -109,21 +109,18 @@
   }
 
   function saveSummary() {
-    if (!conversationSummary.topic) {
-      if (draft) conversationSummary.topic = "Meal draft";
-      else if (agentHistory.length) {
-        const firstUser = agentHistory.find(m => m.role === "user");
-        conversationSummary.topic = firstUser ? (firstUser.content.slice(0, 30) + (firstUser.content.length > 30 ? "…" : "")) : "Food notes";
-      } else {
-        conversationSummary.topic = "Chat on " + App.fmtDate(App.today());
-      }
-    }
+    const summary = summaryForSaving();
     const entries = savedSummaries();
     const id = savedConversationId || crypto.randomUUID();
     if (!entries.some(entry => entry.id === id) && entries.length >= 6) throw Error("Remove a saved summary before adding another.");
-    writeSummaries([{ id, ...conversationSummary }, ...entries.filter(entry => entry.id !== id)]);
+    writeSummaries([{ id, ...summary }, ...entries.filter(entry => entry.id !== id)]);
     savedConversationId = id;
     renderConversationControls();
+  }
+
+  function summaryForSaving() {
+    const topic = conversationSummary.topic || (draft ? "Meal draft" : agentHistory.length ? "Food chat · " + App.fmtDate(App.today()) : "");
+    return { ...conversationSummary, topic };
   }
 
   function describeSummary(container, summary) {
@@ -188,18 +185,12 @@
       const intro = document.createElement("p");
       intro.textContent = starting ? "Starting fresh clears this chat and any open draft." : "Keep these notes in this browser so you can pick up the topic later.";
       body.append(intro);
-      if (!conversationSummary.topic && (draft || agentHistory.length)) {
-        if (draft) conversationSummary.topic = "Meal draft";
-        else {
-          const firstUser = agentHistory.find(m => m.role === "user");
-          conversationSummary.topic = firstUser ? (firstUser.content.slice(0, 30) + (firstUser.content.length > 30 ? "…" : "")) : "Food notes";
-        }
-      }
-      if (conversationSummary.topic) {
+      const summary = summaryForSaving();
+      if (summary.topic) {
         const topic = document.createElement("strong");
-        topic.textContent = conversationSummary.topic;
+        topic.textContent = summary.topic;
         body.append(topic);
-        describeSummary(body, conversationSummary);
+        describeSummary(body, summary);
         actions.append(actionButton(starting ? "Save summary and start" : "Save summary", () => {
           try {
             saveSummary();
@@ -566,22 +557,29 @@
       reviewCard = null;
       $("zenoCallReceipt").hidden = true;
     }
-    if (isOpen) (reviewCard ? reviewOpen : voiceEnd).focus();
+    if (isOpen) (reviewCard && !$("zenoCallReceipt").hidden ? reviewOpen : voiceEnd).focus();
   }
 
-  reviewOpen.onclick = () => {
-    if (!reviewCard?.parentNode) {
+  function openCallReview(card, inline = false) {
+    if (activeReview === card) return;
+    if (!card?.parentNode) {
       $("zenoCallReceipt").hidden = true;
       return;
     }
-    activeReview = reviewCard;
+    restoreReview(false);
+    activeReview = card;
     reviewMarker = document.createElement("li");
     reviewMarker.hidden = true;
     activeReview.replaceWith(reviewMarker);
     $("zenoCallReviewContent").append(activeReview);
-    $("zenoCallReview").hidden = false;
-    reviewClose.focus();
-  };
+    const review = $("zenoCallReview");
+    review.dataset.inline = String(inline);
+    review.hidden = false;
+    reviewClose.hidden = inline;
+    if (inline) $("zenoCallReceipt").hidden = true;
+    else reviewClose.focus();
+  }
+  reviewOpen.onclick = () => openCallReview(reviewCard);
   reviewClose.onclick = () => restoreReview(true);
 
   function dismissCall() {
@@ -683,7 +681,7 @@
       },
       runTool: voiceTools(),
     });
-    if (pendingMeal && validMealProposal(pendingMeal)) offerReview(pendingMeal.card, "Meal confirmation ready", "Review");
+    if (pendingMeal && validMealProposal(pendingMeal)) openCallReview(pendingMeal.card, true);
   }
 
   voiceStart.onclick = () => startCall("demo");
@@ -1047,9 +1045,8 @@
   function confirmMealMessage(message, proposal) {
     if (!proposal || proposal !== pendingMeal) return null;
     const command = message.trim().toLowerCase().replace(/[.!।]+$/, "").trim();
-    const accepted = proposal.kind === "save"
-      ? ["confirm save"]
-      : ["add it", "add them", "apply it", "apply changes", "add to draft"];
+    if (proposal.kind === "save") return null;
+    const accepted = ["add it", "add them", "apply it", "apply changes", "add to draft", "add kar do", "जोड़ दो", "ऐड कर दो"];
     return accepted.includes(command) ? confirmMealProposal(proposal) : null;
   }
 
@@ -1058,7 +1055,7 @@
     pendingMeal = proposal;
     const label = kind === "save" ? "Confirm save" : "Add to draft";
     card.append(actionButton(label, () => confirmMealProposal(proposal)), actionButton("Dismiss", () => closeReviewCard(card)));
-    if (inCall) offerReview(card, kind === "save" ? "Save needs confirmation" : "Meal changes ready", "Review");
+    if (inCall) openCallReview(card, true);
   }
 
   function proposeDraft(inCall, options, update, notes) {
@@ -1081,16 +1078,16 @@
   function requestSave(inCall) {
     const original = draft;
     if (pendingMeal?.kind === "save" && validMealProposal(pendingMeal)) {
-      if (inCall) offerReview(pendingMeal.card, "Save needs confirmation", "Review");
-      return { ok: true, pending: true, message: "The save card is open. Wait for the user to say or choose Confirm save." };
+      if (inCall) openCallReview(pendingMeal.card, true);
+      return { ok: true, pending: true, message: "The save card is open. The user must tap Confirm save." };
     }
     discardMealProposal();
     const destination = original.preview ? "Sample Log" : "My Log";
     const card = toolCard("Confirm save to " + destination);
     cardLine(card, App.SLOTS[original.slot] + " · " + formatToolPlate(original.items));
-    cardLine(card, "Say or type “Confirm save”, or choose Confirm save.");
+    cardLine(card, "Tap Confirm save to log this meal.");
     showMealProposal("save", card, null, false, inCall);
-    return { ok: true, pending: true, destination, message: "The save card is open. Wait for the user to confirm." };
+    return { ok: true, pending: true, destination, message: "The save card is open. The user must tap Confirm save." };
   }
 
   function showToolResult(name, result) {
@@ -1548,7 +1545,10 @@
       if (aiConsent === true && agentAvailability?.configured) await askAgent(message);
       else if (aiConsent === true && !agentAvailability) reply("I couldn’t connect to text chat. Please try again.", "ask");
       else if (workspace === "demo") reply("Sample chat is unavailable. You can still try a sample call when voice is available.", "ask");
-      else await onMessage(message);
+      else {
+        await onMessage(message);
+        rememberLine("user", message);
+      }
     } catch (error) {
       if (error?.name !== "AbortError") reply("I couldn’t finish that turn. Please try again.", "ask");
     }

@@ -322,9 +322,8 @@ async function checkHandoff() {
   assert(update.ok);
   assert(update.pending);
   assert.equal(card(), original);
-  $("zenoCallReviewOpen").onclick();
+  assert.equal($("zenoCallReview").dataset.inline, "true");
   assert.equal($("zenoCallReviewContent").childNodes[0].childNodes[0].textContent, "Proposed meal draft");
-  $("zenoCallReviewClose").onclick();
   await voice.caption({ heard: "Add it", confirmationTarget: voice.confirmationTarget() });
   assert.equal(card(), original);
   const pending = await voice.runTool("remember", { kind: "preference", name: "Less curd", value: "Leave curd off", scope: "mess lunches" }, new AbortController().signal);
@@ -370,6 +369,9 @@ async function checkHandoff() {
   await voice.caption({ heard: "Confirm save", partial: true, confirmationTarget: save });
   assert.equal((await tool("read_context")).draft.savedToLog, false);
   await voice.caption({ heard: "Confirm save", confirmationTarget: save });
+  assert.equal((await tool("read_context")).draft.savedToLog, false);
+  assert.equal($("zenoCallReview").dataset.inline, "true");
+  await save.card.childNodes.find(node => node.textContent === "Confirm save").onclick();
   await voice.caption({ heard: "Confirm save", confirmationTarget: save });
   assert.equal((await tool("read_context")).draft.savedToLog, true);
   const logged = await tool("find_meals", { from: App.today(), to: App.today(), slot: "lunch" });

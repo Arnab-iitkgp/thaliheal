@@ -162,7 +162,10 @@
   color: #e4efe7; background: #152b22; border: 1px solid #405a4e; font-size: .8rem;
 }
 .zeno-call-receipt button { min-height: 44px; border: 0; background: transparent; color: #ffcfaf; font: inherit; cursor: pointer; text-decoration: underline; }
-.zeno-call-layout:has(.zeno-call-review:not([hidden])) .zeno-call-center { display: none; }
+.zeno-call-layout:has(.zeno-call-review:not([hidden]):not([data-inline="true"])) .zeno-call-center { display: none; }
+.zeno-call-layout:has(.zeno-call-review[data-inline="true"]:not([hidden])) { grid-template-rows: auto 1fr auto auto; }
+.zeno-call-layout:has(.zeno-call-review[data-inline="true"]:not([hidden])) .zeno-call-portrait .zeno-character { width: clamp(88px, 32vw, 144px); }
+.zeno-call-review[data-inline="true"] { max-height: 36dvh; overflow: auto; }
 .zeno-call-review { display: grid; align-content: start; gap: 10px; color-scheme: dark; }
 .zeno-call-review > button { justify-self: start; }
 .zeno-call-review .zeno-conversation > li { width: 100%; max-width: none; }

@@ -412,5 +412,10 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 .qp-actions{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .seg-2x2{display:grid;grid-template-columns:1fr 1fr;width:100%}
 
+/* Quick profile activity selector — 2×2 grid, independent of .seg */
+.qp-activity-seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+.qp-activity-seg button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 6px;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s;min-height:40px}
+.qp-activity-seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
 
 

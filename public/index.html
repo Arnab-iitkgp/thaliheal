@@ -364,9 +364,11 @@
   <div class="total" aria-label="Plate total">
     <div class="total-in">
       <div class="total-row">
-        <div><div class="lbl">Plate total · <span id="tConf"></span></div><div class="k" id="tKcal">0 <small>kcal</small></div></div>
+        <div class="total-left">
+          <div class="lbl">Plate total · <span id="tConf"></span> <span id="tFatNote" class="tfat-inline"></span></div>
+          <div class="k" id="tKcal">0 <small>kcal</small></div>
+        </div>
         <div class="total-actions-right">
-          <div class="lbl" id="tFatNote"></div>
           <button class="btn btn-primary quick-save-btn" id="quickSaveBtn">Save Plate</button>
         </div>
       </div>
@@ -608,6 +610,35 @@
     <div class="topbar"><h3 id="sheetTitle">Choose a dish</h3><button class="icon-btn" id="sheetClose" aria-label="Close">✕</button></div>
     <input type="search" id="search" placeholder="Search: dal, roti, tinda, biryani…" autocomplete="off" aria-label="Search dishes">
     <div class="picks" id="picks"></div>
+  </div>
+</div>
+
+<!-- ============ PRIVACY FIRST CONSENT SHEET ============ -->
+<div class="sheet-bg" id="privacySheetBg" hidden></div>
+<div class="sheet privacy-sheet" id="privacySheet" role="dialog" aria-modal="true" aria-labelledby="privacySheetTitle" hidden>
+  <div class="sheet-in">
+    <div class="topbar">
+      <h3 id="privacySheetTitle">Save to your food log</h3>
+      <button class="icon-btn" id="privacySheetClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="privacy-sheet-body">
+      <p class="privacy-sheet-lead">ThaliHeal keeps your meal history privately on this device so you can track your daily ICMR nutrition targets and weekly trends.</p>
+      <div class="privacy-sheet-card">
+        <label class="privacy-check-label">
+          <input type="checkbox" id="psAdult" checked>
+          <span>I am 18 or older</span>
+        </label>
+        <label class="privacy-check-label">
+          <input type="checkbox" id="psStore" checked>
+          <span>I agree to store my profile and meal logs in this browser</span>
+        </label>
+      </div>
+      <p class="small muted" style="margin:4px 0 6px">Your data is never sold or used for ads. You can export or delete your log anytime in Settings.</p>
+      <div class="privacy-sheet-actions">
+        <button class="btn btn-primary" id="privacyAgreeSaveBtn" type="button">Agree & Save Meal</button>
+        <a class="btn btn-ghost" href="#consent" id="privacyFullTermsBtn">Read full privacy notice</a>
+      </div>
+    </div>
   </div>
 </div>
 

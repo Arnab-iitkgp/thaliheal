@@ -171,7 +171,7 @@ window.App = window.App || {};
   // What gets saved for one meal: the items as edited, and totals fixed at save time.
   App.mealFromItems = function (items, o) {
     return {
-      id: "m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      id: (o && o.id) || ("m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)),
       date: o.date,
       slot: o.slot,
       source: o.source || "manual",

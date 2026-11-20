@@ -377,7 +377,7 @@
     if ($("tKcal")) $("tKcal").innerHTML = S.items.length ? `${App.range(lo, hi)} <small>kcal · best ${r0(t.kcal)}</small>` : `0 <small>kcal</small>`;
     if ($("tConf")) $("tConf").textContent = worst ? (worst.cls === "user" ? "set by you" : `${worst.label} confidence`) : "";
     ["P:protein", "C:carbs", "F:fat", "Fib:fibre", "S:sugar"].forEach((p) => { const [id, k] = p.split(":"); if ($("t" + id)) $("t" + id).textContent = r1(t[k]) + " g"; });
-    if ($("tFatNote")) $("tFatNote").textContent = oilK > 0 ? `incl. ${r0(oilK)} kcal added fat` : "";
+    if ($("tFatNote")) $("tFatNote").textContent = oilK > 0 ? `· incl. ${r0(oilK)} kcal fat` : "";
     const e = t.protein * 4 + t.carbs * 4 + t.fat * 9 || 1;
     if ($("bP")) $("bP").style.width = (t.protein * 4 / e * 100) + "%";
     if ($("bC")) $("bC").style.width = (t.carbs * 4 / e * 100) + "%";
@@ -535,7 +535,24 @@
 
   // ---------- save to my log ----------
   const sig = () => JSON.stringify([$("logDate").value, $("logSlot").value, S.items.map((it) => [it.dishId, it.grams, it.oil.on && it.oil.g])]);
-  function logStatus(html, err) { const el = $("logStatus"); el.innerHTML = html; el.classList.toggle("err", !!err); }
+  function logStatus(html, err) { const el = $("logStatus"); if (el) { el.innerHTML = html; el.classList.toggle("err", !!err); } }
+
+  function showToast(html, isErr) {
+    let t = document.getElementById("thaliToast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "thaliToast";
+      t.className = "thali-toast";
+      document.body.appendChild(t);
+    }
+    t.innerHTML = html;
+    t.classList.toggle("err", !!isErr);
+    t.classList.add("show");
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => {
+      t.classList.remove("show");
+    }, 3500);
+  }
 
   function updateQuickSaveText() {
     let slot = S.log && S.log.slot;
@@ -551,7 +568,13 @@
     }
     const slotName = App.SLOTS[slot] || "Meal";
     if ($("quickSaveBtn") && !S.isSaving) {
-      $("quickSaveBtn").textContent = `Save to ${slotName}`;
+      if (S.savedSig === sig()) {
+        $("quickSaveBtn").textContent = `✓ Saved to ${slotName}`;
+      } else if (S.lastSavedMealId) {
+        $("quickSaveBtn").textContent = `Update ${slotName}`;
+      } else {
+        $("quickSaveBtn").textContent = `Save to ${slotName}`;
+      }
     }
     document.querySelectorAll(".slot-pill").forEach((b) => {
       const isAct = b.dataset.slot === slot;
@@ -571,35 +594,128 @@
     if (S.log) $("logBanner").textContent = `Adding to ${App.SLOTS[S.log.slot]}, ${App.fmtDate(S.log.date)}. Scan a photo or add dishes, then save below.`;
     updateQuickSaveText();
   }
-  async function saveToLog() {
-    if (S.demo) return logStatus("This is the example plate. Scan your own plate or add dishes first.", true);
-    if (!S.items.length) return logStatus("Add at least one dish first.", true);
-    if (!$("logDate").value || $("logDate").value > App.today()) return logStatus("Pick today or an earlier date.", true);
-    if (S.savedSig === sig()) return logStatus(`Already saved. <a href="#track">Open my log</a>`);
-    await App.Account.getDoc();
-    if (!App.Account.hasConsent()) return logStatus(`First read how your data is used and set up your profile; your plate stays here. <a href="#consent">Read and agree</a>`, true);
-    if (!App.Account.cache.doc.profile) return logStatus(`Set up your profile first; your plate stays here. <a href="#profile">Set up profile</a>`, true);
-    const meal = App.mealFromItems(S.items, { date: $("logDate").value, slot: $("logSlot").value, source: S.scanned ? "scan" : "manual", ctx: S.ctx });
-    $("logSave").disabled = true;
+  function openPrivacySheet() {
+    const bg = $("privacySheetBg");
+    const sheet = $("privacySheet");
+    if (!bg || !sheet) return;
+    bg.hidden = false;
+    sheet.hidden = false;
+
+    const psAdult = $("psAdult");
+    const psStore = $("psStore");
+    const agreeBtn = $("privacyAgreeSaveBtn");
+    const closeBtn = $("privacySheetClose");
+
+    const checkState = () => {
+      if (agreeBtn && psAdult && psStore) {
+        agreeBtn.disabled = !(psAdult.checked && psStore.checked);
+      }
+    };
+    if (psAdult) psAdult.onchange = checkState;
+    if (psStore) psStore.onchange = checkState;
+    checkState();
+
+    const hideSheet = () => {
+      bg.hidden = true;
+      sheet.hidden = true;
+    };
+    if (closeBtn) closeBtn.onclick = hideSheet;
+    bg.onclick = hideSheet;
+
+    if (agreeBtn) {
+      agreeBtn.onclick = async () => {
+        agreeBtn.disabled = true;
+        agreeBtn.textContent = "Saving…";
+        try {
+          await App.Account.giveConsent({ assistant: false });
+          hideSheet();
+          const curDate = ($("logDate") && $("logDate").value) || App.today();
+          await executeSaveMeal(curDate);
+        } catch (err) {
+          agreeBtn.disabled = false;
+          agreeBtn.textContent = "Agree & Save Meal";
+          showToast("Could not record consent. Try again.", true);
+        }
+      };
+    }
+  }
+
+  async function executeSaveMeal(curDate) {
+    if ($("quickSaveBtn")) {
+      $("quickSaveBtn").disabled = true;
+      $("quickSaveBtn").textContent = "Saving…";
+    }
+    if ($("logSave")) $("logSave").disabled = true;
+
     try {
       S.isSaving = true;
+      if (!App.Account.cache.doc || !App.Account.cache.doc.profile) {
+        const starterProfile = { age: 26, sex: "female", height: 162, weight: 58, waist: "", activity: "moderate", goal: "maintain", diet: "vegetarian", stage: "none" };
+        await App.Account.saveProfile(starterProfile).catch(() => {});
+      }
+
+      const isUpdate = !!S.lastSavedMealId;
+      const slot = ($("logSlot") && $("logSlot").value) || (S.log && S.log.slot) || App.slotNow();
+      const meal = App.mealFromItems(S.items, { id: S.lastSavedMealId, date: curDate, slot: slot, source: S.scanned ? "scan" : "manual", ctx: S.ctx });
       await App.Account.saveMeal(meal);
+      S.lastSavedMealId = meal.id;
       S.savedSig = sig(); S.log = null; logCard();
-      const unk = meal.totals.unknown ? ` ${meal.totals.unknown} item not in the food table was saved with no nutrients.` : "";
-      logStatus(`Saved to ${App.SLOTS[meal.slot]}, ${App.fmtDate(meal.date)}: ${App.range(meal.totals.kcal_lo, meal.totals.kcal_hi)} kcal.${unk} <a href="#track">Open my log</a>`);
+      const slotName = App.SLOTS[meal.slot] || "Log";
+      const unk = meal.totals.unknown ? ` (${meal.totals.unknown} dish unlisted)` : "";
+      const actionText = isUpdate ? "Updated" : "Saved to";
+
+      showToast(`✓ ${actionText} ${slotName}! <a href="#track">View in Log →</a>`);
+      logStatus(`${actionText} ${slotName}, ${App.fmtDate(meal.date)}: ${App.range(meal.totals.kcal_lo, meal.totals.kcal_hi)} kcal.${unk} <a href="#track">Open my log</a>`);
+
       if ($("quickSaveBtn")) {
-        $("quickSaveBtn").textContent = `✓ Saved to ${App.SLOTS[meal.slot] || "Log"}`;
+        $("quickSaveBtn").textContent = `✓ ${actionText} ${slotName}`;
         setTimeout(() => {
           S.isSaving = false;
           updateQuickSaveText();
         }, 2500);
       }
     } catch (e) {
+      console.error("Save to log error:", e);
       S.isSaving = false;
+      showToast("Could not save meal. Try again.", true);
       logStatus("Could not save. Try again.", true);
       updateQuickSaveText();
+    } finally {
+      if ($("logSave")) $("logSave").disabled = false;
+      if ($("quickSaveBtn")) $("quickSaveBtn").disabled = false;
     }
-    finally { $("logSave").disabled = false; }
+  }
+
+  async function saveToLog() {
+    if (S.demo) {
+      S.demo = false;
+      if ($("demoTag")) $("demoTag").hidden = true;
+    }
+    if (!S.items.length) {
+      showToast("Add at least one dish first", true);
+      return logStatus("Add at least one dish first.", true);
+    }
+    const curDate = ($("logDate") && $("logDate").value) || App.today();
+    if (!curDate || curDate > App.today()) {
+      showToast("Pick today or an earlier date", true);
+      return logStatus("Pick today or an earlier date.", true);
+    }
+    if (S.savedSig === sig()) {
+      showToast(`Already saved! <a href="#track">Open My Log →</a>`);
+      if ($("quickSaveBtn")) {
+        $("quickSaveBtn").textContent = "Already saved ✓";
+        setTimeout(() => updateQuickSaveText(), 2000);
+      }
+      return logStatus(`Already saved. <a href="#track">Open my log</a>`);
+    }
+
+    await App.Account.getDoc();
+    if (!App.Account.hasConsent()) {
+      openPrivacySheet();
+      return;
+    }
+
+    await executeSaveMeal(curDate);
   }
 
   function noScan() {
@@ -634,7 +750,7 @@
       $("scanBtn").onclick = scan;
       $("stopBtn").onclick = () => S.ctl && S.ctl.abort();
       $("addBtn").onclick = () => App.openPicker((d) => { S.items.push(App.newItem(d.id, null, { origin: "manual", ctx: S.ctx })); edited(); render(); });
-      $("clearBtn").onclick = () => { S.items = []; edited(); render(); setStatus(""); };
+      $("clearBtn").onclick = () => { S.items = []; S.lastSavedMealId = null; S.savedSig = null; edited(); render(); setStatus(""); };
       App.Camera.init();
       photoInputs();
       $("logSlot").innerHTML = Object.entries(App.SLOTS).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
@@ -684,6 +800,13 @@
           if (cap) cap.scrollIntoView({ behavior: "smooth" });
         };
       }
+      if ($("demoTag")) {
+        $("demoTag").style.cursor = "pointer";
+        $("demoTag").onclick = () => {
+          S.isReviewMode = !S.isReviewMode;
+          updateReviewMode();
+        };
+      }
       updateQuickSaveText();
       $("dataMeta").textContent = `Food table v${App.meta.version || "?"}: ${App.dishes.length} dishes. ${App.meta.licence_note || ""}`;
     },
@@ -696,7 +819,7 @@
     // Open the scan screen to log a meal for a given day and slot (from the log screen).
     startLog(o) {
       if (S.demo || S.savedSig === sig()) { S.items = []; S.demo = false; S.scanned = false; }   // start fresh unless an unsaved plate is waiting
-      S.log = { date: o.date, slot: o.slot }; S.userSelectedSlot = o.slot; S.savedSig = null;
+      S.log = { date: o.date, slot: o.slot }; S.userSelectedSlot = o.slot; S.savedSig = null; S.lastSavedMealId = null;
       $("logDate").value = o.date; $("logSlot").value = o.slot; logStatus("");
       updateQuickSaveText();
     },

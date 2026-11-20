@@ -125,8 +125,17 @@
     },
     async saveMeal(m) {
       const list = await this.meals();
-      await this.safe(() => this.root.collection("meals").doc(m.id).set(m), () => { const l = this.local(); l.meals.push(m); this.saveLocal(l); });
-      list.push(m); this.changed();
+      await this.safe(() => this.root.collection("meals").doc(m.id).set(m), () => {
+        const l = this.local();
+        const idx = l.meals.findIndex((x) => x.id === m.id);
+        if (idx >= 0) l.meals[idx] = m;
+        else l.meals.push(m);
+        this.saveLocal(l);
+      });
+      const idx = list.findIndex((x) => x.id === m.id);
+      if (idx >= 0) list[idx] = m;
+      else list.push(m);
+      this.changed();
     },
     async deleteMeal(id) {
       const list = await this.meals();

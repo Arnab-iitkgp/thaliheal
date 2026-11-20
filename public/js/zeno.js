@@ -103,11 +103,21 @@
 
   function renderConversationControls() {
     $("zenoResume").hidden = !savedSummaries().length;
-    $("zenoSaveSummary").hidden = !conversationSummary.topic;
+    const canSave = Boolean(conversationSummary.topic || draft || agentHistory.length);
+    $("zenoSaveSummary").hidden = !canSave;
     $("zenoSaveSummary").textContent = savedConversationId ? "Update summary" : "Save summary";
   }
 
   function saveSummary() {
+    if (!conversationSummary.topic) {
+      if (draft) conversationSummary.topic = "Meal draft";
+      else if (agentHistory.length) {
+        const firstUser = agentHistory.find(m => m.role === "user");
+        conversationSummary.topic = firstUser ? (firstUser.content.slice(0, 30) + (firstUser.content.length > 30 ? "…" : "")) : "Food notes";
+      } else {
+        conversationSummary.topic = "Chat on " + App.fmtDate(App.today());
+      }
+    }
     const entries = savedSummaries();
     const id = savedConversationId || crypto.randomUUID();
     if (!entries.some(entry => entry.id === id) && entries.length >= 6) throw Error("Remove a saved summary before adding another.");
@@ -178,6 +188,13 @@
       const intro = document.createElement("p");
       intro.textContent = starting ? "Starting fresh clears this chat and any open draft." : "Keep these notes in this browser so you can pick up the topic later.";
       body.append(intro);
+      if (!conversationSummary.topic && (draft || agentHistory.length)) {
+        if (draft) conversationSummary.topic = "Meal draft";
+        else {
+          const firstUser = agentHistory.find(m => m.role === "user");
+          conversationSummary.topic = firstUser ? (firstUser.content.slice(0, 30) + (firstUser.content.length > 30 ? "…" : "")) : "Food notes";
+        }
+      }
       if (conversationSummary.topic) {
         const topic = document.createElement("strong");
         topic.textContent = conversationSummary.topic;
@@ -224,7 +241,10 @@
   });
 
   function rememberLine(role, content) {
-    if (content) agentHistory = [...agentHistory, { role, content: content.slice(0, 900) }].slice(-8);
+    if (content) {
+      agentHistory = [...agentHistory, { role, content: content.slice(0, 900) }].slice(-8);
+      renderConversationControls();
+    }
   }
 
   function firstUserIndex() {

@@ -145,7 +145,7 @@ If the photo shows no food, reply {"context":"home","items":[],"note":"No food f
         const st = await probe();
         if (st === null) return;
         App.net.retry = null;
-        if (st === false) App.claudeSample = null;
+        App.claudeSample = st ? fn : null;
         Object.values(App.views).forEach((v) => v.onClaude && v.onClaude(!!App.claudeSample));
       };
       App.net.set(true);

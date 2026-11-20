@@ -26,16 +26,60 @@ body.cam-open{overflow:hidden}
 /* Dish card & portion controls */
 .items{display:grid;gap:12px}
 .item{display:grid;gap:10px}
-.item-top{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:start}
-.dish-btn{border:0;background:transparent;text-align:left;padding:0;font-weight:700;font-size:1.05rem;line-height:1.3;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
-.dish-btn .edit{font-weight:500;font-size:.8rem;color:var(--accent);white-space:nowrap}
-.dish-btn.unknown{color:var(--bad)}
+.dish-card-v2{padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface);transition:border-color .15s}
+.dish-item-header{display:flex;gap:12px;align-items:center}
+.dish-thumb-box{width:48px;height:48px;border-radius:12px;overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center;background:var(--bg);border:1px solid var(--line)}
+.dish-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
+.dish-cat-badge{width:100%;height:100%;display:grid;place-items:center}
+.badge-dal{background:rgba(217,119,6,.12);color:#d97706}
+.badge-roti{background:rgba(180,83,9,.12);color:#b45309}
+.badge-rice{background:rgba(13,148,136,.12);color:#0d9488}
+.badge-sabzi{background:rgba(22,163,74,.12);color:#16a34a}
+.badge-curry{background:rgba(234,88,12,.12);color:#ea580c}
+.badge-snack{background:rgba(202,138,4,.12);color:#ca8a04}
+.badge-sweet{background:rgba(219,39,119,.12);color:#db2777}
+.badge-dairy{background:rgba(2,132,199,.12);color:#0284c7}
+.badge-egg{background:rgba(225,29,72,.12);color:#e11d48}
+.badge-protein{background:rgba(190,18,60,.12);color:#be123c}
+.badge-other{background:rgba(71,85,105,.12);color:#64748b}
+
+.dish-title-group{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.dish-name-row{display:flex;align-items:baseline;gap:6px}
+.dish-name-row .dish-btn{border:0;background:transparent;text-align:left;padding:0;font-weight:700;font-size:1.02rem;line-height:1.25;color:var(--ink);cursor:pointer}
+.dish-name-row .dish-btn.unknown{color:var(--bad)}
+.dish-cat-meta{display:flex;align-items:center;gap:8px;font-size:.78rem}
+.dish-type-tag{color:var(--muted);font-weight:500}
+.dish-change-link{border:0;background:transparent;color:var(--accent);font-size:.78rem;font-weight:600;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+.dish-actions{display:flex;align-items:center;gap:6px;flex:none}
+.dish-del-btn{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:.85rem;display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s}
+.dish-del-btn:hover{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+
 .pill{font-size:.75rem;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap;align-self:center}
 .pill.high{background:var(--good-soft);color:var(--good)}
 .pill.medium{background:var(--warn-soft);color:var(--warn)}
 .pill.low{background:var(--bad-soft);color:var(--bad)}
 .pill.user{background:var(--user-soft);color:var(--user)}
-.why{font-size:.8rem;color:var(--muted);margin-top:-6px}
+.why{font-size:.8rem;color:var(--muted);margin-top:-2px}
+
+.dish-portion-ctrl{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:8px}
+.portion-stepper-row{display:grid;grid-template-columns:38px 1fr 38px;align-items:center;gap:10px}
+.stepper-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:1.25rem;font-weight:600;display:grid;place-items:center;cursor:pointer;transition:transform .1s,background .15s;-webkit-tap-highlight-color:transparent}
+.stepper-btn:active{transform:scale(.92);background:var(--line)}
+.portion-display{text-align:center;font-variant-numeric:tabular-nums}
+.portion-unit-row{font-size:1.05rem;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:4px}
+.portion-unit-row select{border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--accent);font-weight:600;font-size:.9rem;padding:2px 6px}
+.portion-grams-read{font-size:.78rem;color:var(--muted);margin-top:2px;display:block}
+.portion-slider-wrap{width:100%}
+.portion-slider{width:100%;height:28px;accent-color:var(--accent);cursor:pointer}
+
+.dish-macros-strip{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.dish-macro-pill{flex:1 1 calc(20% - 6px);min-width:58px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 8px;text-align:center;font-variant-numeric:tabular-nums}
+.dish-macro-pill .lbl{display:block;font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
+.dish-macro-pill b{font-size:.88rem;font-weight:700;color:var(--ink);display:block}
+.dish-macro-pill small{display:block;font-size:.65rem;color:var(--muted);margin-top:1px}
+
+/* Legacy measure fallback */
 .measure{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
 .stepper{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:1.3rem;font-weight:600}
 .measure-read{text-align:center;font-variant-numeric:tabular-nums}
@@ -54,6 +98,89 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 .add-fat{justify-self:start;border:0;background:transparent;color:var(--accent);font-weight:600;padding:0;font-size:.9rem}
 .empty{color:var(--muted);text-align:center;padding:18px}
 @media (prefers-reduced-motion:no-preference){.item{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px)}to{transform:none}}}
+
+/* ============ Concentric Macro Rings Dashboard ============ */
+.macro-dashboard-card{display:grid;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.macro-dashboard-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.macro-dashboard-title{font-size:1.05rem;font-weight:700;margin:0;color:var(--ink)}
+.macro-dashboard-sub{font-size:.8rem;color:var(--muted)}
+.macro-dashboard-body{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.macro-rings-col{flex:none;display:grid;place-items:center;position:relative}
+.macro-rings-svg{transform:rotate(-90deg);display:block}
+.ring-track{fill:none;stroke:var(--line);opacity:.45}
+.ring-bar{fill:none;stroke-linecap:round;transition:stroke-dashoffset .4s cubic-bezier(.4,0,.2,1)}
+.ring-kcal{stroke:#10b981}
+.ring-protein{stroke:#0ea5e9}
+.ring-carbs{stroke:#f59e0b}
+.ring-fibre{stroke:#8b5cf6}
+.ring-center-text{transform:rotate(90deg);transform-origin:80px 80px}
+.ring-text-num{font-family:var(--font-display);font-size:1.45rem;font-weight:800;fill:var(--ink);font-variant-numeric:tabular-nums}
+.ring-text-unit{font-family:var(--font-body);font-size:.72rem;font-weight:600;fill:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.macro-metrics-col{flex:1;display:grid;gap:8px;min-width:0}
+.macro-metric-row{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.ring-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.ring-dot-kcal{background:#10b981}
+.ring-dot-protein{background:#0ea5e9}
+.ring-dot-carbs{background:#f59e0b}
+.ring-dot-fat{background:#ec4899}
+.ring-dot-fibre{background:#8b5cf6}
+.macro-metric-info{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.macro-metric-name{font-size:.8rem;font-weight:600;color:var(--muted)}
+.macro-metric-val{font-size:.92rem;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.macro-metric-val small{font-weight:500;color:var(--muted);font-size:.78rem}
+.macro-metric-pct{font-size:.75rem;font-weight:700;color:var(--muted);min-width:34px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* ============ ICMR-NIN 2020 RDA Progress Card ============ */
+.icmr-card{display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:12px}
+.icmr-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.icmr-title{font-size:1.05rem;font-weight:700;margin:0;color:var(--ink)}
+.icmr-sub{font-size:.8rem;color:var(--muted);margin:2px 0 0}
+.icmr-grid{display:grid;gap:10px}
+.icmr-row{display:grid;gap:5px}
+.icmr-row-header{display:flex;justify-content:space-between;align-items:baseline;font-size:.85rem}
+.icmr-row-label{display:flex;align-items:center;gap:6px}
+.icmr-sym{font-size:.68rem;font-weight:700;padding:2px 5px;border-radius:4px;background:var(--bg);border:1px solid var(--line);color:var(--muted);font-family:monospace}
+.icmr-name{font-weight:600;color:var(--ink)}
+.icmr-row-data{font-variant-numeric:tabular-nums;font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.icmr-row-data b{color:var(--ink);font-weight:700}
+.icmr-pct-badge{font-size:.7rem;font-weight:700;padding:2px 6px;border-radius:999px}
+.icmr-pct-badge.good{background:var(--good-soft);color:var(--good)}
+.icmr-pct-badge.warn{background:var(--warn-soft);color:var(--warn)}
+.icmr-pct-badge.slate{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.icmr-track{width:100%;height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.icmr-fill{height:100%;border-radius:999px;transition:width .3s ease}
+.icmr-fill.good{background:var(--good)}
+.icmr-fill.warn{background:var(--warn)}
+.icmr-fill.slate{background:var(--muted);opacity:.5}
+
+/* ============ Home Screen Macro Rings Card ============ */
+.home-rings-card{display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.home-rings-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.home-rings-title{font-size:1.05rem;font-weight:700;margin:0;color:var(--ink)}
+.home-rings-sub{font-size:.8rem;color:var(--muted)}
+.home-rings-link{font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none}
+.home-rings-body{display:flex;align-items:center;gap:16px}
+.home-rings-graphic{flex:none;display:grid;place-items:center}
+.macro-svg{transform:rotate(-90deg);display:block}
+.home-rings-stats{flex:1;display:grid;gap:8px;min-width:0}
+.h-stat-row{display:flex;align-items:center;gap:8px}
+.h-stat-meta{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.h-stat-label{font-size:.8rem;color:var(--muted);font-weight:600}
+.h-stat-meta b{font-size:.88rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.h-stat-pct{font-size:.75rem;font-weight:700;color:var(--muted);min-width:32px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* ============ Scan Section Sample Plate Chips ============ */
+.scan-samples-section{display:grid;gap:8px;padding-top:10px;border-top:1px solid var(--line)}
+.scan-samples-label{font-size:.82rem;font-weight:600;color:var(--muted)}
+.scan-samples-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (max-width:380px){.scan-samples-grid{grid-template-columns:1fr}}
+.scan-sample-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;text-align:left;transition:background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+.scan-sample-chip:hover{background:var(--accent-soft);border-color:var(--accent)}
+.scan-sample-chip:active{transform:scale(.97)}
+.scan-sample-chip img{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px var(--line)}
+.scan-sample-chip .chip-text{min-width:0;display:grid;gap:1px}
+.scan-sample-chip .chip-text b{font-size:.82rem;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scan-sample-chip .chip-text small{font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* Pinned Plate Total Bar */
 .total{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding:12px 16px calc(52px + env(safe-area-inset-bottom));z-index:5}

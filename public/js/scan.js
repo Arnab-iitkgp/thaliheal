@@ -4,6 +4,112 @@
   const { $, esc, r0, r1 } = App;
   const S = { items: [], ctx: "home", demo: true, blob: null, ctl: null, scanned: false, log: null, savedSig: null };
 
+  const DISH_PHOTOS = {
+    veg_biryani: "img/samples/s01.jpg",
+    veg_pulao: "img/samples/s01.jpg",
+    masala_dosa: "img/samples/s02.jpg",
+    plain_dosa: "img/samples/s02.jpg",
+    idli: "img/samples/s03.jpg",
+    medu_vada: "img/samples/s03.jpg",
+    sambar: "img/samples/s03.jpg",
+    chole: "img/samples/s04.jpg",
+    bhatura: "img/samples/s04.jpg",
+    puri: "img/samples/s04.jpg",
+    chapati: "img/samples/s05.jpg",
+    tandoori_roti: "img/samples/s05.jpg",
+    plain_paratha: "img/samples/s05.jpg",
+    veg_momos: "img/samples/s06.jpg",
+    chicken_biryani: "img/samples/s07.jpg",
+    butter_chicken: "img/samples/s08.jpg",
+    butter_naan: "img/samples/s08.jpg",
+    chicken_curry: "img/samples/s10.jpg",
+    plain_rice: "img/samples/s10.jpg",
+    jeera_rice: "img/samples/s10.jpg",
+    mutton_curry: "img/samples/s11.jpg",
+    fish_curry: "img/samples/s12.jpg",
+    prawn_curry: "img/samples/s13.jpg",
+    dum_aloo: "img/samples/s14.jpg",
+    aloo_tamatar: "img/samples/s14.jpg",
+    aloo_matar: "img/samples/s14.jpg",
+    jeera_aloo: "img/samples/s14.jpg",
+    paneer_bhurji: "img/samples/s20.jpg",
+    kadai_paneer: "img/samples/s20.jpg",
+    shahi_paneer: "img/samples/s20.jpg",
+    palak_paneer: "img/samples/s20.jpg",
+    matar_paneer: "img/samples/s20.jpg",
+    boiled_egg: "img/samples/s21.jpg",
+    egg_bhurji: "img/plates/egg-round.jpg",
+    egg_curry: "img/plates/egg-round.jpg",
+    chicken_tikka: "img/samples/s22.jpg",
+    tandoori_chicken: "img/samples/s22.jpg",
+    salad: "img/samples/s23.jpg",
+    kachumber_salad: "img/samples/s23.jpg",
+    green_salad: "img/samples/s23.jpg",
+    fish_fry: "img/samples/s25.jpg",
+    dal_tadka: "img/plates/chole-round.jpg",
+    dal_makhani: "img/plates/chole-round.jpg",
+    dal_fry: "img/plates/chole-round.jpg",
+    dahi_puri: "img/plates/chaat-round.jpg",
+    pani_puri: "img/plates/chaat-round.jpg",
+    sev_puri: "img/plates/chaat-round.jpg",
+    samosa: "img/plates/chaat-round.jpg",
+    noodles: "img/plates/chinese-round.jpg",
+    fried_rice: "img/plates/chinese-round.jpg"
+  };
+
+  const ICONS = {
+    dal: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a8 8 0 0 0 16 0H4z"/><path d="M7 8c.5-1 1.5-2 3-2s2 1 2 2"/><path d="M12 7c.5-1 1.5-2 3-2s2 1 2 2"/><line x1="2" y1="11" x2="22" y2="11"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/></svg>`,
+    roti: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1.2" fill="currentColor"/><circle cx="11" cy="15" r="1" fill="currentColor"/></svg>`,
+    rice: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11c0 5 3.6 9 8 9s8-4 8-9H4z"/><path d="M4 11c1-3 4-5 8-5s7 2 8 5"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="9" y1="4" x2="10" y2="6"/><line x1="15" y1="4" x2="14" y2="6"/></svg>`,
+    sabzi: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9c0-4-3-8-9-9-6 1-9 5-9 9a9 9 0 0 0 9 9z"/><path d="M12 3v18"/><path d="M12 12c-2.5-1-4-3-4-5"/><path d="M12 15c2.5-1 4-3 4-5"/></svg>`,
+    curry: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 0 18 0H3z"/><path d="M6 12V8a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v4"/><circle cx="10" cy="15" r="1.5" fill="currentColor"/><circle cx="14" cy="16" r="1.5" fill="currentColor"/></svg>`,
+    snack: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 16a1 1 0 0 1-.9 1.4H3.9A1 1 0 0 1 3 19L12 3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>`,
+    sweet: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="3" transform="rotate(45 12 12)"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg>`,
+    dairy: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z"/><path d="M5 5h14v3H5z"/><path d="M10 2h4v3h-4z"/></svg>`,
+    egg: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C8 3 5 8 5 14a7 7 0 0 0 14 0c0-6-3-11-7-11z"/><path d="M9 14a3 3 0 0 0 6 0"/></svg>`,
+    protein: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12c2-2 6-2 8 0"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>`,
+    plate: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></svg>`
+  };
+
+  function dishMediaHTML(dish) {
+    if (!dish) return `<div class="dish-cat-badge badge-other" aria-hidden="true">${ICONS.plate}</div>`;
+    const photo = DISH_PHOTOS[dish.id];
+    if (photo) {
+      return `<img class="dish-thumb-img" src="${esc(photo)}" alt="" loading="lazy">`;
+    }
+    const t = dish.type;
+    const f = dish.flags || {};
+    const hasFlag = (k) => Array.isArray(f) ? f.includes(k) : !!f[k];
+    if (hasFlag("egg")) return `<div class="dish-cat-badge badge-egg" aria-hidden="true">${ICONS.egg}</div>`;
+    if (hasFlag("meat") || hasFlag("fish")) return `<div class="dish-cat-badge badge-protein" aria-hidden="true">${ICONS.protein}</div>`;
+    if (hasFlag("dairy") && (t === "other" || dish.name.toLowerCase().includes("milk") || dish.name.toLowerCase().includes("curd") || dish.name.toLowerCase().includes("chaas") || dish.name.toLowerCase().includes("lassi"))) {
+      return `<div class="dish-cat-badge badge-dairy" aria-hidden="true">${ICONS.dairy}</div>`;
+    }
+    if (t === "dal") return `<div class="dish-cat-badge badge-dal" aria-hidden="true">${ICONS.dal}</div>`;
+    if (t === "roti") return `<div class="dish-cat-badge badge-roti" aria-hidden="true">${ICONS.roti}</div>`;
+    if (t === "rice") return `<div class="dish-cat-badge badge-rice" aria-hidden="true">${ICONS.rice}</div>`;
+    if (t === "sabzi") return `<div class="dish-cat-badge badge-sabzi" aria-hidden="true">${ICONS.sabzi}</div>`;
+    if (t === "curry") return `<div class="dish-cat-badge badge-curry" aria-hidden="true">${ICONS.curry}</div>`;
+    if (t === "fried snack") return `<div class="dish-cat-badge badge-snack" aria-hidden="true">${ICONS.snack}</div>`;
+    if (t === "sweet") return `<div class="dish-cat-badge badge-sweet" aria-hidden="true">${ICONS.sweet}</div>`;
+    return `<div class="dish-cat-badge badge-other" aria-hidden="true">${ICONS.plate}</div>`;
+  }
+
+  function dishTypeLabel(dish) {
+    if (!dish) return "Custom Dish";
+    const labels = {
+      dal: "Dal & Pulses",
+      roti: "Roti & Breads",
+      rice: "Rice & Grains",
+      sabzi: "Vegetable Sabzi",
+      curry: "Curry & Gravy",
+      "fried snack": "Street Snack",
+      sweet: "Indian Sweet",
+      other: "Indian Plate Dish"
+    };
+    return labels[dish.type] || "Indian Dish";
+  }
+
   // ---------- render ----------
   function render() {
     $("demoTag").hidden = !S.demo;
@@ -39,21 +145,41 @@
       </div>` : `<button class="add-fat" data-k="addfat">＋ Add ${esc(App.fats[dish.added_fat.type].name.toLowerCase())}</button>`;
     }
     const name = dish ? dish.name : "Unknown: " + it.label;
-    return `<article class="card item" data-uid="${it.uid}">
-      <div class="item-top">
-        <button class="dish-btn ${dish ? "" : "unknown"}" data-k="pick" aria-label="Change dish: ${esc(name)}">${esc(name)} <span class="edit">change</span></button>
-        <span class="pill ${c.cls}" title="${esc(c.why)}">${c.label}</span>
-        <button class="icon-btn" data-k="del" aria-label="Remove ${esc(name)}">✕</button>
+    const media = dishMediaHTML(dish);
+    const catLabel = dishTypeLabel(dish);
+    return `<article class="card item dish-card-v2" data-uid="${it.uid}">
+      <div class="dish-item-header">
+        <div class="dish-thumb-box">${media}</div>
+        <div class="dish-title-group">
+          <div class="dish-name-row">
+            <button class="dish-btn ${dish ? "" : "unknown"}" data-k="pick" aria-label="Change dish: ${esc(name)}">${esc(name)}</button>
+          </div>
+          <div class="dish-cat-meta">
+            <span class="dish-type-tag">${esc(catLabel)}</span>
+            <button class="dish-change-link" data-k="pick">Change</button>
+          </div>
+        </div>
+        <div class="dish-actions">
+          <span class="pill ${c.cls}" title="${esc(c.why)}">${c.label}</span>
+          <button class="icon-btn dish-del-btn" data-k="del" aria-label="Remove ${esc(name)}">✕</button>
+        </div>
       </div>
       <div class="why">${esc(c.why)}</div>
       ${dish ? `
-      <div class="measure">
-        <button class="stepper" data-k="minus" aria-label="Less">−</button>
-        <div class="measure-read"><b data-r="count"></b> ${unitSel}<small data-r="grams"></small></div>
-        <button class="stepper" data-k="plus" aria-label="More">＋</button>
+      <div class="dish-portion-ctrl">
+        <div class="portion-stepper-row">
+          <button class="stepper stepper-btn" data-k="minus" aria-label="Decrease portion">−</button>
+          <div class="measure-read portion-display">
+            <div class="portion-unit-row"><b data-r="count"></b> ${unitSel}</div>
+            <small class="portion-grams-read" data-r="grams"></small>
+          </div>
+          <button class="stepper stepper-btn" data-k="plus" aria-label="Increase portion">＋</button>
+        </div>
+        <div class="portion-slider-wrap">
+          <input type="range" class="portion-slider" data-k="grams" aria-label="Portion in grams" min="0" max="${sliderMax(it)}" step="${it.grams < 60 ? 1 : 5}" value="${r0(it.grams)}">
+        </div>
       </div>
-      <input type="range" data-k="grams" aria-label="Portion in grams" min="0" max="${sliderMax(it)}" step="${it.grams < 60 ? 1 : 5}" value="${r0(it.grams)}">
-      <div class="nut" data-r="nut"></div>
+      <div class="dish-macros-strip" data-r="nut"></div>
       ${oilBlock}` : ""}
     </article>`;
   }
@@ -61,12 +187,12 @@
   function bindCard(it) {
     const el = document.querySelector(`[data-uid="${it.uid}"]`); if (!el) return;
     const dish = App.byId[it.dishId];
-    el.querySelector('[data-k="pick"]').onclick = () => App.openPicker((d) => {
+    el.querySelectorAll('[data-k="pick"]').forEach((btn) => btn.onclick = () => App.openPicker((d) => {
       it.dishId = d.id; it.label = d.name; it.unitIdx = 0; it.confirmed = true;
       it.oil = { type: d.added_fat ? d.added_fat.type : "oil", g: 0, manual: false, level: it.oil.level, on: false };
       if (!(it.grams > 0)) it.grams = d.units[0].g;
       App.resetOil(it); edited(); render();
-    });
+    }));
     el.querySelector('[data-k="del"]').onclick = () => { S.items = S.items.filter((x) => x !== it); edited(); render(); };
     if (!dish) return;
     const range = el.querySelector('[data-k="grams"]');
@@ -103,9 +229,11 @@
     const rg = App.rangeItem(it), c = App.calcItem(it);
     el.querySelector('[data-r="grams"]').textContent = `${App.range(rg.g[0], rg.g[1], "g")} · best guess ${r0(it.grams)} g`;
     el.querySelector('[data-r="nut"]').innerHTML =
-      `<span><b>${App.range(rg.kcal[0], rg.kcal[1])}</b> kcal</span><span>best ${r0(c.total.kcal)}</span>` +
-      `<span>P ${r1(c.total.protein)} g</span><span>C ${r1(c.total.carbs)} g</span><span>F ${r1(c.total.fat)} g</span>` +
-      `<span>Fibre ${r1(c.total.fibre)} g</span><span>Sugar ${r1(c.total.sugar)} g</span>`;
+      `<div class="dish-macro-pill"><span class="lbl">Energy</span><b>${r0(c.total.kcal)} kcal</b><small>${App.range(rg.kcal[0], rg.kcal[1])}</small></div>` +
+      `<div class="dish-macro-pill"><span class="lbl">Protein</span><b>${r1(c.total.protein)} g</b></div>` +
+      `<div class="dish-macro-pill"><span class="lbl">Carbs</span><b>${r1(c.total.carbs)} g</b></div>` +
+      `<div class="dish-macro-pill"><span class="lbl">Fat</span><b>${r1(c.total.fat)} g</b></div>` +
+      `<div class="dish-macro-pill"><span class="lbl">Fibre</span><b>${r1(c.total.fibre)} g</b></div>`;
     const or = el.querySelector('[data-r="oil"]');
     if (or) {
       const tsp = it.oil.g / 4.5;
@@ -113,6 +241,112 @@
       const og = el.querySelector('[data-k="oilg"]'); if (og && Number(og.value) !== it.oil.g) og.value = it.oil.g;
     }
     totals();
+  }
+
+  function updateScanMacroRings(t) {
+    let targetKcal = 650, targetProtein = 20, targetCarbs = 80, targetFat = 22;
+    const profile = App.Account && App.Account.cache && App.Account.cache.doc && App.Account.cache.doc.profile;
+    if (profile && App.Targets) {
+      const tgt = App.Targets.compute(profile);
+      if (tgt && tgt.ok) {
+        targetKcal = Math.round(tgt.energy.target / 3);
+        targetProtein = Math.round(tgt.n.protein.high / 3);
+        targetFat = Math.round(tgt.n.fat.high / 3);
+        targetCarbs = Math.round(tgt.energy.target * 0.55 / 4 / 3);
+      }
+    }
+
+    if ($("ringTextVal")) $("ringTextVal").textContent = r0(t.kcal);
+    if ($("ringValKcal")) $("ringValKcal").innerHTML = `${r0(t.kcal)} <small>kcal</small>`;
+    if ($("ringPctKcal")) $("ringPctKcal").textContent = `${Math.round(t.kcal / targetKcal * 100)}%`;
+
+    if ($("ringValProtein")) $("ringValProtein").innerHTML = `${r1(t.protein)} <small>g</small>`;
+    if ($("ringPctProtein")) $("ringPctProtein").textContent = `${Math.round(t.protein / targetProtein * 100)}%`;
+
+    if ($("ringValCarbs")) $("ringValCarbs").innerHTML = `${r1(t.carbs)} <small>g</small>`;
+    if ($("ringPctCarbs")) $("ringPctCarbs").textContent = `${Math.round(t.carbs / targetCarbs * 100)}%`;
+
+    if ($("ringValFat")) $("ringValFat").innerHTML = `${r1(t.fat)} <small>g</small>`;
+    if ($("ringPctFat")) $("ringPctFat").textContent = `${Math.round(t.fat / targetFat * 100)}%`;
+
+    const offKcal = Math.max(0, 414.7 * (1 - Math.min(1, t.kcal / targetKcal)));
+    const offProt = Math.max(0, 320.4 * (1 - Math.min(1, t.protein / targetProtein)));
+    const offCarb = Math.max(0, 226.2 * (1 - Math.min(1, t.carbs / targetCarbs)));
+
+    if ($("ringKcal")) $("ringKcal").style.strokeDashoffset = offKcal;
+    if ($("ringProtein")) $("ringProtein").style.strokeDashoffset = offProt;
+    if ($("ringCarbs")) $("ringCarbs").style.strokeDashoffset = offCarb;
+
+    if ($("macroMealTargetLabel")) {
+      $("macroMealTargetLabel").textContent = `Meal Budget ~${targetKcal} kcal · 1/3 daily ICMR allowance`;
+    }
+  }
+
+  function updateIcmrProgress() {
+    const grid = $("icmrGrid");
+    if (!grid) return;
+    if (!S.items.length) {
+      grid.innerHTML = `<div class="empty muted" style="padding:10px 0;font-size:0.85rem">Add dishes to see ICMR-NIN 2020 RDA micronutrient progress.</div>`;
+      return;
+    }
+
+    const mealTotals = App.mealTotals(S.items);
+
+    let rda = {
+      iron:      { sym: "Fe", name: "Iron", unit: "mg", rda: 19.0 },
+      calcium:   { sym: "Ca", name: "Calcium", unit: "mg", rda: 1000 },
+      folate:    { sym: "B9", name: "Folate", unit: "µg", rda: 300 },
+      zinc:      { sym: "Zn", name: "Zinc", unit: "mg", rda: 17.0 },
+      vitc:      { sym: "Vit C", name: "Vitamin C", unit: "mg", rda: 80.0 },
+      fibre:     { sym: "Fib", name: "Dietary Fibre", unit: "g", rda: 30.0 }
+    };
+
+    const profile = App.Account && App.Account.cache && App.Account.cache.doc && App.Account.cache.doc.profile;
+    if (profile && App.Targets) {
+      const tgt = App.Targets.compute(profile);
+      if (tgt && tgt.ok && tgt.n) {
+        if (tgt.n.iron) rda.iron.rda = tgt.n.iron.high;
+        if (tgt.n.calcium) rda.calcium.rda = tgt.n.calcium.high;
+        if (tgt.n.folate) rda.folate.rda = tgt.n.folate.high;
+        if (tgt.n.zinc) rda.zinc.rda = tgt.n.zinc.high;
+        if (tgt.n.vitc) rda.vitc.rda = tgt.n.vitc.high;
+        if (tgt.n.fibre) rda.fibre.rda = tgt.n.fibre.high;
+      }
+    }
+
+    const nutrients = [
+      { key: "iron", ...rda.iron },
+      { key: "calcium", ...rda.calcium },
+      { key: "folate", ...rda.folate },
+      { key: "zinc", ...rda.zinc },
+      { key: "vitc", ...rda.vitc },
+      { key: "fibre", ...rda.fibre }
+    ];
+
+    grid.innerHTML = nutrients.map((nut) => {
+      const val = mealTotals[nut.key] || 0;
+      const target = nut.rda;
+      const pct = Math.round(val / target * 100);
+      const cappedPct = Math.min(100, pct);
+      const fillCls = pct >= 50 ? "good" : pct >= 25 ? "warn" : "slate";
+      const valFmt = val < 10 ? val.toFixed(1) : Math.round(val);
+      const tgtFmt = target < 10 ? target.toFixed(1) : Math.round(target);
+      return `<div class="icmr-row">
+        <div class="icmr-row-header">
+          <div class="icmr-row-label">
+            <span class="icmr-sym">${nut.sym}</span>
+            <span class="icmr-name">${nut.name}</span>
+          </div>
+          <div class="icmr-row-data">
+            <b>${valFmt}</b> / ${tgtFmt} ${nut.unit}
+            <span class="icmr-pct-badge ${fillCls}">${pct}% RDA</span>
+          </div>
+        </div>
+        <div class="icmr-track">
+          <div class="icmr-fill ${fillCls}" style="width:${cappedPct}%"></div>
+        </div>
+      </div>`;
+    }).join("");
   }
 
   function totals() {
@@ -123,12 +357,17 @@
       App.NUTS.forEach((k) => t[k] += c.total[k]); lo += rg.kcal[0]; hi += rg.kcal[1]; oilK += c.oil.kcal;
       const cl = App.conf(it); if (!worst || order[cl.cls] < order[worst.cls]) worst = cl;
     });
-    $("tKcal").innerHTML = S.items.length ? `${App.range(lo, hi)} <small>kcal · best ${r0(t.kcal)}</small>` : `0 <small>kcal</small>`;
-    $("tConf").textContent = worst ? (worst.cls === "user" ? "set by you" : `${worst.label} confidence`) : "";
-    ["P:protein", "C:carbs", "F:fat", "Fib:fibre", "S:sugar"].forEach((p) => { const [id, k] = p.split(":"); $("t" + id).textContent = r1(t[k]) + " g"; });
-    $("tFatNote").textContent = oilK > 0 ? `incl. ${r0(oilK)} kcal added fat` : "";
+    if ($("tKcal")) $("tKcal").innerHTML = S.items.length ? `${App.range(lo, hi)} <small>kcal · best ${r0(t.kcal)}</small>` : `0 <small>kcal</small>`;
+    if ($("tConf")) $("tConf").textContent = worst ? (worst.cls === "user" ? "set by you" : `${worst.label} confidence`) : "";
+    ["P:protein", "C:carbs", "F:fat", "Fib:fibre", "S:sugar"].forEach((p) => { const [id, k] = p.split(":"); if ($("t" + id)) $("t" + id).textContent = r1(t[k]) + " g"; });
+    if ($("tFatNote")) $("tFatNote").textContent = oilK > 0 ? `incl. ${r0(oilK)} kcal added fat` : "";
     const e = t.protein * 4 + t.carbs * 4 + t.fat * 9 || 1;
-    $("bP").style.width = (t.protein * 4 / e * 100) + "%"; $("bC").style.width = (t.carbs * 4 / e * 100) + "%"; $("bF").style.width = (t.fat * 9 / e * 100) + "%";
+    if ($("bP")) $("bP").style.width = (t.protein * 4 / e * 100) + "%";
+    if ($("bC")) $("bC").style.width = (t.carbs * 4 / e * 100) + "%";
+    if ($("bF")) $("bF").style.width = (t.fat * 9 / e * 100) + "%";
+
+    updateScanMacroRings(t);
+    updateIcmrProgress();
   }
   function edited() { if (S.demo) { S.demo = false; $("demoTag").hidden = true; } }
   function setStatus(msg, err) { $("status").textContent = msg; $("status").classList.toggle("err", !!err); }
@@ -173,6 +412,8 @@
     not_configured: "Scanning is not set up on this site yet. You can still add dishes by hand.",
     network: "You seem to be offline. Try again when you're back online.",
     upstream_timeout: "The scan took too long. Try again.",
+    upstream_error: "AI service encountered an issue. Tap Scan plate to retry.",
+    server_error: "Server encountered an error. Tap Scan plate to retry.",
     timeout: "No answer after a long wait, which usually means a slow connection. Try again on Wi-Fi or with a stronger signal.",
     no_credit: "Scanning is paused: the app's AI credit has run out. You can still add dishes by hand.",
     key_rejected: "Scanning is paused: the server's AI key was refused. You can still add dishes by hand.",
@@ -181,10 +422,22 @@
     scanning_off: "Photo scanning is coming soon. For now, add the dishes on your plate by hand with “Add a dish”.",
     origin_not_allowed: `This site is not on the server's allowed list yet. Add ${location.origin} to ALLOWED_ORIGINS on Vercel and redeploy.`,
   };
-  App.errText = (e) => ERR[e && e.code] || "Something went wrong. Try again.";
+  App.errText = (e) => ERR[e && e.code] || (e && (e.message || e.error)) || "Something went wrong. Try again.";
 
   async function scan() {
-    if (!App.claudeSample || !S.blob) return;
+    if (!App.claudeSample && App.hosting === "web") {
+      try {
+        App.claudeSample = await App.serverSample();
+        if (App.claudeSample) {
+          $("noScan").hidden = true;
+          $("scanBtn").hidden = false;
+        }
+      } catch (err) {}
+    }
+    if (!App.claudeSample || !S.blob) {
+      if (!App.claudeSample) noScan();
+      return;
+    }
     S.ctl = new AbortController();
     $("scanBtn").disabled = true; $("stopBtn").hidden = false;
     setStatus("Looking at your plate… this can take 20 to 40 seconds.");
@@ -202,6 +455,7 @@
       const n = S.items.length;
       setStatus(n ? `Found ${n} item${n === 1 ? "" : "s"}. Check each one and fix names or portions.${m.note ? " " + m.note : ""}` : `No food found in the photo.${m.note ? " " + m.note : ""}`);
     } catch (e) {
+      console.error("Scan failed with details:", e);
       if (e && e.code === "cancelled") setStatus("Scan stopped.");
       else {
         setStatus(App.errText(e), true);
@@ -310,6 +564,12 @@
     init() {
       demo();
       document.querySelectorAll("#ctx button").forEach((b) => b.onclick = () => setCtx(b.dataset.ctx));
+      document.querySelectorAll("[data-view='scan'] [data-plate]").forEach((b) => {
+        b.onclick = () => {
+          if (!App.aiEnabled) { location.hash = "#soon"; return; }
+          App.views.scan.usePhoto(`img/plates/${b.dataset.plate}.jpg`, b.dataset.label);
+        };
+      });
       $("scanBtn").onclick = scan;
       $("stopBtn").onclick = () => S.ctl && S.ctl.abort();
       $("addBtn").onclick = () => App.openPicker((d) => { S.items.push(App.newItem(d.id, null, { origin: "manual", ctx: S.ctx })); edited(); render(); });
@@ -333,6 +593,15 @@
       let blob;
       try { blob = await (await fetch(url)).blob(); } catch (err) { return setStatus("That sample photo could not be loaded.", true); }
       if (!(await usePhotoBlob(blob, `${label}, sample`))) return;
+      if (!App.claudeSample && App.hosting === "web") {
+        try {
+          App.claudeSample = await App.serverSample();
+          if (App.claudeSample) {
+            $("noScan").hidden = true;
+            $("scanBtn").hidden = false;
+          }
+        } catch (err) {}
+      }
       if (App.claudeSample) scan(); else noScan();
     },
     pendingPlate: () => !S.demo && S.items.length > 0 && S.savedSig !== sig(),

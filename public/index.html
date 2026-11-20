@@ -58,6 +58,44 @@
       <button class="plate-btn" data-plate="chinese" data-label="Indo Chinese spread"><img src="img/plates/chinese-round.jpg" alt="" width="104" height="104">Indo Chinese<small>noodles, rice, gravy</small></button>
     </div>
   </div>
+  <div class="card home-rings-card" id="homeRingsCard">
+    <div class="home-rings-head">
+      <div>
+        <h3 class="home-rings-title">Today's Nutrition Rings</h3>
+        <span class="home-rings-sub" id="homeRingsSub">Daily progress towards your ICMR-NIN 2020 targets</span>
+      </div>
+      <a class="home-rings-link" href="#track">Log details ›</a>
+    </div>
+    <div class="home-rings-body">
+      <div class="home-rings-graphic">
+        <svg class="macro-svg" viewBox="0 0 120 120" width="104" height="104" aria-label="Today's rings">
+          <circle class="ring-track" cx="60" cy="60" r="48" stroke-width="7.5"></circle>
+          <circle class="ring-bar ring-kcal" id="hRingKcal" cx="60" cy="60" r="48" stroke-width="7.5" stroke-dasharray="301.6" stroke-dashoffset="301.6"></circle>
+          <circle class="ring-track" cx="60" cy="60" r="37" stroke-width="7.5"></circle>
+          <circle class="ring-bar ring-protein" id="hRingProtein" cx="60" cy="60" r="37" stroke-width="7.5" stroke-dasharray="232.5" stroke-dashoffset="232.5"></circle>
+          <circle class="ring-track" cx="60" cy="60" r="26" stroke-width="7.5"></circle>
+          <circle class="ring-bar ring-fibre" id="hRingFibre" cx="60" cy="60" r="26" stroke-width="7.5" stroke-dasharray="163.4" stroke-dashoffset="163.4"></circle>
+        </svg>
+      </div>
+      <div class="home-rings-stats">
+        <div class="h-stat-row">
+          <span class="ring-dot ring-dot-kcal"></span>
+          <div class="h-stat-meta"><span class="h-stat-label">Energy</span><b id="hStatKcal">0 / 2,000 kcal</b></div>
+          <span class="h-stat-pct" id="hStatKcalPct">0%</span>
+        </div>
+        <div class="h-stat-row">
+          <span class="ring-dot ring-dot-protein"></span>
+          <div class="h-stat-meta"><span class="h-stat-label">Protein</span><b id="hStatProtein">0 / 50.0 g</b></div>
+          <span class="h-stat-pct" id="hStatProteinPct">0%</span>
+        </div>
+        <div class="h-stat-row">
+          <span class="ring-dot ring-dot-fibre"></span>
+          <div class="h-stat-meta"><span class="h-stat-label">Fibre</span><b id="hStatFibre">0 / 30.0 g</b></div>
+          <span class="h-stat-pct" id="hStatFibrePct">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="track-cards">
     <a class="card" href="#track"><b>My log</b><span id="homeLogLine">Daily, weekly and monthly trends</span></a>
     <a class="card" href="#profile"><b>Profile</b><span id="homeProfileLine">Your ICMR NIN 2020 targets</span></a>
@@ -120,6 +158,27 @@
           <span class="drop-desk">Choose a file, drop it here, or paste with Ctrl+V</span>
         </label>
       </div>
+      <div class="scan-samples-section ai-only">
+        <div class="scan-samples-label">Or test scan with a sample thali:</div>
+        <div class="scan-samples-grid">
+          <button type="button" class="scan-sample-chip" data-plate="chole" data-label="Chole thali">
+            <img src="img/plates/chole-round.jpg" alt="" width="36" height="36">
+            <div class="chip-text"><b>Chole Thali</b><small>appe, aloo, rice, roti</small></div>
+          </button>
+          <button type="button" class="scan-sample-chip" data-plate="egg" data-label="Egg curry thali">
+            <img src="img/plates/egg-round.jpg" alt="" width="36" height="36">
+            <div class="chip-text"><b>Egg Curry Thali</b><small>raita, rice, roti</small></div>
+          </button>
+          <button type="button" class="scan-sample-chip" data-plate="chaat" data-label="Dahi puri">
+            <img src="img/plates/chaat-round.jpg" alt="" width="36" height="36">
+            <div class="chip-text"><b>Dahi Puri</b><small>street chaat</small></div>
+          </button>
+          <button type="button" class="scan-sample-chip" data-plate="chinese" data-label="Indo Chinese spread">
+            <img src="img/plates/chinese-round.jpg" alt="" width="36" height="36">
+            <div class="chip-text"><b>Indo Chinese</b><small>noodles, rice, gravy</small></div>
+          </button>
+        </div>
+      </div>
       <input type="file" id="photoCam" class="sr-only" accept="image/*" capture="environment" tabindex="-1" aria-hidden="true">
       <div class="preview" id="preview" hidden>
         <img id="previewImg" alt="Your plate photo">
@@ -157,11 +216,86 @@
     </footer>
   </div>
   <div class="plate-col">
+    <!-- Concentric Macro Rings Dashboard Card -->
+    <div class="card macro-dashboard-card" id="scanRingsCard">
+      <div class="macro-dashboard-top">
+        <div>
+          <h3 class="macro-dashboard-title">Meal Nutrition Rings</h3>
+          <span class="macro-dashboard-sub" id="macroMealTargetLabel">Budget ~650 kcal · 1/3 daily ICMR allowance</span>
+        </div>
+        <span class="tag ref" id="macroRingsBadge">Meal Budget</span>
+      </div>
+      <div class="macro-dashboard-body">
+        <div class="macro-rings-col">
+          <svg class="macro-rings-svg" viewBox="0 0 160 160" width="144" height="144" aria-label="Interactive macro rings">
+            <circle class="ring-track" cx="80" cy="80" r="66" stroke-width="8.5"></circle>
+            <circle class="ring-bar ring-kcal" id="ringKcal" cx="80" cy="80" r="66" stroke-width="8.5" stroke-dasharray="414.7" stroke-dashoffset="414.7"></circle>
+            <circle class="ring-track" cx="80" cy="80" r="51" stroke-width="8.5"></circle>
+            <circle class="ring-bar ring-protein" id="ringProtein" cx="80" cy="80" r="51" stroke-width="8.5" stroke-dasharray="320.4" stroke-dashoffset="320.4"></circle>
+            <circle class="ring-track" cx="80" cy="80" r="36" stroke-width="8.5"></circle>
+            <circle class="ring-bar ring-carbs" id="ringCarbs" cx="80" cy="80" r="36" stroke-width="8.5" stroke-dasharray="226.2" stroke-dashoffset="226.2"></circle>
+            <g class="ring-center-text">
+              <text class="ring-text-num" id="ringTextVal" x="80" y="77" text-anchor="middle">0</text>
+              <text class="ring-text-unit" x="80" y="93" text-anchor="middle">kcal</text>
+            </g>
+          </svg>
+        </div>
+        <div class="macro-metrics-col">
+          <div class="macro-metric-row">
+            <span class="ring-dot ring-dot-kcal"></span>
+            <div class="macro-metric-info">
+              <span class="macro-metric-name">Calories</span>
+              <b class="macro-metric-val" id="ringValKcal">0 <small>kcal</small></b>
+            </div>
+            <span class="macro-metric-pct" id="ringPctKcal">0%</span>
+          </div>
+          <div class="macro-metric-row">
+            <span class="ring-dot ring-dot-protein"></span>
+            <div class="macro-metric-info">
+              <span class="macro-metric-name">Protein</span>
+              <b class="macro-metric-val" id="ringValProtein">0 <small>g</small></b>
+            </div>
+            <span class="macro-metric-pct" id="ringPctProtein">0%</span>
+          </div>
+          <div class="macro-metric-row">
+            <span class="ring-dot ring-dot-carbs"></span>
+            <div class="macro-metric-info">
+              <span class="macro-metric-name">Carbs</span>
+              <b class="macro-metric-val" id="ringValCarbs">0 <small>g</small></b>
+            </div>
+            <span class="macro-metric-pct" id="ringPctCarbs">0%</span>
+          </div>
+          <div class="macro-metric-row">
+            <span class="ring-dot ring-dot-fat"></span>
+            <div class="macro-metric-info">
+              <span class="macro-metric-name">Fat</span>
+              <b class="macro-metric-val" id="ringValFat">0 <small>g</small></b>
+            </div>
+            <span class="macro-metric-pct" id="ringPctFat">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="list-head"><h2>On your plate</h2><span class="small muted">Ranges are 80% ranges</span></div>
     <div class="items" id="items"></div>
     <div class="row">
       <button class="btn" id="addBtn">＋ Add a dish</button>
       <button class="btn btn-ghost" id="clearBtn">Clear plate</button>
+    </div>
+
+    <!-- ICMR-NIN 2020 Clinical Micronutrient Progress -->
+    <div class="card icmr-card" id="icmrCard">
+      <div class="icmr-top">
+        <div>
+          <h3 class="icmr-title">ICMR-NIN 2020 Micronutrients</h3>
+          <p class="icmr-sub">Official Indian RDA contribution from this meal</p>
+        </div>
+        <span class="tag ref">Clinical RDA</span>
+      </div>
+      <div class="icmr-grid" id="icmrGrid">
+        <!-- Rendered dynamically by totals() -->
+      </div>
     </div>
   </div>
   <div class="total" aria-label="Plate total">

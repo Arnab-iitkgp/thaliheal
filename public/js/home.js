@@ -21,17 +21,58 @@
         location.hash = "#scan";
         App.views.scan.usePhoto(`img/plates/${b.dataset.plate}.jpg`, b.dataset.label);
       });
-      // Today's logged energy against the target, once the profile is set.
+      // Today's logged energy and macros against ICMR targets
       (async () => {
         const doc = await App.Account.getDoc();
-        if (!doc || !doc.profile) { $("homeLogLine").textContent = "Daily, weekly and monthly trends"; $("homeProfileLine").textContent = "Set up for your ICMR NIN 2020 targets"; return; }
-        const t = App.Targets.compute(doc.profile);
-        const hide = App.store.get("thali.hideNumbers", false) === true;
-        $("homeProfileLine").textContent = !t.ok ? "Targets off for your profile" : hide ? "Your daily targets" : `Aim ${Math.round(t.energy.lo).toLocaleString("en-IN")} to ${Math.round(t.energy.hi).toLocaleString("en-IN")} kcal a day`;
+        let tgtKcal = 2000, tgtProtein = 50, tgtFibre = 30;
+        let t = null;
+        if (doc && doc.profile) {
+          t = App.Targets.compute(doc.profile);
+          if (t && t.ok) {
+            tgtKcal = Math.round(t.energy.target);
+            tgtProtein = Math.round(t.n.protein.high);
+            tgtFibre = Math.round(t.n.fibre.high);
+          }
+        }
+
+        if (!doc || !doc.profile) {
+          $("homeLogLine").textContent = "Daily, weekly and monthly trends";
+          $("homeProfileLine").textContent = "Set up for your ICMR NIN 2020 targets";
+          if ($("homeRingsSub")) $("homeRingsSub").textContent = "Set up your profile to personalize daily ICMR targets";
+        } else {
+          const hide = App.store.get("thali.hideNumbers", false) === true;
+          $("homeProfileLine").textContent = !t.ok ? "Targets off for your profile" : hide ? "Your daily targets" : `Aim ${Math.round(t.energy.lo).toLocaleString("en-IN")} to ${Math.round(t.energy.hi).toLocaleString("en-IN")} kcal a day`;
+          if ($("homeRingsSub")) $("homeRingsSub").textContent = hide ? "Your daily target progress" : `Daily ICMR target: ${tgtKcal.toLocaleString("en-IN")} kcal · ${tgtProtein}g protein`;
+        }
+
         const today = App.today(), meals = (await App.Account.meals()).filter((m) => m.date === today);
-        const k = meals.reduce((a, m) => a + (m.totals.kcal || 0), 0);
+        let totKcal = 0, totProtein = 0, totFibre = 0;
+        meals.forEach((m) => {
+          totKcal += m.totals.kcal || 0;
+          totProtein += m.totals.protein || 0;
+          totFibre += m.totals.fibre || 0;
+        });
+
         const nm = `${meals.length} meal${meals.length === 1 ? "" : "s"}`;
-        $("homeLogLine").textContent = !meals.length ? "Nothing logged today" : hide ? `Today: ${nm} logged` : `Today: ${Math.round(k).toLocaleString("en-IN")} kcal in ${nm}`;
+        const hide = App.store.get("thali.hideNumbers", false) === true;
+        $("homeLogLine").textContent = !meals.length ? "Nothing logged today" : hide ? `Today: ${nm} logged` : `Today: ${Math.round(totKcal).toLocaleString("en-IN")} kcal in ${nm}`;
+
+        // Update Home Concentric Macro Rings (r=48 C=301.6; r=37 C=232.5; r=26 C=163.4)
+        const offK = Math.max(0, 301.6 * (1 - Math.min(1, totKcal / tgtKcal)));
+        const offP = Math.max(0, 232.5 * (1 - Math.min(1, totProtein / tgtProtein)));
+        const offF = Math.max(0, 163.4 * (1 - Math.min(1, totFibre / tgtFibre)));
+
+        const elK = $("hRingKcal"), elP = $("hRingProtein"), elF = $("hRingFibre");
+        if (elK) elK.style.strokeDashoffset = offK;
+        if (elP) elP.style.strokeDashoffset = offP;
+        if (elF) elF.style.strokeDashoffset = offF;
+
+        if ($("hStatKcal")) $("hStatKcal").textContent = `${Math.round(totKcal).toLocaleString("en-IN")} / ${tgtKcal.toLocaleString("en-IN")} kcal`;
+        if ($("hStatKcalPct")) $("hStatKcalPct").textContent = `${Math.round(totKcal / tgtKcal * 100)}%`;
+        if ($("hStatProtein")) $("hStatProtein").textContent = `${totProtein.toFixed(1)} / ${tgtProtein} g`;
+        if ($("hStatProteinPct")) $("hStatProteinPct").textContent = `${Math.round(totProtein / tgtProtein * 100)}%`;
+        if ($("hStatFibre")) $("hStatFibre").textContent = `${totFibre.toFixed(1)} / ${tgtFibre} g`;
+        if ($("hStatFibrePct")) $("hStatFibrePct").textContent = `${Math.round(totFibre / tgtFibre * 100)}%`;
       })().catch(() => {});
     },
   };

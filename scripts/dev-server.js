@@ -48,8 +48,16 @@ function start(port, tls) {
     // HSTS is for the live site only: on localhost it would stick to the address and break plain local runs.
     headerRules.forEach((h) => { if (h.re.test(url.pathname)) h.headers.forEach((x) => { if (x.key !== "Strict-Transport-Security") res.setHeader(x.key, x.value); }); });
     if (url.pathname === "/api/ai") {
-      if (process.env.NODE_ENV !== "test") loadEnv();
-      return handler(req, res);
+      if (process.env.NODE_ENV !== "test") {
+        loadEnv();
+        // Clear cached modules for hot reloading
+        Object.keys(require.cache).forEach((k) => {
+          if (k.includes("api\\ai.js") || k.includes("api/ai.js") || k.includes("\\lib\\") || k.includes("/lib/")) {
+            delete require.cache[k];
+          }
+        });
+      }
+      return require(path.join(ROOT, "api", "ai.js"))(req, res);
     }
     let file = path.normalize(path.join(PUBLIC, decodeURIComponent(url.pathname)));
     if (!file.startsWith(PUBLIC)) { res.statusCode = 403; return res.end(); }

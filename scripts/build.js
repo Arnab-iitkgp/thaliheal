@@ -8,7 +8,22 @@ const path = require("path");
 
 const FLAGS = path.join(__dirname, "..", "public", "js", "flags.js");
 
-function aiEnabled() { return String(process.env.AI_ENABLED || "").trim().toLowerCase() === "true"; }
+function loadEnv() {
+  const root = path.join(__dirname, "..");
+  for (const f of [".env.local", ".env"]) {
+    const p = path.join(root, f);
+    if (!fs.existsSync(p)) continue;
+    for (const line of fs.readFileSync(p, "utf8").split("\n")) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+      if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
+    }
+  }
+}
+
+function aiEnabled() {
+  loadEnv();
+  return String(process.env.AI_ENABLED || "").trim().toLowerCase() === "true";
+}
 
 function writeFlags() {
   const ai = aiEnabled();

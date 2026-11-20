@@ -22,7 +22,7 @@ function loadEnv() {
     if (!fs.existsSync(p)) continue;
     for (const line of fs.readFileSync(p, "utf8").split("\n")) {
       const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-      if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+      if (m) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
     }
   }
 }
@@ -47,7 +47,10 @@ function start(port, tls) {
     const url = new URL(req.url, "http://localhost");
     // HSTS is for the live site only: on localhost it would stick to the address and break plain local runs.
     headerRules.forEach((h) => { if (h.re.test(url.pathname)) h.headers.forEach((x) => { if (x.key !== "Strict-Transport-Security") res.setHeader(x.key, x.value); }); });
-    if (url.pathname === "/api/ai") return handler(req, res);
+    if (url.pathname === "/api/ai") {
+      if (process.env.NODE_ENV !== "test") loadEnv();
+      return handler(req, res);
+    }
     let file = path.normalize(path.join(PUBLIC, decodeURIComponent(url.pathname)));
     if (!file.startsWith(PUBLIC)) { res.statusCode = 403; return res.end(); }
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, "index.html");
@@ -67,6 +70,23 @@ function lanAddresses() {
   return Object.values(require("os").networkInterfaces()).flat().filter((a) => a && a.family === "IPv4" && !a.internal).map((a) => a.address);
 }
 
+function findOpenSSL() {
+  const candidates = [
+    "openssl",
+    "C:\\Program Files\\Git\\usr\\bin\\openssl.exe",
+    "C:\\Program Files (x86)\\Git\\usr\\bin\\openssl.exe",
+    "C:\\Program Files\\OpenSSL-Win64\\bin\\openssl.exe",
+  ];
+  for (const cmd of candidates) {
+    if (cmd !== "openssl" && !fs.existsSync(cmd)) continue;
+    try {
+      const r = require("child_process").spawnSync(cmd, ["version"], { stdio: "ignore" });
+      if (!r.error && r.status === 0) return cmd;
+    } catch (e) {}
+  }
+  return "openssl";
+}
+
 // A self signed certificate for localhost and this computer's network addresses, made once with openssl.
 function localCert() {
   const dir = path.join(ROOT, ".cert"), key = path.join(dir, "key.pem"), cert = path.join(dir, "cert.pem");
@@ -75,7 +95,8 @@ function localCert() {
   const stamp = path.join(dir, "san.txt");
   if (!(fs.existsSync(key) && fs.existsSync(cert) && fs.existsSync(stamp) && fs.readFileSync(stamp, "utf8") === san)) {
     fs.mkdirSync(dir, { recursive: true });
-    const r = require("child_process").spawnSync("openssl", ["req", "-x509", "-newkey", "rsa:2048", "-nodes", "-sha256", "-days", "365",
+    const opensslCmd = findOpenSSL();
+    const r = require("child_process").spawnSync(opensslCmd, ["req", "-x509", "-newkey", "rsa:2048", "-nodes", "-sha256", "-days", "365",
       "-keyout", key, "-out", cert, "-subj", "/CN=ThaliHeal local", "-addext", "subjectAltName=" + san], { stdio: "pipe" });
     if (r.error || r.status !== 0) {
       console.error("Could not make a local certificate: openssl is missing or failed. On Windows, run this from Git Bash, or use npm run dev and test the camera on this computer.");

@@ -97,20 +97,22 @@ async function checkGroq() {
     }
     console.log("✅ Groq API Key authenticated successfully!");
 
-    const model = "openai/gpt-oss-20b";
-    console.log(`Sending live assistant prompt to Groq model (${model})...`);
-    const t0 = Date.now();
+    const model = "qwen/qwen3.8-27b";
+    console.log(`Sending live meal photo scan to Groq vision model (${model})...`);
+    const sampleImgPath = path.join(__dirname, "../public/img/samples/s01.jpg");
+    const imgBase64 = fs.existsSync(sampleImgPath) ? fs.readFileSync(sampleImgPath).toString("base64") : "";
 
+    const t0 = Date.now();
     const res = await callGroq(
       { groqKey: key },
       {
         model,
-        prompt: "Provide 1 short nutrition tip for Indian meals in under 20 words.",
-        images: [],
-        purpose: "assistant",
-        maxTokens: 60,
+        prompt: 'Identify the food in the photo. Reply with JSON: {"dish":"name"}',
+        images: imgBase64 ? [{ media_type: "image/jpeg", data: imgBase64 }] : [],
+        purpose: "scan",
+        maxTokens: 100,
       },
-      "You are a concise nutrition coach."
+      "You are a food recognition assistant for Indian meals."
     );
 
     if (res.ok) {

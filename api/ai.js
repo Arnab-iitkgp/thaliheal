@@ -42,7 +42,7 @@ module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") {
     if (!originOk) return send(403, { error: "origin_not_allowed" });
     res.setHeader("Access-Control-Allow-Methods", "GET, POST");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-ThaliHeal-Tester");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-ThaliHeal-Tester, ngrok-skip-browser-warning");
     res.statusCode = 204; return res.end();
   }
 
@@ -61,6 +61,8 @@ module.exports = async function handler(req, res) {
       enabled: true,
       configured: gaps.length === 0,
       provider: cfg.provider,
+      keysCount: cfg.provider === "gemini" ? cfg.geminiKeys.length : 1,
+      fallback: cfg.fallbackEnabled && !!(cfg.provider === "gemini" ? cfg.groqKey : cfg.geminiKey) ? (cfg.provider === "gemini" ? "groq" : "gemini") : null,
       models: cfg.models,
       missing: cfg.strict ? undefined : gaps,
       limits: { maxBodyBytes: cfg.maxBodyBytes, maxImageBytes: cfg.maxImageBytes, maxImages: cfg.maxImages, mediaTypes: MEDIA, maxPromptChars: cfg.maxPromptChars },

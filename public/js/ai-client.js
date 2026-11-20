@@ -116,7 +116,7 @@ If the photo shows no food, reply {"context":"home","items":[],"note":"No food f
       try {
         const { r, body } = await App.fetchFor(
           App.apiUrl,
-          { headers: { Accept: "application/json" }, cache: "no-store" },
+          { headers: { Accept: "application/json", "ngrok-skip-browser-warning": "true" }, cache: "no-store" },
           App.LIMIT_MS.status,
           App.readJSON(null)
         );
@@ -167,7 +167,7 @@ If the photo shows no food, reply {"context":"home","items":[],"note":"No food f
       const purpose = o.purpose || (images.length ? (App.testModeOn() && App.store.get("thali.testerToken", "") ? "test" : "scan") : "assistant");
       const body = JSON.stringify({ prompt, images, tier: o.modelTier || "default", purpose });
       if (body.length > L.maxBodyBytes) throw { code: "too_large" };
-      const headers = { "Content-Type": "application/json" };
+      const headers = { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" };
       const tok = App.store.get("thali.testerToken", "");
       if (tok) headers["X-ThaliHeal-Tester"] = tok;
 

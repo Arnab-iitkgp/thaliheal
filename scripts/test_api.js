@@ -1,6 +1,7 @@
 // Checks api/ai.js without spending money: the AI APIs (Gemini, Groq, Claude) and Upstash are replaced by fakes.
 //   node scripts/test_api.js
 "use strict";
+process.env.NODE_ENV = "test";
 const assert = require("assert");
 
 const realFetch = global.fetch;
@@ -164,14 +165,14 @@ function setEnv(extra) {
   setEnv({ AI_PROVIDER: "groq", GROQ_API_KEY: "test-groq-key", ANTHROPIC_API_KEY: "" });
   j = await (await realFetch(U)).json();
   assert.strictEqual(j.provider, "groq");
-  assert.strictEqual(j.models.default, "llama-3.2-11b-vision-preview");
+  assert.strictEqual(j.models.default, "qwen/qwen3.8-27b");
   assert.strictEqual(j.configured, true);
-  ok("groq provider configured with free Llama vision models");
+  ok("groq provider configured with free Qwen vision models");
 
   r = await post(scan);
   j = await r.json();
   assert.strictEqual(r.status, 200);
-  assert.strictEqual(j.modelApplied, "llama-3.2-11b-vision-preview");
+  assert.strictEqual(j.modelApplied, "qwen/qwen3.8-27b");
   assert.ok(lastGroqBody.messages[1].content.some((c) => c.type === "image_url"));
   ok("groq scan runs successfully with OpenAI-compatible vision payload");
 

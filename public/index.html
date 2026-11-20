@@ -428,20 +428,36 @@
 <!-- ============ ASSISTANT ============ -->
 <section data-view="zeno" class="wrap zeno" hidden>
   <header class="zeno-header">
-    <a class="back" href="#home">‹ Home</a>
-    <a class="icon-btn ai-only" href="#ask">Ask about my log</a>
+    <label class="zeno-workspace" id="zenoWorkspaceLabel" hidden>
+      <span class="sr-only">Chat workspace</span>
+      <select id="zenoWorkspace"><option value="personal">My meals</option><option value="demo">Sample meals</option></select>
+    </label>
+    <details class="zeno-options" id="zenoOptions">
+      <summary class="icon-btn" aria-label="Conversation options"><span aria-hidden="true">⋯</span></summary>
+      <div class="zeno-options-list">
+        <button type="button" id="zenoNewConversation">New conversation</button>
+        <button type="button" id="zenoResume" hidden>Resume</button>
+        <button type="button" id="zenoSaveSummary" hidden>Save summary</button>
+        <a class="ai-only" href="#ask">Ask about my log</a>
+        <button type="button" id="zenoManageData">Clear Zeno data</button>
+      </div>
+    </details>
   </header>
   <div class="zeno-stage" id="zenoStage" data-state="rest">
+    <button class="zeno-info" id="zenoShowGuide" type="button" aria-label="What Zeno can do" aria-haspopup="dialog" aria-controls="zenoGuide">
+      <span aria-hidden="true">i</span>
+    </button>
     <div class="zeno-intro">
       <h1>Zeno</h1>
-      <p>Your little food companion</p>
     </div>
-    <svg class="zeno-character" viewBox="0 0 240 208" aria-hidden="true">
+    <div id="zenoAvatarHome"><svg id="zenoAvatar" class="zeno-character" viewBox="0 0 240 208" aria-hidden="true">
       <ellipse class="zeno-shadow" cx="115" cy="186" rx="72" ry="9"/>
       <g class="zeno-body">
-        <path fill="#e38e66" d="M53 117q-29 9-39 29c-5 12 5 20 15 15l29-21z"/>
-        <path class="zeno-arm" fill="#e38e66" d="M174 115q14-8 26-25c8-10 20-5 22 4 3 13-13 34-45 44z"/>
-        <path fill="#ae503b" d="M56 159h36l-4 17q-2 8-11 8H60q-10 0-8-9zm78 0h35l5 16q2 9-7 9h-18q-8 0-11-8z"/>
+      <g class="zeno-motion">
+        <path class="zeno-arm-left" fill="#e38e66" d="M53 115c-12 5-24 17-28 29-2 8 6 12 12 7l20-18z"/>
+        <path class="zeno-arm-right" fill="#e38e66" d="M176 115c13 5 27 17 30 28 3 9-5 13-12 8l-20-18z"/>
+        <path class="zeno-foot-left" fill="#ae503b" d="M56 159h36l-4 17q-2 8-11 8H60q-10 0-8-9z"/>
+        <path class="zeno-foot-right" fill="#ae503b" d="M134 159h35l5 16q2 9-7 9h-18q-8 0-11-8z"/>
         <path fill="#efa374" d="M63 45q6-12 23-15l62-10q9-2 17 4l36 34-23 15 8 73q3 20-19 22H55q-19 0-16-21z"/>
         <g class="zeno-fold">
           <path fill="#963e30" d="m198 57 3 9q-2 9-19 17l-5-15z"/>
@@ -453,12 +469,12 @@
         </g>
         <g class="zeno-face zeno-face-listen">
           <path d="M79 75q8-7 17-4m33 1q8-4 16 1m-37 36q7 6 15 0"/>
-          <ellipse cx="91" cy="90" rx="7" ry="10"/><ellipse cx="137" cy="89" rx="7" ry="10"/>
-          <circle fill="#fff1d9" cx="93" cy="86" r="2"/><circle fill="#fff1d9" cx="139" cy="85" r="2"/>
+          <g class="zeno-rest-eyes"><ellipse cx="91" cy="90" rx="7" ry="10"/><ellipse cx="137" cy="89" rx="7" ry="10"/>
+          <circle fill="#fff1d9" cx="93" cy="86" r="2"/><circle fill="#fff1d9" cx="139" cy="85" r="2"/></g>
         </g>
         <g class="zeno-face zeno-face-ask">
-          <path d="M132 70q8-6 17 1"/>
-          <rect x="89" y="82" width="9" height="19" rx="4.5"/><circle cx="141" cy="86" r="9"/><circle cx="116" cy="110" r="4"/>
+          <path d="M80 77q9-4 17-1m35-9q8-5 17 0m-39 45q6 4 14-1"/>
+          <rect x="91" y="82" width="9" height="16" rx="4.5"/><rect x="137" y="76" width="9" height="18" rx="4.5"/>
         </g>
         <g class="zeno-face zeno-face-recall">
           <path d="M79 74q8-8 17-7m-10 19h17m27-1h17m-34 25q9 4 14-5"/>
@@ -469,30 +485,130 @@
           <rect x="91" y="83" width="9" height="19" rx="4.5"/><rect x="135" y="81" width="9" height="19" rx="4.5"/>
           <ellipse class="zeno-mouth" cx="116" cy="111" rx="8" ry="5"/>
         </g>
+        <g class="zeno-face zeno-face-pleased">
+          <path d="M88 92q6-10 13 0m31-2q7-10 14 0m-38 15q13 14 26-2"/>
+        </g>
       </g>
-    </svg>
-    <p class="zeno-coming">Coming soon</p>
-    <p class="zeno-coming-details">Talk or text with Zeno. He listens, helps plan your meals, and remembers your food habits.</p>
-    <div class="zeno-status" hidden><span class="zeno-signal" aria-hidden="true"><i></i><i></i><i></i></span><span id="zenoStatus" role="status">Voice preview</span></div>
-  </div>
-  <div class="zeno-panel" hidden>
-    <p class="zeno-preview-note">Scripted conversation with optional device audio.</p>
-    <ol class="zeno-conversation" id="zenoConversation" aria-label="Preview transcript" role="log" hidden></ol>
-    <div class="zeno-draft" id="zenoDraft" hidden>
-      <h2>Lunch draft</h2>
-      <div class="zeno-dish"><span>Rajma</span><b>1 katori</b></div>
-      <div class="zeno-dish"><span>Rice</span><b>1 katori</b></div>
-      <div class="zeno-dish"><label for="zenoRotis">Rotis</label><input id="zenoRotis" type="number" min="0" max="20" step="1" required value="3"></div>
-      <button class="btn btn-primary" id="zenoReview" type="button">Review plate</button>
-      <p id="zenoReviewNote" role="status" hidden></p>
+      </g>
+    </svg></div>
+    <div class="zeno-hero-voice" id="zenoVoicePanel" hidden>
+      <button class="btn btn-primary" id="zenoPersonalStart" type="button" hidden disabled>Talk to Zeno</button>
+      <button class="btn btn-primary zeno-call-launch" id="zenoVoiceStart" type="button" hidden disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4m4-8v12m5-16v20m5-16v12m4-8v4"/></svg><span>Try a sample call</span>
+      </button>
     </div>
+  </div>
+  <div class="zeno-panel">
+    <div class="zeno-shortcuts">
+      <button class="btn btn-small" type="button" id="zenoLastWeek">Review last week</button>
+      <button class="btn btn-small" type="button" id="zenoShowMemories">What Zeno remembers</button>
+    </div>
+    <section class="card" id="zenoDueCheckIn" aria-label="Due check-in" hidden></section>
+    <ol class="zeno-conversation" id="zenoConversation" aria-label="Chat with Zeno" role="log"></ol>
+    <p class="zeno-preview-note zeno-feedback" id="zenoAgentStatus" role="status"></p>
+    <p class="zeno-preview-note zeno-feedback" id="zenoClearStatus" role="status"></p>
+    <form class="zeno-composer" id="zenoComposer">
+      <label class="sr-only" for="zenoInput">Message Zeno</label>
+      <input id="zenoInput" maxlength="320" autocomplete="off" required placeholder="Message Zeno…">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </div>
+  <dialog class="zeno-dialog zeno-guide" id="zenoGuide" aria-labelledby="zenoGuideTitle">
+    <h2 id="zenoGuideTitle" tabindex="-1" autofocus>What Zeno can do</h2>
+    <p>With AI enabled, type or talk in English, Hindi, or Hinglish. Text and voice share your recent chat and meal draft.</p>
+    <dl>
+      <div><dt>Help you decide what to eat</dt><dd>“I have rajma, rice, and roti. What goes well together?”</dd></div>
+      <div><dt>Draft or edit a meal</dt><dd>“Use yesterday’s lunch and add one roti.”</dd></div>
+      <div><dt>Review your log and nutrition targets</dt><dd>“How did last week compare?” or “What’s my protein target?”</dd></div>
+      <div><dt>Remember usuals and preferences</dt><dd>“Remember that I prefer no curd with work lunches.”</dd></div>
+      <div><dt>Check in on a later visit</dt><dd>“Ask me Sunday how bringing lunch from home went.”</dd></div>
+    </dl>
+    <p>You confirm changes to your log, profile, and saved memories. Use <strong>Save summary</strong> to resume a topic later.</p>
+    <form method="dialog" class="zeno-actions"><button class="btn btn-primary" type="submit">Got it</button></form>
+  </dialog>
+  <dialog class="zeno-dialog zeno-memory-dialog" id="zenoMemories" aria-labelledby="zenoMemoriesTitle">
+    <h2 id="zenoMemoriesTitle">What Zeno remembers</h2>
+    <div id="zenoUsuals"></div>
+    <div class="zeno-actions"><button class="btn" type="button" id="zenoMemoriesClose">Close</button></div>
+  </dialog>
+  <dialog class="zeno-dialog" id="zenoConversations" aria-labelledby="zenoConversationsTitle">
+    <h2 id="zenoConversationsTitle"></h2>
+    <div id="zenoConversationsBody"></div>
+    <div class="zeno-actions"><button class="btn" type="button" id="zenoConversationsClose">Close</button></div>
+    <p class="small" id="zenoConversationsStatus" role="status"></p>
+  </dialog>
+  <dialog class="zeno-dialog" id="zenoMemoryEditor" aria-labelledby="zenoMemoryEditorTitle">
+    <form id="zenoMemoryEditorForm">
+      <h2 id="zenoMemoryEditorTitle"></h2>
+      <div class="zeno-memory-fields" id="zenoMemoryFields">
+        <label>Name <input name="title" maxlength="64" required></label>
+        <label>What to remember <textarea name="value" maxlength="180" required rows="3"></textarea></label>
+        <label>When it applies <input name="scope" maxlength="64" placeholder="e.g. Work lunches"></label>
+      </div>
+      <label class="zeno-memory-fields" id="zenoMemoryDate" hidden>Check-in date <input type="date" name="due"></label>
+      <p class="small" id="zenoMemoryEditorStatus" role="status"></p>
+      <div class="zeno-actions">
+        <button class="btn" type="button" id="zenoMemoryEditorClose">Cancel</button>
+        <button class="btn btn-primary" type="submit">Save changes</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog class="zeno-dialog" id="zenoConsent" aria-labelledby="zenoConsentTitle" aria-describedby="zenoConsentText">
+    <form id="zenoConsentForm">
+      <h2 id="zenoConsentTitle">Get started with Zeno</h2>
+      <div id="zenoConsentText">
+        <p>AI chat sends your messages, recent chat, and relevant details from your meals, profile, and saved memories to Groq. Sample chat can also use Google Gemini.</p>
+        <p>When you start a call, Google Gemini receives your microphone audio, recent chat, and relevant details Zeno looks up. You can change your choice in Privacy.</p>
+      </div>
+      <div class="zeno-actions">
+        <button class="btn" type="button" id="zenoConsentDecline">Use basic chat</button>
+        <button class="btn btn-primary" type="submit">Agree and continue</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog class="zeno-dialog" id="zenoClearDialog" aria-labelledby="zenoClearTitle">
+    <h2 id="zenoClearTitle">Clear Zeno data</h2>
+    <p id="zenoClearNotice"></p>
     <div class="zeno-actions">
-      <button class="btn btn-primary" id="zenoStart" type="button">Start preview</button>
-      <button class="btn" id="zenoCorrect" type="button" hidden>Actually, add a roti</button>
-      <button class="btn" id="zenoStop" type="button" hidden>End preview</button>
-      <label id="zenoSoundLabel"><input id="zenoSound" type="checkbox" checked> Play voice</label>
+      <button class="btn" type="button" id="zenoClearCancel">Cancel</button>
+      <button class="btn" type="button" id="zenoClearChat">Clear chat</button>
+      <button class="btn btn-primary" type="button" id="zenoClearMemory"></button>
     </div>
-  </div>
+  </dialog>
+  <dialog class="zeno-call" id="zenoCall" aria-labelledby="zenoCallTitle" aria-describedby="zenoCallLanguage">
+    <div class="zeno-call-layout" id="zenoCallLayout">
+      <header class="zeno-call-header">
+        <h2 id="zenoCallTitle">Zeno</h2>
+        <span id="zenoCallSample" hidden>Sample call</span>
+        <p class="zeno-call-language" id="zenoCallLanguage">Zeno understands Hindi</p>
+      </header>
+      <div class="zeno-call-center">
+        <div class="zeno-call-portrait" id="zenoCallPortrait" data-state="rest"></div>
+        <p class="zeno-call-status" id="zenoVoiceStatus" role="status"></p>
+        <p class="zeno-call-caption" id="zenoCallCaption" hidden></p>
+        <div class="zeno-call-receipt" id="zenoCallReceipt" hidden>
+          <span id="zenoCallReceiptText"></span>
+          <button type="button" id="zenoCallReviewOpen"></button>
+        </div>
+      </div>
+      <section class="zeno-call-review" id="zenoCallReview" aria-label="Review call activity" hidden>
+        <button class="btn btn-small" type="button" id="zenoCallReviewClose">Back to call</button>
+        <ul class="zeno-conversation" id="zenoCallReviewContent"></ul>
+      </section>
+      <footer class="zeno-call-controls" id="zenoCallControls">
+        <button type="button" id="zenoVoiceMute" aria-pressed="false" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v3m-4 0h8"/><path class="zeno-mic-slash" d="M3 3l18 18"/></svg><span id="zenoMuteLabel">Mute</span>
+        </button>
+        <button type="button" id="zenoCallCaptions" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 10h4m2 0h4M7 14h7m2 0h1"/></svg><span>Captions</span>
+        </button>
+        <button class="zeno-end-call" type="button" id="zenoVoiceEnd" autofocus>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13c4-5 14-5 18 0v3h-5v-3a11 11 0 0 0-8 0v3H3z"/></svg><span>End call</span>
+        </button>
+      </footer>
+      <button class="btn zeno-call-return" type="button" id="zenoCallReturn" hidden>Continue in chat</button>
+    </div>
+  </dialog>
 </section>
 
 <section data-view="ask" class="wrap" hidden>
@@ -520,6 +636,15 @@
 <section data-view="settings" class="wrap" hidden>
   <a class="back" href="#home">‹ Home</a>
   <h1>Settings</h1>
+  <div class="card zeno-voice-setting">
+    <label for="zenoVoiceChoice"><b>Zeno voice</b></label>
+    <div>
+      <select id="zenoVoiceChoice"><option value="Zubenelgenubi">Zuben</option><option value="Aoede">Aoede</option></select>
+      <button class="btn btn-small" id="zenoVoicePreview" type="button">Play preview</button>
+    </div>
+    <audio id="zenoVoicePreviewAudio" preload="none"></audio>
+    <p class="small muted zeno-feedback" id="zenoVoicePreviewStatus" role="status"></p>
+  </div>
   <div class="card ai-off-only" id="testOffCard">
     <b>Test mode</b>
     <div class="small muted">Test mode measures how accurate photo scanning is on photos with known weights and calories, so it needs scanning. It appears here once photo scanning is switched on.</div>
@@ -762,6 +887,8 @@
 <script src="js/tracker.js"></script>
 <script src="js/privacy.js"></script>
 <script src="js/assistant.js"></script>
+<script src="js/zeno-live.js"></script>
+<script src="js/zeno-agent.js"></script>
 <script src="js/zeno.js"></script>
 <script src="js/test-mode.js"></script>
 <script src="js/boot.js"></script>

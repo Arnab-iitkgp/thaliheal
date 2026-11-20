@@ -21,6 +21,7 @@
         <li><b>Profile:</b> age, sex, height, weight, waist (optional), activity, goal, diet type, and for women a life stage (pregnant, breastfeeding, after menopause).</li>
         <li><b>Meal log:</b> date, meal, dishes, portions, oil or ghee, and the nutrient totals worked out by the app.</li>
         <li><b>Plate photos:</b> sent to ${WEB ? App.providerName() + " through ThaliHeal's server" : "Claude"} to name the dishes and estimate portions. Not stored by the app${WEB ? " or its server" : ""} (test mode photos you add yourself are kept until you delete them).</li>
+        <li><b>Zeno:</b> If you agree to use Zeno AI, text messages, recent chat and relevant details Zeno looks up can go to Groq. Sample text can also use Google Gemini. When you start a call, microphone audio, recent chat and relevant details Zeno looks up can go to Google Gemini. Conversation summaries you choose to save stay in this browser and can provide context when you resume. You can change AI consent in Privacy.</li>
         <li><b>Assistant questions:</b> sent to ${WEB ? App.providerName() + " through ThaliHeal's server" : "Claude"} with a summary of your profile and log, only if you turn the assistant on. Not saved by the app${WEB ? " or its server" : ""}.</li>
         ${WEB ? `<li><b>A one way code made from your IP address</b>, kept for up to a day, to limit how many AI requests one person can make. Your IP address itself is not stored.</li>`
               : `<li><b>Your Claude account ID</b>, to keep your data private to you. Your name is shown on screen, never stored.</li>`}
@@ -41,7 +42,7 @@
       <ul>
         <li><b>See and download</b> everything the app holds about you (Privacy, Download my data).</li>
         <li><b>Correct</b> your profile any time, and delete single meals in My log.</li>
-        <li><b>Withdraw consent</b> as easily as you gave it: turn the assistant off, or delete everything (Privacy).</li>
+        <li><b>Withdraw consent</b> in Privacy by turning off the assistant or Zeno AI, or by deleting your data.</li>
         <li><b>Erase</b> your profile, consent record and log in one step.</li>
         <li><b>Complain:</b> contact ${esc(GRIEVANCE)}. If that does not resolve it, you can complain to the Data Protection Board of India.</li>
       </ul>
@@ -110,6 +111,8 @@
           <div class="switch-row ai-only"><div><b>AI assistant (purpose B)</b><div class="small muted">Sends a summary of your profile and log to ${App.providerName()} when you ask a question. Turning it off withdraws this consent.</div></div>
             <button class="switch accent" id="asSwitch" role="switch" aria-checked="${c.purposes.assistant}" aria-label="AI assistant"></button></div>`
           : `<span class="small">You have not agreed to anything yet. <a href="#consent">Read the notice</a>.</span>`}
+          <div class="switch-row"><div><b>Zeno AI</b><div class="small muted">Allow AI chat and calls with Zeno.</div></div>
+            <button class="switch accent" id="zenoAiSwitch" role="switch" aria-checked="${App.views.zeno.hasAiConsent()}" aria-label="Zeno AI"></button></div>
           <a class="small" href="#consent">Read the full notice</a>
         </div>
         <div class="card" style="display:grid;gap:8px">
@@ -138,6 +141,15 @@
         b.disabled = true;
         try { await App.Account.setAssistantConsent(on); b.setAttribute("aria-checked", String(on)); if (!on && App.Assistant) App.Assistant.reset(); }
         finally { b.disabled = false; }
+      };
+      $("zenoAiSwitch").onclick = () => {
+        if (App.views.zeno.hasAiConsent()) {
+          App.views.zeno.setAiConsent(false);
+          $("zenoAiSwitch").setAttribute("aria-checked", "false");
+        } else {
+          App.views.zeno.setAiConsent(null);
+          location.hash = "#zeno";
+        }
       };
       $("dlBtn").onclick = download;
       $("dlCsv").onclick = () => App.Tracker.exportCSV($("dlStatus"));

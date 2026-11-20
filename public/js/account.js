@@ -43,7 +43,7 @@
 
     // ----- local fallback -----
     local() { return App.store.get(LOCAL_KEY, { doc: null, meals: [] }); },
-    saveLocal(v) { App.store.set(LOCAL_KEY, v); },
+    saveLocal(v) { localStorage.setItem(LOCAL_KEY, JSON.stringify(v)); },
 
     // Run fn against the database; on failure, switch to this browser and say so once.
     async safe(fn, fallback) {
@@ -76,6 +76,28 @@
       if (!this.hasConsent()) throw { code: "no_consent" };
       return this.writeDoc({ ...prev, profile });
     },
+    async saveZenoUsuals(zenoUsuals) {
+      const prev = await this.getDoc();
+      if (!this.hasConsent()) throw { code: "no_consent" };
+      return this.writeDoc({ ...prev, zenoUsuals });
+    },
+    async saveZenoMemories(zenoMemories) {
+      const prev = await this.getDoc();
+      if (!this.hasConsent()) throw { code: "no_consent" };
+      return this.writeDoc({ ...prev, zenoMemories });
+    },
+    async clearZenoMemory() {
+      await this.init();
+      const mode = this.mode;
+      const prev = await this.getDoc();
+      if (mode !== this.mode) throw Error("Couldn’t access saved Zeno memory.");
+      if (!prev?.zenoUsuals?.length && !prev?.zenoMemories?.length) return;
+      const doc = { ...prev, zenoUsuals: [], zenoMemories: [], updated: Date.now() };
+      if (mode === "local") return this.writeDoc(doc);
+      await this.root.set(doc);
+      this.cache.doc = doc;
+      this.changed();
+    },
 
     // Consent, per purpose, with a short history so each change can be shown later.
     //   store:     keep the profile and meal log (needed for the log)
@@ -104,6 +126,9 @@
       return {
         exported_at: new Date().toISOString(), app: "ThaliHeal prototype", storage: this.mode === "db" ? "your private area of the app database" : "this browser",
         consent: doc ? doc.consent || null : null, profile: doc ? doc.profile || null : null, meals,
+        zeno_usuals: doc?.zenoUsuals || [],
+        zeno_memories: doc?.zenoMemories || [],
+        zeno_conversation_summaries: App.views.zeno?.exportSummaries() || [],
         not_stored: ["assistant questions and answers", "plate photos from normal scans", "your name"],
       };
     },
@@ -156,7 +181,10 @@
         } catch (e) { throw { code: (e && e.code) || "delete_failed" }; }
       }
       try { localStorage.removeItem(LOCAL_KEY); } catch (e) {}
-      this.cache = { doc: null, meals: [] }; this.changed();
+      this.cache = { doc: null, meals: [] };
+      App.views.zeno?.setAiConsent(null);
+      App.views.zeno?.clearThread(true);
+      this.changed();
     },
 
     // One line for the screen: who is signed in and where data lives.

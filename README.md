@@ -16,6 +16,10 @@ npm run dev                       # open http://localhost:3000 (scan off mode, n
 
 To try AI locally: `cp .env.example .env.local`, set `AI_ENABLED=true` and your `ANTHROPIC_API_KEY` in `.env.local`, and run `npm run dev` again.
 
+To try Zeno’s live conversation, set `GEMINI_API_KEY` in `.env.local`, restart the dev server, and open **Zeno → Talk to Zeno → Sample meals** on localhost. Start voice once and keep talking or typing in that conversation. Zeno can review the fictional log, compare options and edit a draft. Sample data stays in its own workspace. Voice sends microphone audio to Google Gemini. Hosted testers also need the settings marked **Zeno Live** in [.env.example](.env.example). Enable voice with real meals only after setting up a separate Gemini project whose data terms permit personal data.
+
+For the Zeno text agent, set `AI_ENABLED=true` and `GROQ_API_KEY` in `.env.local`, then accept the AI prompt when you first open Zeno. Both **My meals** and **Sample meals** support AI text on localhost and the exact HTTPS phone preview origin in `ZENO_LIVE_DEMO_ORIGIN`. Hosted testing requires `ZENO_AGENT_ENABLED=true` and the tester configuration. Sample text can use Gemini Flash-Lite for planning and Groq for replies. Personal text uses Groq. The agent can look up meals, update drafts, remember preferences, and compare or plan plates. Save confirmed meals from the draft card.
+
 To try the live camera on your phone over Wi-Fi, run `npm run dev:https` and open the `https://192.168...:3443` address it prints on your phone. The certificate is self signed, so the browser warns once: choose Advanced, then Proceed. On the computer itself, `http://localhost` already counts as secure, so the camera works there with `npm run dev`.
 
 ## Project structure

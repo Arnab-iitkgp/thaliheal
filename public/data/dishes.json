@@ -38,7 +38,7 @@
     "vitc": "mg",
     "vita": "ug"
    },
-   "basis": "Per 100 g of cooked dish from IFCT 2017 ingredients. Vitamins C, folate and A multiplied by 0.7 for cooking (calculated values run 32% to 45.5% high, Chiplonkar and Agte 2007), except raw dishes. Vitamin A = retinol + beta carotene / 8; IFCT gives no retinol for milk, so dairy vitamin A is undercounted. Added cooking fat adds no minerals or vitamins here. Fast food rows have no minerals or vitamins (micro is null).",
+   "basis": "Per 100 g of cooked dish from IFCT 2017 ingredients. Vitamins C, folate and A multiplied by 0.7 for cooking (calculated values run 32% to 45.5% high, Chiplonkar and Agte 2007), except raw dishes. Vitamin A = retinol + beta carotene / 8. The digitised milk row omits retinol for dairy recipe estimates; plain whole cow milk includes the published retinol value. Added cooking fat adds no minerals or vitamins here. Fast food rows have no minerals or vitamins (micro is null).",
    "not_covered": "Vitamin B12, vitamin D, iodine and added salt are not counted."
   },
   "flags_note": "flags: dairy, ghee_fat (ghee or butter as the home cooking fat), egg, meat, fish, jain_avoid (roots, tubers, onion, mushroom). Computed from recipe ingredients; fast food set by hand.",
@@ -4149,6 +4149,53 @@
    "type": "other"
   },
   {
+   "id": "paneer",
+   "name": "Paneer (plain)",
+   "category": "Accompaniments",
+   "veg": true,
+   "aliases": [
+    "paneer",
+    "plain paneer",
+    "paneer cubes",
+    "पनीर"
+   ],
+   "units": [
+    {
+     "name": "serving",
+     "g": 50
+    },
+    {
+     "name": "cube",
+     "g": 15
+    }
+   ],
+   "per100g": {
+    "protein": 18.9,
+    "carbs": 12.4,
+    "fat": 14.8,
+    "fibre": 0.0,
+    "sugar": 11.6,
+    "kcal": 258.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.9,
+    "calcium": 476.0,
+    "zinc": 2.74,
+    "magnesium": 26.6,
+    "folate": 93.3,
+    "vitc": 0.0,
+    "vita": 21.1
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017, paneer (L003, digitised values)",
+   "quality": "calc",
+   "note": "Serving and cube weights are estimates.",
+   "type": "other"
+  },
+  {
    "id": "raita",
    "name": "Raita",
    "category": "Accompaniments",
@@ -4614,6 +4661,55 @@
     "street": 26.89
    },
    "type": "sweet"
+  },
+  {
+   "id": "milk",
+   "name": "Milk (whole cow)",
+   "category": "Drinks",
+   "veg": true,
+   "aliases": [
+    "milk",
+    "plain milk",
+    "whole milk",
+    "cow milk",
+    "doodh",
+    "dudh",
+    "दूध"
+   ],
+   "units": [
+    {
+     "name": "glass",
+     "g": 250
+    },
+    {
+     "name": "cup",
+     "g": 150
+    }
+   ],
+   "per100g": {
+    "protein": 3.3,
+    "carbs": 4.9,
+    "fat": 4.5,
+    "fibre": 0.0,
+    "sugar": 4.9,
+    "kcal": 73.1,
+    "added_sugar": 0.0
+   },
+   "micro": {
+    "iron": 0.15,
+    "calcium": 118.0,
+    "zinc": 0.33,
+    "magnesium": 8.3,
+    "folate": 7.0,
+    "vitc": 2.0,
+    "vita": 60.0
+   },
+   "flags": {
+    "dairy": true
+   },
+   "source": "IFCT 2017, whole cow milk (L002)",
+   "quality": "calc",
+   "type": "other"
   },
   {
    "id": "masala_chai",

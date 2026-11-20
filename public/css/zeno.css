@@ -1,6 +1,12 @@
-.zeno {
+.zeno.wrap {
+  --zeno-dock-offset: calc(57px + env(safe-area-inset-bottom));
   max-width: 560px;
+  min-height: calc(100dvh - 72px - env(safe-area-inset-bottom));
   margin-inline: auto;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .zeno-header,.zeno-actions,.zeno-dish {
   display: flex;
@@ -8,7 +14,23 @@
   justify-content: space-between;
   gap: .75rem;
 }
-.zeno-header { flex-wrap: wrap; }
+.zeno-header { min-height: 44px; }
+.zeno-options { position: relative; margin-inline-start: auto; }
+.zeno-options > summary { width: 44px; height: 44px; cursor: pointer; font-size: 1.5rem; line-height: 1; list-style: none; }
+.zeno-options > summary::-webkit-details-marker { display: none; }
+.zeno-options[open] > summary { background: var(--surface); color: var(--ink); }
+.zeno-options-list {
+  position: absolute; inset-inline-end: 0; top: calc(100% + 6px); z-index: 6;
+  display: grid; width: min(235px, calc(100vw - 32px)); padding: 5px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 12px 30px #0004;
+}
+.zeno-options-list > :is(button, a) {
+  display: flex; align-items: center; min-height: 44px; padding: 8px 12px;
+  border: 0; border-radius: 9px; background: transparent; color: var(--ink);
+  font-size: .9rem; text-align: start; text-decoration: none;
+}
+.zeno-options-list > :is(button, a):hover { background: var(--bg); }
 .zeno-icon-library { position: absolute; pointer-events: none; }
 .zeno-nav-icon {
   display: block;
@@ -37,75 +59,156 @@
   animation: zeno-nav-flick var(--zeno-nav-cycle);
 }
 .zeno-stage {
+  position: relative;
   display: grid;
   justify-items: center;
-  gap: .5rem;
+  gap: 4px;
   border: 1px solid #365347;
   border-radius: 24px;
-  background: #132820;
+  background: radial-gradient(ellipse at 50% 0, #1c372a, #132820 73%);
   color: #faf2e8;
-  padding: 20px 16px 16px;
+  padding: 8px 16px 12px;
   text-align: center;
 }
-.zeno-intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.7rem); line-height: 1; }
-.zeno-intro p { color: #c6d4c9; margin: .4rem 0 0; }
-.zeno-coming {
-  margin: 0 0 .2rem;
-  padding: .32rem .8rem;
-  border: 1px solid #605449;
-  border-radius: 999px;
-  color: #ffd1af;
-  font-size: .88rem;
-  font-weight: 700;
+.zeno-stage #zenoAvatarHome { grid-row: 1; }
+.zeno-stage .zeno-character { width: clamp(76px, 21vw, 96px); }
+.zeno-info {
+  position: absolute; inset-block-start: 4px; inset-inline-end: 4px;
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  color: #c6d4c9; background: transparent; border: 0; border-radius: 12px;
 }
-.zeno-coming-details {
-  max-width: 34ch;
-  margin: .15rem 0 .4rem;
-  color: #c6d4c9;
-  font-size: .93rem;
-  line-height: 1.45;
+.zeno-info:hover { background: #ffffff12; color: #faf2e8; }
+.zeno-info span { display: grid; place-items: center; width: 19px; height: 19px; border: 1px solid currentColor; border-radius: 50%; font-size: .76rem; font-weight: 700; line-height: 1; }
+.zeno-intro h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2rem); line-height: 1.15; }
+.zeno-hero-voice { margin-top: 6px; }
+.zeno-hero-voice .btn { min-height: 44px; min-width: 10.5rem; padding: 8px 14px; }
+.zeno-voice-setting > div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.zeno-dialog { width: min(420px, calc(100% - 32px)); padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); }
+.zeno-dialog::backdrop { background: #08120cc9; }
+.zeno-dialog h2 { margin: 0; }
+.zeno-guide { max-height: 85dvh; overflow-y: auto; }
+.zeno-guide p,.zeno-guide dd { color: var(--muted); font-size: .86rem; }
+.zeno-guide p { margin: 8px 0; }
+.zeno-guide dl { display: grid; gap: 8px; margin: 12px 0; }
+.zeno-guide dl > div { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.zeno-guide dt { font-size: .9rem; font-weight: 700; }
+.zeno-guide dd { margin: 2px 0 0; }
+.zeno-guide .zeno-actions { justify-content: flex-end; }
+.zeno-memory-dialog #zenoUsuals { margin-top: 10px; }
+.zeno-memory-fields { display: grid; gap: 8px; margin-top: 12px; }
+.zeno-memory-fields label { display: grid; gap: 4px; }
+.zeno-memory-fields :is(input, textarea) { width: 100%; font: inherit; }
+#zenoConversationsBody > .card + .card { margin-top: 8px; }
+.zeno-workspace select,.zeno-voice-setting select {
+  min-height: 44px; padding: 0 10px;
+  color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
 }
-.zeno-character { display: block; width: clamp(138px, 46vw, 206px); overflow: visible; }
+.zeno-voice-setting { display: grid; gap: 8px; }
+.zeno-voice-setting p { margin: 0; }
+.zeno-call-launch { display: inline-flex; gap: .5rem; align-items: center; }
+.zeno-call-launch svg,.zeno-call-controls svg {
+  width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.65;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.zeno-call {
+  position: fixed; inset: 0; margin: 0;
+  width: 100%; max-width: none; height: 100%; max-height: none;
+  padding: 0; border: 0; overflow: auto; overscroll-behavior: contain;
+  color: #fbf1e6;
+  background: radial-gradient(ellipse at 50% 43%, #264437 0%, #142b22 38%, #0c1c16 75%);
+}
+.zeno-call::backdrop { background: #0c1c16; }
+.zeno-call-layout {
+  min-height: 100%; max-width: 520px; margin: auto;
+  display: grid; grid-template-rows: auto 1fr auto; gap: 16px;
+  padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+}
+.zeno-call-header { text-align: center; }
+.zeno-call-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: .02em; }
+.zeno-call-header span { color: #c6d4c9; font-size: .8rem; }
+.zeno-call-language {
+  width: fit-content; margin: 8px auto 0; padding: 4px 10px;
+  color: #e4efe7; background: #152b22; border: 1px solid #405a4e; border-radius: 999px; font-size: .8rem;
+}
+.zeno-call-center { align-self: center; display: grid; justify-items: center; text-align: center; gap: .65rem; }
+.zeno-call-portrait { --zeno-mouth: .28; }
+.zeno-call-portrait .zeno-character { width: clamp(124px, min(62vw, 40dvh), 272px); }
+.zeno-call-status { margin: 0; max-width: 320px; font-weight: 650; }
+.zeno-call-status[data-state="connecting"] { display: flex; align-items: center; gap: 8px; }
+.zeno-call-status[data-state="connecting"]::before {
+  content: ""; flex: none; width: 11px; height: 11px;
+  border: 1px solid #b7dbca; border-inline-end-color: transparent; border-radius: 50%;
+  animation: zeno-status-spin .85s linear infinite;
+}
+.zeno-call-caption {
+  margin: 0; max-width: 340px; width: fit-content; padding: 7px 12px;
+  background: #0d1d17; border-radius: 10px; color: #e4efe7; font-size: .9rem; overflow-wrap: anywhere;
+}
+.zeno-call-controls { display: flex; justify-content: center; align-items: start; gap: clamp(14px, 6vw, 34px); }
+.zeno-call-controls button {
+  display: grid; justify-items: center; gap: 6px; padding: 0; min-width: 65px;
+  border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-size: .78rem;
+}
+.zeno-call-controls button svg { box-sizing: content-box; padding: 13px; background: #244035; border: 1px solid #446255; border-radius: 50%; }
+.zeno-call-controls button[aria-pressed="true"] svg { background: #f4ccae; color: #392b25; border-color: #f4ccae; }
+.zeno-call-controls button:disabled { opacity: .55; cursor: default; }
+.zeno-call-controls .zeno-end-call svg { color: #fff5ee; background: #aa3835; border-color: #d06054; }
+.zeno-mic-slash { display: none; }
+[aria-pressed="true"] .zeno-mic-slash { display: inline; }
+.zeno-call-return { justify-self: center; }
+.zeno-call-receipt {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
+  padding: 3px 8px 3px 12px; border-radius: 14px;
+  color: #e4efe7; background: #152b22; border: 1px solid #405a4e; font-size: .8rem;
+}
+.zeno-call-receipt button { min-height: 44px; border: 0; background: transparent; color: #ffcfaf; font: inherit; cursor: pointer; text-decoration: underline; }
+.zeno-call-layout:has(.zeno-call-review:not([hidden])) .zeno-call-center { display: none; }
+.zeno-call-review { display: grid; align-content: start; gap: 10px; color-scheme: dark; }
+.zeno-call-review > button { justify-self: start; }
+.zeno-call-review .zeno-conversation > li { width: 100%; max-width: none; }
+.zeno-character { display: block; width: clamp(116px, 34vw, 148px); overflow: visible; }
 .zeno-shadow { fill: #0c1a14; }
-.zeno-body { transform-origin: 115px 180px; transition: transform .26s cubic-bezier(.2,.8,.2,1); }
+.zeno-body,.zeno-motion { transform-origin: 115px 180px; }
+.zeno-body,.zeno-arm-left,.zeno-arm-right,.zeno-foot-right { transition: transform .32s cubic-bezier(.2,.8,.2,1); }
 .zeno-fold { transform-origin: 151px 28px; }
-.zeno-arm { transform-origin: 176px 127px; }
+.zeno-arm-left { transform-origin: 51px 127px; }
+.zeno-arm-right { transform-origin: 177px 127px; }
+.zeno-foot-right { transform-origin: 151px 167px; }
 .zeno-face { display: none; fill: #291325; }
 .zeno-face path { fill: none; stroke: #291325; stroke-width: 4.5; stroke-linecap: round; }
-.zeno-stage:is([data-state="rest"],[data-state="handoff"]) .zeno-face-rest,
-.zeno-stage[data-state="listen"] .zeno-face-listen,
-.zeno-stage[data-state="ask"] .zeno-face-ask,
-.zeno-stage[data-state="recall"] .zeno-face-recall,
-.zeno-stage[data-state="speak"] .zeno-face-speak { display: inline; }
-.zeno-stage[data-state="rest"] .zeno-body { animation: zeno-idle 4.8s ease-in-out infinite; }
-.zeno-stage[data-state="rest"] .zeno-arm { animation: zeno-wave .95s .16s ease-in-out both; }
-.zeno-stage[data-state="rest"] .zeno-fold { animation: zeno-fold .68s .27s ease-out both; }
+.zeno :is(.zeno-stage,.zeno-call-portrait):is([data-state="rest"],[data-state="hello"],[data-state="muted"]) .zeno-face-rest,
+.zeno [data-state="listen"] .zeno-face-listen,
+.zeno [data-state="ask"] .zeno-face-ask,
+.zeno :is([data-state="recall"],[data-state="working"]) .zeno-face-recall,
+.zeno [data-state="handoff"] .zeno-face-pleased,
+.zeno [data-state="speak"] .zeno-face-speak { display: inline; }
+.zeno [data-state="rest"] .zeno-motion { animation: zeno-breathe 5.5s ease-in-out infinite; }
+.zeno [data-state="hello"] .zeno-arm-right { animation: zeno-wave .94s ease-in-out both; }
+.zeno [data-state="hello"] .zeno-motion { animation: zeno-perk .56s ease-in-out both; }
 .zeno-rest-eyes { transform-origin: 117px 92px; animation: zeno-blink 5.2s .55s ease-in-out infinite; }
-.zeno-stage[data-state="listen"] .zeno-body { transform: translateX(4px) rotate(6deg); }
-.zeno-stage[data-state="ask"] .zeno-body { transform: rotate(-6deg); }
-.zeno-stage[data-state="recall"] .zeno-fold { animation: zeno-fold .68s ease-out both; }
-.zeno-stage[data-state="handoff"] .zeno-arm { animation: zeno-offer .65s ease-out both; }
-.zeno-stage[data-state="speak"][data-audio="playing"] .zeno-mouth { transform-origin: 116px 111px; animation: zeno-speak .28s ease-in-out infinite alternate; }
-.zeno-status {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 28px;
-  padding: 2px 10px;
-  border: 1px solid #365347;
-  border-radius: 20px;
-  color: #d9e9de;
-  font-size: .83rem;
+.zeno [data-state="listen"] .zeno-body { transform: translateX(3px) rotate(5deg) scaleY(.98); }
+.zeno [data-state="listen"] .zeno-motion { animation: zeno-listen 6s ease-in-out infinite; }
+.zeno [data-state="ask"] .zeno-body { transform: translateX(-4px) rotate(-10deg); }
+.zeno [data-state="ask"] .zeno-arm-left { transform: translate(15px, -2px) rotate(122deg); }
+.zeno :is([data-state="recall"],[data-state="working"]) .zeno-body { transform: translateX(5px) rotate(8deg) scaleY(.91); }
+.zeno :is([data-state="recall"],[data-state="working"]) .zeno-fold { animation: zeno-fold .7s ease-out both; }
+.zeno [data-state="working"] .zeno-foot-right { transform: translate(3px, -1px) rotate(-8deg); }
+.zeno [data-state="working"] .zeno-arm-right { transform: rotate(-26deg) translateX(3px); }
+.zeno [data-state="speak"] .zeno-motion { animation: zeno-talk 5.8s ease-in-out infinite; }
+.zeno [data-state="speak"] .zeno-arm-left { animation: zeno-explain 5.8s ease-in-out infinite; }
+.zeno [data-state="muted"] .zeno-body { transform: translateY(1px) scaleY(.93); }
+.zeno [data-state="muted"] .zeno-arm-left { transform: rotate(-16deg); }
+.zeno [data-state="muted"] .zeno-arm-right { transform: rotate(16deg); }
+.zeno [data-state="handoff"] .zeno-motion,.zeno-call-portrait[data-reacting] .zeno-motion {
+  animation: zeno-perk .64s cubic-bezier(.25,.7,.32,1) both;
 }
-.zeno-signal { width: 16px; display: flex; align-items: center; justify-content: center; gap: 2px; }
-.zeno-signal i { width: 3px; height: 5px; background: #87c9a9; border-radius: 4px; }
-.zeno-stage:is([data-state="listen"],[data-audio="playing"]) .zeno-signal i { animation: zeno-meter .7s ease-in-out infinite alternate; }
-.zeno-signal i:nth-child(2) { animation-delay: .2s !important; }
-.zeno-signal i:nth-child(3) { animation-delay: .35s !important; }
-.zeno-panel { display: grid; gap: 12px; }
+.zeno-mouth { transform-origin: 116px 111px; transform: scaleY(var(--zeno-mouth)); }
+.zeno-panel { display: flex; flex: 1; flex-direction: column; gap: 12px; }
+.zeno-shortcuts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.zeno-shortcuts .btn { min-height: 44px; padding-inline: 6px; font-size: clamp(.8rem, 4vw, .9rem); text-align: center; }
 .zeno-preview-note { margin: 0; font-size: .85rem; color: var(--muted); }
 .zeno-conversation { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
-.zeno-conversation li {
+.zeno-conversation > li {
   max-width: 90%;
   justify-self: start;
   margin: 0;
@@ -113,31 +216,89 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
+  overflow-wrap: anywhere;
   animation: zeno-card .24s ease-out both;
 }
 .zeno-conversation .zeno-user { justify-self: end; background: var(--accent-soft); }
-.zeno-draft { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px; animation: zeno-card .3s ease-out both; }
+.zeno-conversation .zeno-reply { white-space: pre-line; }
+.zeno-panel .zeno-conversation > li { scroll-margin-bottom: calc(var(--zeno-dock-offset) + 78px); }
+.zeno-conversation > .zeno-draft { width: 100%; max-width: 100%; padding: 14px; }
 .zeno-draft h2 { margin: 0 0 8px; }
-.zeno-dish { padding: 7px 0; border-bottom: 1px solid var(--line); }
-.zeno-draft button { margin-top: 12px; }
-.zeno-draft input { width: 68px; }
+.zeno-dish { display: grid; grid-template-columns: minmax(0,1fr) 70px auto; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.zeno-dish small,.zeno-usual small { display: block; color: var(--muted); }
+.zeno input,.zeno select { min-width: 0; min-height: 44px; padding: 8px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: var(--bg); }
 .zeno-draft p { margin: 8px 0 0; }
-.zeno-actions { justify-content: flex-start; flex-wrap: wrap; }
-.zeno-actions label { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: .85rem; }
+.zeno-actions { justify-content: flex-start; flex-wrap: wrap; margin-top: 12px; }
+.zeno-composer { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
+.zeno-panel > .zeno-composer {
+  position: sticky; bottom: var(--zeno-dock-offset); z-index: 4;
+  margin-top: auto; padding: 10px 0; border-top: 1px solid var(--line); background: var(--bg);
+}
+.zeno-panel > .zeno-composer .btn { min-height: 44px; padding: 8px 14px; }
+@media (min-width: 900px) {
+  .zeno.wrap { --zeno-dock-offset: 0px; min-height: calc(100dvh - 114px); }
+}
+.zeno-memory-form { margin-top: 8px; }
+.zeno-usual { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 8px 0; }
+.zeno-usual span { flex: 1 1 110px; overflow-wrap: anywhere; }
+.zeno-feedback:empty { display: none; }
+.zeno-tool-card h2 { margin: 0 0 6px; }
+.zeno-tool-card p { margin: 4px 0; }
+.zeno-tool-card button { margin-top: 6px; }
+.zeno-conversation > .zeno-week { width: 100%; max-width: 100%; }
+.zeno-conversation > .zeno-week-compact { max-width: min(100%, 320px); padding: 10px 12px; }
+.zeno-week-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 8px; }
+.zeno-week-header h2 { margin: 0; font-size: 1rem; }
+.zeno-week-header .zeno-week-note { margin: 0; }
+.zeno-week-compact > p:not(.zeno-week-note) { font-size: .88rem; }
+.zeno-panel [data-last-week-review] { scroll-margin-top: 12px; }
+@media (min-width: 900px) { .zeno-panel [data-last-week-review] { scroll-margin-top: 76px; } }
+.zeno-week-note { color: var(--muted); font-size: .8rem; }
+.zeno-week-chart { margin: 6px 0 0; }
+.zeno-week-bars { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.zeno-week-bars > li { display: grid; justify-items: center; grid-template-rows: auto 20px auto; gap: 2px; }
+.zeno-week-bar-count { font-size: .68rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.zeno-week-bar-track { position: relative; width: 12px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.zeno-week-bar-track::after { content: ""; position: absolute; inset: auto 0 0; height: var(--zeno-week-bar-height); border-radius: 3px; background: var(--accent); }
+.zeno-week-bars [data-empty="true"] .zeno-week-bar-count,.zeno-week-bar-day { color: var(--muted); }
+.zeno-week-bar-day { font-size: .7rem; white-space: nowrap; }
+.zeno-week .zeno-week-prior { padding: 6px 0 8px; border-bottom: 1px solid var(--line); }
+.zeno-week-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin: 8px 0; }
+.zeno-week-stats > div { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); }
+.zeno-week-stats dt,.zeno-week-stats dd + dd { font-size: .78rem; color: var(--muted); }
+.zeno-week-stats dd { margin: 0; font-variant-numeric: tabular-nums; }
+.zeno-week-stats dt + dd { margin-top: 2px; font-weight: 650; }
+.zeno-week-stat-delta { display: block; }
+.zeno-week details { margin-top: 8px; }
+.zeno-week [data-period] > details:not([data-period]) { padding: 6px 8px; border-left: 2px solid var(--line); }
+.zeno-week summary { cursor: pointer; font-size: .88rem; }
+.zeno-week-breakdown > summary { padding: 4px 0; color: var(--accent); font-size: .8rem; font-weight: 600; }
+.zeno-week h3 { margin: 12px 0 3px; font-size: .82rem; }
 @keyframes zeno-fold { 40% { transform: rotate(-14deg) translateY(-3px); } 73% { transform: rotate(4deg); } }
-@keyframes zeno-offer { 55% { transform: rotate(20deg) translateX(4px); } }
-@keyframes zeno-meter { to { transform: scaleY(2); } }
-@keyframes zeno-speak { to { transform: scaleY(.45); } }
+@keyframes zeno-status-spin { to { transform: rotate(1turn); } }
 @keyframes zeno-card { from { opacity: 0; transform: translateY(6px); } }
-@keyframes zeno-idle {
-  0%, 100% { transform: none; }
-  25% { transform: translateY(-4px) rotate(-3deg); }
-  56% { transform: translateY(-1px) rotate(2deg); }
-  78% { transform: none; }
+@keyframes zeno-breathe { 50% { transform: scaleY(1.022); } }
+@keyframes zeno-listen {
+  52%, 69%, 100% { transform: none; }
+  60% { transform: translateY(2px) scaleY(.965) rotate(2deg); }
+}
+@keyframes zeno-talk {
+  22% { transform: translateX(-2px) rotate(-3deg); }
+  60% { transform: none; }
+  76% { transform: translateX(2px) rotate(2deg); }
+}
+@keyframes zeno-explain {
+  8%, 46%, 100% { transform: none; }
+  23% { transform: rotate(24deg); }
+}
+@keyframes zeno-perk {
+  23% { transform: scale(1.035,.94); }
+  52% { transform: translateY(-5px) scale(.98,1.04); }
+  80% { transform: scale(1.012,.985); }
 }
 @keyframes zeno-wave {
-  24%, 70% { transform: rotate(-22deg); }
-  47% { transform: rotate(-5deg); }
+  27%, 65% { transform: rotate(-90deg); }
+  46% { transform: rotate(-66deg); }
 }
 @keyframes zeno-blink { 0%, 35%, 40%, 100% { transform: scaleY(1); } 37.5% { transform: scaleY(.13); } }
 /* Shared timeline: wave, curious look, fold flick, hop, with a rest between each. */
@@ -167,4 +328,5 @@
     animation: none !important;
     transition: none !important;
   }
+  .zeno-mouth { transform: none; }
 }

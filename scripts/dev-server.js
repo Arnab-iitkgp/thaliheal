@@ -14,7 +14,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const PUBLIC = path.join(ROOT, "public");
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".json": "application/json", ".css": "text/css", ".svg": "image/svg+xml",
-  ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2", ".txt": "text/plain", ".md": "text/plain", ".webmanifest": "application/manifest+json" };
+  ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2", ".mp3": "audio/mpeg", ".txt": "text/plain", ".md": "text/plain", ".webmanifest": "application/manifest+json" };
 
 function loadEnv() {
   for (const f of [".env.local", ".env"]) {
@@ -37,7 +37,6 @@ function start(port, tls) {
   const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, "vercel.json"), "utf8"));
   const headerRules = vercel.headers.map((h) => ({ re: toRe(h.source), headers: h.headers }));
   const rewrites = (vercel.rewrites || []).map((r) => ({ re: toRe(r.source), to: r.destination }));
-  const handler = require(path.join(ROOT, "api", "ai.js"));
   const serveFile = (res, file, status) => {
     res.statusCode = status || 200;
     res.setHeader("Content-Type", TYPES[path.extname(file)] || "application/octet-stream");
@@ -47,6 +46,14 @@ function start(port, tls) {
     const url = new URL(req.url, "http://localhost");
     // HSTS is for the live site only: on localhost it would stick to the address and break plain local runs.
     headerRules.forEach((h) => { if (h.re.test(url.pathname)) h.headers.forEach((x) => { if (x.key !== "Strict-Transport-Security") res.setHeader(x.key, x.value); }); });
+    if (url.pathname === "/api/zeno-live") {
+      if (process.env.NODE_ENV !== "test") loadEnv();
+      return require("../api/zeno-live")(req, res);
+    }
+    if (url.pathname === "/api/zeno-agent") {
+      if (process.env.NODE_ENV !== "test") loadEnv();
+      return require("../api/zeno-agent")(req, res);
+    }
     if (url.pathname === "/api/ai") {
       if (process.env.NODE_ENV !== "test") {
         loadEnv();

@@ -11,7 +11,7 @@
    - VERSION changes whenever a shell file changes, so a new deploy installs a new worker. The page then offers
      "Refresh" and the old shell cache is deleted. */
 "use strict";
-const VERSION = "820bb249b53f";
+const VERSION = "c74c6212afc9";
 const SHELL = [
   "/index.html",
   "/offline.html",
@@ -42,6 +42,9 @@ const SHELL = [
   "/js/test-mode.js",
   "/js/tracker.js",
   "/js/utils.js",
+  "/js/zeno-agent.js",
+  "/js/zeno-live.js",
+  "/js/zeno-mic.js",
   "/js/zeno.js",
   "/data/dishes.json",
   "/data/sample_dishes.json",

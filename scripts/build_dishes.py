@@ -54,7 +54,7 @@ MICRO.update(MICRO_EST)
 # Cooked dishes: calculated vitamins run 32% to 45.5% above analysed values (Chiplonkar and Agte 2007), so
 # vitamins C, folate and A are multiplied by 0.7. Minerals are kept (they stay in Indian dishes that keep their liquid).
 VIT_RETENTION = 0.7
-RAW = {"salad", "raita", "curd", "banana", "apple", "mint_chutney", "coconut_chutney", "sweet_lassi", "chaas", "pickle", "bhel_puri"}
+RAW = {"salad", "raita", "curd", "paneer", "banana", "apple", "mint_chutney", "coconut_chutney", "sweet_lassi", "chaas", "milk", "pickle", "bhel_puri"}
 # Added sugar per 100 g ingredient (white sugar, jaggery, ketchup, bread)
 ADDED_SUGAR = {'SUGAR': 100, 'I001': 85, 'KETCHUP': 20, 'PAV': 4}
 
@@ -220,6 +220,10 @@ R("veg_momos","Veg momos (steamed)","Snacks",u(("piece",25),("plate (6 pcs)",150
 R("hakka_noodles","Veg hakka noodles","Indo Chinese",u(("plate",250),("katori",150)),{"A018":70,"D015":40,"F002":20,"D033":20,"G017":20,"SOY":8},250,("oil",12,22),("chowmein","noodles"))
 # ---------------- Accompaniments ----------------
 R("curd","Curd (dahi)","Accompaniments",u(("katori",150)),{"CURD":100},100,None,("dahi","yogurt"))
+R("paneer","Paneer (plain)","Accompaniments",u(("serving",50),("cube",15)),{"L003":100},100,None,("paneer","plain paneer","paneer cubes","पनीर"),note="Serving and cube weights are estimates.")
+# Retinol for L003 comes from the IFCT Table 3 footnote omitted by the digitised row.
+dishes[-1]["micro"]["vita"] = round(20.58 + 4.39 / 8, 1)
+dishes[-1]["source"] = "IFCT 2017, paneer (L003, digitised values)"
 R("raita","Raita","Accompaniments",u(("katori",150)),{"CURD":120,"D043":40},160,None,("cucumber raita","boondi raita"))
 R("salad","Green salad (kachumber)","Accompaniments",u(("katori",100)),{"D043":50,"G017":30,"D076":50,"E033":5},135,None,("salad","kachumber"))
 R("papad","Papad (roasted)","Accompaniments",u(("piece",12)),{"B003":12},12,None,("papadum","appalam"))
@@ -233,6 +237,10 @@ R("rasgulla","Rasgulla","Sweets",u(("piece",50)),{"L003":18,"SUGAR":12},50,None,
 R("gajar_halwa","Gajar halwa","Sweets",u(("katori",120)),{"F002":200,"L002":200,"SUGAR":40,"L004":20},220,("ghee",15,25),("gajar ka halwa","carrot halwa"))
 R("besan_ladoo","Besan ladoo","Sweets",u(("piece",40)),{"B001":40,"SUGAR":30},90,("ghee",20,22),("laddu","ladoo"))
 # ---------------- Drinks ----------------
+R("milk","Milk (whole cow)","Drinks",u(("glass",GLASS),("cup",CUP)),{"L002":100},100,None,("milk","plain milk","whole milk","cow milk","doodh","dudh","दूध"))
+# IFCT 2017 Table 3 gives 58.25 µg retinol for L002 in a footnote omitted by the digitised row.
+dishes[-1]["micro"]["vita"] = round(58.25 + 13.67 / 8, 1)
+dishes[-1]["source"] = "IFCT 2017, whole cow milk (L002)"
 R("masala_chai","Masala chai (with sugar)","Drinks",u(("cup",CUP),("glass",200)),{"L002":60,"SUGAR":8},150,None,("chai","tea","cutting chai"))
 R("filter_coffee","Filter coffee (with sugar)","Drinks",u(("cup",120)),{"L002":90,"SUGAR":8},120,None,("coffee","kaapi"))
 R("sweet_lassi","Sweet lassi","Drinks",u(("glass",GLASS)),{"CURD":200,"SUGAR":20},250,None,("lassi",))
@@ -312,7 +320,7 @@ meta = {
     "sources": ["IFCT 2017, ICMR NIN (ingredient composition, via the @ifct2017/compositions digitisation)", "Standard recipes and cooked yields (in house estimates)", "Typical published values for non Indian fast food (estimates)"],
     "types": TYPES,
     "micro": {"keys": MICRO_KEYS, "units": {"iron": "mg", "calcium": "mg", "zinc": "mg", "magnesium": "mg", "folate": "ug", "vitc": "mg", "vita": "ug"},
-              "basis": "Per 100 g of cooked dish from IFCT 2017 ingredients. Vitamins C, folate and A multiplied by 0.7 for cooking (calculated values run 32% to 45.5% high, Chiplonkar and Agte 2007), except raw dishes. Vitamin A = retinol + beta carotene / 8; IFCT gives no retinol for milk, so dairy vitamin A is undercounted. Added cooking fat adds no minerals or vitamins here. Fast food rows have no minerals or vitamins (micro is null).",
+              "basis": "Per 100 g of cooked dish from IFCT 2017 ingredients. Vitamins C, folate and A multiplied by 0.7 for cooking (calculated values run 32% to 45.5% high, Chiplonkar and Agte 2007), except raw dishes. Vitamin A = retinol + beta carotene / 8. The digitised milk row omits retinol for dairy recipe estimates; plain whole cow milk includes the published retinol value. Added cooking fat adds no minerals or vitamins here. Fast food rows have no minerals or vitamins (micro is null).",
               "not_covered": "Vitamin B12, vitamin D, iodine and added salt are not counted."},
     "flags_note": "flags: dairy, ghee_fat (ghee or butter as the home cooking fat), egg, meat, fish, jain_avoid (roots, tubers, onion, mushroom). Computed from recipe ingredients; fast food set by hand.",
     "units_note": "Medium katori 150 g (DGI 2024 lists 155 ml); serving ladle 60 g; glass 250 ml; cup 150 ml. Piece weights are estimates.",

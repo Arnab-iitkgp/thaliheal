@@ -336,7 +336,7 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 /* Mobile Layout Adjustments for Bottom Bar & Review Mode */
 @media (max-width:899px){
   body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
-  body.has-total{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+  body.has-total{padding-bottom:calc(180px + env(safe-area-inset-bottom))}
   .total{bottom:calc(56px + env(safe-area-inset-bottom)) !important;padding:8px 12px 10px !important;z-index:10 !important}
 
   /* When NOT in review mode on mobile, hide the fixed total bar and plate column so camera & samples are 100% unobstructed */
@@ -356,6 +356,30 @@ input[type=range]{width:100%;accent-color:var(--accent);height:32px}
 @media (min-width:900px){
   .bottom-bar{display:none}
 }
+
+/* Modern Install App Button Pill */
+.btn-install{display:inline-flex;align-items:center;gap:6px;background:rgba(2,76,54,.15);border:1px solid rgba(4,110,78,.45);color:var(--accent);font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer;transition:all .18s ease;text-decoration:none}
+.btn-install:hover{background:#024c36;color:#ffffff;border-color:#046e4e;box-shadow:0 2px 8px rgba(2,76,54,.3)}
+.btn-install svg{stroke:currentColor;flex-shrink:0}
+
+/* Profile View Topbar & Settings Hub */
+.profile-settings-btn{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;color:var(--muted);transition:color .15s}
+.profile-settings-btn:hover{color:var(--ink)}
+.profile-settings-btn svg{stroke:currentColor}
+
+.profile-pref-card{display:grid;gap:12px;margin-top:16px}
+.profile-pref-rows{display:grid;gap:12px}
+.profile-pref-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.profile-pref-row:last-child{padding-bottom:0;border-bottom:0}
+
+/* Install Guide Sheet */
+.install-sheet-body{display:flex;flex-direction:column;gap:12px;padding:4px 0 12px}
+.install-guide-lead{font-size:.92rem;color:var(--ink);line-height:1.45;margin:0}
+.install-steps{display:grid;gap:10px}
+.install-step{display:flex;align-items:flex-start;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.install-step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#024c36;color:#ffffff;font-size:.82rem;font-weight:700;flex-shrink:0}
+.install-step-text{font-size:.88rem;color:var(--ink);line-height:1.4}
+.install-step-text .inline-icon{vertical-align:middle;margin:0 2px;stroke:var(--accent)}
 
 /* Floating Toast Notification */
 .thali-toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-20px);background:#024c36;color:#ffffff;padding:10px 18px;border-radius:999px;font-size:.88rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.28);border:1px solid #046e4e;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;white-space:nowrap;display:flex;align-items:center;gap:8px}

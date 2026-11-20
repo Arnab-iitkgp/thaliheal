@@ -42,7 +42,36 @@
         <button class="btn btn-primary" id="pSave">${doc ? "Save changes" : "Save profile"}</button>
         <div class="status" id="pStatus" role="status" aria-live="polite"></div>
       </div>
-      <div id="pPreview"></div>`;
+      <div id="pPreview"></div>
+      <div class="card profile-pref-card" id="profileSettingsCard">
+        <div class="list-head">
+          <h3>Preferences & Settings</h3>
+          <a class="small" href="#settings">All settings →</a>
+        </div>
+        <div class="profile-pref-rows">
+          <div class="profile-pref-row">
+            <div>
+              <b>Hide calorie numbers</b>
+              <div class="small muted">Show calories as bands and words instead of figures for gentle tracking.</div>
+            </div>
+            <button class="switch accent" id="profileHideSwitch" role="switch" aria-checked="${App.store.get('thali.hideNumbers', false) === true}" aria-label="Hide calorie numbers"></button>
+          </div>
+          <div class="profile-pref-row">
+            <div>
+              <b>App installation</b>
+              <div class="small muted" id="profileInstallStatus">${matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 'Installed on home screen' : 'Run offline with fast one-tap home screen access'}</div>
+            </div>
+            <button class="btn btn-small" id="profileInstallBtn" type="button">${matchMedia('(display-mode: standalone)').matches || navigator.standalone === true ? 'Installed ✓' : 'Install app'}</button>
+          </div>
+          <div class="profile-pref-row">
+            <div>
+              <b>Privacy & Data Control</b>
+              <div class="small muted">Your logs and targets are stored locally on this device.</div>
+            </div>
+            <a class="btn btn-small btn-ghost" href="#privacy">Manage data</a>
+          </div>
+        </div>
+      </div>`;
   }
 
   function readForm() {
@@ -121,6 +150,28 @@
       });
       ["pAge", "pHeight", "pWeight", "pWaist", "pDiet", "pStage"].forEach((id) => { const el = $(id); if (el) el.addEventListener(el.tagName === "SELECT" ? "change" : "input", preview); });
       $("pSave").onclick = saveProfile;
+      const phs = $("profileHideSwitch");
+      if (phs) {
+        phs.onclick = () => {
+          const next = App.store.get("thali.hideNumbers", false) !== true;
+          App.store.set("thali.hideNumbers", next);
+          phs.setAttribute("aria-checked", String(next));
+          preview();
+        };
+      }
+      const pib = $("profileInstallBtn");
+      if (pib) {
+        pib.onclick = async () => {
+          if (App.pwa && App.pwa.prompt) {
+            const p = App.pwa.prompt;
+            App.pwa.prompt = null;
+            p.prompt();
+            await p.userChoice.catch(() => null);
+          } else if (App.pwa && App.pwa.openGuide) {
+            App.pwa.openGuide();
+          }
+        };
+      }
       preview();
     },
   };

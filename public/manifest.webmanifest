@@ -10,7 +10,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#024c36",
-  "theme_color": "#22282a",
+  "theme_color": "#024c36",
   "categories": ["health", "food", "lifestyle"],
   "prefer_related_applications": false,
   "icons": [

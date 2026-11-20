@@ -122,6 +122,77 @@ window.App = window.App || {};
   App.pwa = {
     prompt: null,
     updating: false,
+    openGuide() {
+      const bg = document.getElementById("installSheetBg");
+      const sheet = document.getElementById("installSheet");
+      const body = document.getElementById("installSheetBody");
+      const close = document.getElementById("installSheetClose");
+      if (!sheet || !body) return;
+
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isAndroid = /Android/.test(navigator.userAgent);
+
+      let content = "";
+      if (isIOS) {
+        content = `
+          <p class="install-guide-lead">Install ThaliHeal to your iPhone or iPad home screen for instant full-screen access and offline meal logging.</p>
+          <div class="install-steps">
+            <div class="install-step">
+              <span class="install-step-num">1</span>
+              <div class="install-step-text">Tap the <b>Share button</b> <svg class="inline-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> in Safari's bottom toolbar.</div>
+            </div>
+            <div class="install-step">
+              <span class="install-step-num">2</span>
+              <div class="install-step-text">Scroll down the share sheet and tap <b>"Add to Home Screen"</b> <svg class="inline-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>.</div>
+            </div>
+            <div class="install-step">
+              <span class="install-step-num">3</span>
+              <div class="install-step-text">Tap <b>Add</b> in the top right. ThaliHeal will now launch right from your home screen!</div>
+            </div>
+          </div>`;
+      } else if (isAndroid) {
+        content = `
+          <p class="install-guide-lead">Install ThaliHeal on your Android device for instant camera access and offline nutrition logging.</p>
+          <div class="install-steps">
+            <div class="install-step">
+              <span class="install-step-num">1</span>
+              <div class="install-step-text">Tap the <b>three dots menu (⋮)</b> in the top right corner of Chrome.</div>
+            </div>
+            <div class="install-step">
+              <span class="install-step-num">2</span>
+              <div class="install-step-text">Select <b>"Install app"</b> or <b>"Add to Home screen"</b>.</div>
+            </div>
+            <div class="install-step">
+              <span class="install-step-num">3</span>
+              <div class="install-step-text">Tap <b>Install</b> to confirm. ThaliHeal runs standalone just like a native app.</div>
+            </div>
+          </div>`;
+      } else {
+        content = `
+          <p class="install-guide-lead">Install ThaliHeal on your computer for easy docking and rapid meal tracking.</p>
+          <div class="install-steps">
+            <div class="install-step">
+              <span class="install-step-num">1</span>
+              <div class="install-step-text">Look for the <b>Install icon</b> <svg class="inline-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> on the right side of the address bar.</div>
+            </div>
+            <div class="install-step">
+              <span class="install-step-num">2</span>
+              <div class="install-step-text">Click <b>Install</b> to run ThaliHeal in its own lightweight window without browser tabs.</div>
+            </div>
+          </div>`;
+      }
+
+      body.innerHTML = content;
+      if (bg) bg.hidden = false;
+      sheet.hidden = false;
+
+      const hide = () => {
+        if (bg) bg.hidden = true;
+        sheet.hidden = true;
+      };
+      if (close) close.onclick = hide;
+      if (bg) bg.onclick = hide;
+    },
     init() {
       if (App.hosting !== "web") return;
       window.addEventListener("offline", () => App.net.set(true));
@@ -129,6 +200,24 @@ window.App = window.App || {};
       if (!navigator.onLine) App.net.set(true);
 
       const installed = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+      const ib = document.getElementById("installBtn");
+      if (ib) {
+        ib.hidden = installed;
+        ib.onclick = async () => {
+          const p = App.pwa.prompt;
+          if (p) {
+            App.pwa.prompt = null;
+            p.prompt();
+            const choice = await p.userChoice.catch(() => null);
+            if (choice && choice.outcome === "accepted") {
+              ib.hidden = true;
+            }
+          } else {
+            App.pwa.openGuide();
+          }
+        };
+      }
+
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         App.pwa.prompt = e;
@@ -140,17 +229,6 @@ window.App = window.App || {};
         const b = document.getElementById("installBtn");
         if (b) b.hidden = true;
       });
-      const ib = document.getElementById("installBtn");
-      if (ib) {
-        ib.onclick = async () => {
-          const p = App.pwa.prompt;
-          if (!p) return;
-          App.pwa.prompt = null;
-          ib.hidden = true;
-          p.prompt();
-          await p.userChoice.catch(() => null);
-        };
-      }
       if (installed) {
         const h = document.getElementById("installHelp");
         if (h) h.textContent = "ThaliHeal is installed on this device.";

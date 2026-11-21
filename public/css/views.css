@@ -180,39 +180,123 @@ textarea.csv{width:100%;min-height:120px;font-family:ui-monospace,Menlo,monospac
   .plates{margin:0 -20px;padding-left:20px;padding-right:20px}
   .grid{grid-template-columns:repeat(4,1fr)}
 }
-@media (min-width:900px){
-  body{padding-bottom:48px}
-  .sitebar{display:block;position:sticky;top:0;z-index:15;background:var(--slate);color:var(--on-slate)}
-  .sitebar-in{max-width:1168px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-  .sitebar nav{display:flex;gap:2px;flex-wrap:wrap}
-  .sitebar nav a{color:var(--on-slate-muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:9px 14px;border-radius:999px}
-  .sitebar nav a:hover{color:var(--on-slate);background:rgba(255,255,255,.07)}
-  .sitebar nav a[aria-current="page"]{background:var(--brass);color:#1b1608}
-  .netbar{top:58px}
-  .wrap{max-width:760px;padding:32px 24px 0;gap:20px}
-  .wrap.wide{max-width:1040px}
-  [data-view="home"].wrap{max-width:1168px}
-  .hero{margin:0;border-radius:28px;padding:48px 52px;min-height:420px;align-content:center;gap:18px}
-  .hero-top{justify-content:flex-end;position:absolute;top:20px;right:24px;left:24px}
-  .hero-top .brand,.hero-top a[href="#settings"]{display:none}
-  .tagline{font-size:4.2rem;max-width:7.5em;margin-top:0}
-  .hero-sub{max-width:24em;font-size:1.12rem}
-  .hero-plate{width:400px;height:400px;right:64px;top:50%;margin-top:-200px}
-  .plates{grid-auto-flow:row;grid-template-columns:repeat(4,1fr);overflow:visible;margin:0;padding:6px 0}
-  .plate-btn img{width:140px;height:140px}
-  .track-cards{grid-template-columns:1fr 1fr 2fr}
-  .track-cards .wide{grid-column:auto}
-  .grid{grid-template-columns:repeat(5,1fr);gap:14px}
-  [data-view="scan"].wrap{max-width:1168px;grid-template-columns:minmax(0,430px) minmax(0,1fr);align-items:start;column-gap:28px}
-  [data-view="scan"] > .scan-header{grid-column:1 / -1;grid-row:1}
-  .post-save-actions{scroll-margin-top:80px}
-  [data-view="scan"] .scan{grid-column:1;grid-row:2 / span 2;align-self:start;position:sticky;top:78px}
-  [data-view="scan"] > .plate-col{grid-column:2;grid-row:2}
-  [data-view="scan"] .log-card{grid-column:2;grid-row:3}
-  [data-view="scan"] .scan-side > footer{grid-column:1 / -1;grid-row:4;max-width:72ch}
-  .total-in{max-width:1120px;grid-template-columns:auto 1fr;column-gap:32px;align-items:center}
-  .total-in .bar{grid-column:1 / -1;order:3}
-  .sheet{left:50%;right:auto;bottom:auto;top:8vh;width:min(620px,92vw);transform:translateX(-50%);max-height:84vh;border-radius:18px}
+/* ============ Mobile Layout on PC ============ */
+@media (min-width: 960px) and (min-height: 500px) {
+  html {
+    background: #080e0b;
+    min-height: 100vh;
+  }
+  body {
+    max-width: 460px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--bg);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow-x: hidden;
+  }
+  .sitebar {
+    display: none !important;
+  }
+  .bottom-bar {
+    display: block !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    max-width: 460px !important;
+    width: 100% !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    z-index: 10 !important;
+  }
+  .total {
+    max-width: 460px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: calc(56px + env(safe-area-inset-bottom)) !important;
+  }
+  .sheet {
+    max-width: 460px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .cam {
+    max-width: 460px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .cam-guide {
+    width: min(78vw, 320px) !important;
+  }
+  .hero-top {
+    justify-content: space-between !important;
+    position: static !important;
+  }
+  .hero-top .brand, .hero-top a[href="#settings"] {
+    display: inline-flex !important;
+  }
+  .tagline {
+    font-size: 2.15rem !important;
+    max-width: 7em !important;
+    line-height: 1 !important;
+    margin-top: 16px !important;
+  }
+  .hero-sub {
+    font-size: 0.95rem !important;
+    max-width: 13.5em !important;
+    line-height: 1.35 !important;
+  }
+  .hero-plate {
+    width: 250px !important;
+    height: 250px !important;
+    right: -85px !important;
+    top: 110px !important;
+    pointer-events: none !important;
+  }
+  .plates {
+    grid-auto-flow: column !important;
+    grid-auto-columns: 116px !important;
+    overflow-x: auto !important;
+  }
+  .plate-btn img {
+    width: 104px !important;
+    height: 104px !important;
+  }
+  .track-cards {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  [data-view="home"].wrap {
+    max-width: 560px !important;
+  }
+  [data-view="scan"].wrap {
+    max-width: 560px !important;
+    grid-template-columns: 1fr !important;
+  }
+  [data-view="scan"] .scan-side {
+    display: contents !important;
+  }
+  [data-view="scan"] .scan {
+    position: static !important;
+  }
+  /* When NOT in review mode, hide total bar and plate column so camera & samples are 100% unobstructed (same as mobile) */
+  [data-view="scan"]:not(.is-review-mode) .total { display: none !important; }
+  [data-view="scan"]:not(.is-review-mode) .plate-col { display: none !important; }
+
+  /* In review mode, bring rings/dishes to top */
+  [data-view="scan"].is-review-mode #scanCaptureCard { display: none; }
+  [data-view="scan"].is-review-mode .log-card { display: none; }
+  [data-view="scan"].is-review-mode footer { display: none; }
+  [data-view="scan"].is-review-mode .scan-side { gap: 0; }
+  [data-view="scan"].is-review-mode .plate-col { order: 1; display: block !important; }
+  [data-view="scan"].is-review-mode .scanned-media-bar { order: 0; }
 }
 
 /* Scan off mode */

@@ -961,6 +961,13 @@
       renderPlate();
       const n = S.items.length;
       setStatus(n ? `Found ${n} item${n === 1 ? "" : "s"}. Check each one and fix names or portions.${m.note ? " " + m.note : ""}` : `No food found in the photo.${m.note ? " " + m.note : ""}`);
+      // Dishes the food table does not have get AI-estimated nutrients (ml-data.js),
+      // applied only while this same plate is still open and not yet saved.
+      if (App.MLData && App.MLData.fillUnknown) {
+        const plate = S.items;
+        const open = () => S.items === plate && !S.lastSavedMealId;
+        App.MLData.fillUnknown(plate, open).then((k) => { if (k && open()) renderPlate(); }).catch(() => {});
+      }
     } catch (e) {
       console.error("Scan failed with details:", e);
       if (e && e.code === "cancelled") setStatus("Scan stopped.");

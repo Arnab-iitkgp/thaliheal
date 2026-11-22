@@ -15,6 +15,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="description" content="ThaliHeal: photograph an Indian meal, check every dish and portion, and see how your day adds up.">
 <link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/ml.css">
 </head>
 <body>
 <svg width="0" height="0" class="zeno-icon-library" aria-hidden="true" focusable="false">
@@ -41,6 +42,7 @@
       <a href="#home" data-nav="home">Home</a>
       <a href="#scan" data-nav="scan">Scan</a>
       <a href="#track" data-nav="track">My log</a>
+      <a href="#foodmap" data-nav="foodmap">Food Map</a>
       <a href="#zeno" data-nav="zeno">
         <svg class="zeno-nav-icon" viewBox="0 0 24 24" aria-hidden="true">
           <use class="zeno-nav-hand" href="#zeno-nav-hand"/>
@@ -128,6 +130,7 @@
     <a class="card" href="#track"><b>My log</b><span id="homeLogLine">Daily, weekly and monthly trends</span></a>
     <a class="card" href="#profile"><b>Profile</b><span id="homeProfileLine">Your ICMR NIN 2020 targets</span></a>
     <a class="card wide ask-card ai-only" href="#ask"><b>Ask about my log</b><span>An AI assistant that answers only from your own profile and log. It never diagnoses.</span><img src="img/plates/chaat-round.jpg" alt="" width="64" height="64"></a>
+    <a class="card wide ml-home-card" href="#foodmap"><b>Food Map</b><span>Every dish grouped by machine learning (K-Means). Find what you eat and get healthier swaps.</span><svg class="ml-home-art" viewBox="0 0 64 64" aria-hidden="true"><circle class="ml-art-bg" cx="32" cy="32" r="30"/><circle class="ml-fill-0" cx="20" cy="24" r="4.5"/><circle class="ml-fill-0" cx="15" cy="32" r="3.5"/><circle class="ml-fill-0" cx="24" cy="34" r="3.5"/><rect class="ml-fill-1" x="36" y="14" width="7" height="7"/><rect class="ml-fill-1" x="44" y="22" width="6" height="6"/><rect class="ml-fill-1" x="38" y="25" width="6" height="6"/><path class="ml-fill-2" d="M33 38l5 8h-10zM44 40l4.5 7.5h-9zM38 47l4 7h-8z"/><circle class="ml-art-ring" cx="20" cy="24" r="7.5"/></svg></a>
   </div>
   <div class="list-head" id="samplesHead"><h2>Sample dishes</h2><span class="tag ref">Reference values</span></div>
   <p class="section-note" id="sampleNote"></p>
@@ -185,6 +188,8 @@
       </button>
     </div>
   </div>
+  <!-- Healthier swaps after saving (ml-swaps.js); shown only while the post-save strip above is showing -->
+  <div class="card ml-swaps" id="mlSwaps" aria-live="polite" hidden></div>
 
   <!-- Compact Scanned Media Header (Shows in Review Mode) -->
   <div class="card scanned-media-bar" id="scannedMediaBar" hidden>
@@ -685,6 +690,11 @@
   <div data-tabpanel="results" id="tResults" hidden></div>
 </section>
 
+<!-- ============ FOOD MAP (ML: K-Means, PCA, KNN; built by ml-foodmap.js) ============ -->
+<section data-view="foodmap" class="wrap" hidden>
+  <div id="foodMapPage"></div>
+</section>
+
 </main>
 
 <!-- ============ BOTTOM NAV BAR (Mobile & Tablet) ============ -->
@@ -887,6 +897,10 @@
 <script src="js/zeno-agent.js"></script>
 <script src="js/zeno.js"></script>
 <script src="js/test-mode.js"></script>
+<script src="js/ml-core.js"></script>
+<script src="js/ml-data.js"></script>
+<script src="js/ml-swaps.js"></script>
+<script src="js/ml-foodmap.js"></script>
 <script src="js/boot.js"></script>
 </body>
 </html>

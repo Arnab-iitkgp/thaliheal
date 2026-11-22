@@ -17,7 +17,9 @@ window.App = window.App || {};
     if (!q) return null;
     let best = null, bestScore = 0;
     for (const d of App.dishes) {
-      for (const n of [d.name, ...(d.aliases || [])].map(App.norm)) {
+      // filter(Boolean): a name that norm() empties (e.g. a Hindi alias like "पनीर") would
+      // otherwise be "contained" in every label and match every unknown dish.
+      for (const n of [d.name, ...(d.aliases || [])].map(App.norm).filter(Boolean)) {
         let sc = 0;
         if (n === q) sc = 3;
         else if (q.includes(n) || n.includes(q)) sc = 2;
@@ -126,7 +128,7 @@ window.App = window.App || {};
   App.conf = function (it) {
     if (!it.dishId) return { cls: "low", label: "Low", why: "Not in the food table. Tap the name to pick a dish." };
     const dish = App.byId[it.dishId];
-    const dq = dish.quality === "estimate" ? "typical values (estimate)" : "IFCT recipe calculation";
+    const dq = dish.ai ? "AI estimate, dish not in the food table" : dish.quality === "estimate" ? "typical values (estimate)" : "IFCT recipe calculation";
     if (it.confirmed) {
       return {
         cls: "user",
